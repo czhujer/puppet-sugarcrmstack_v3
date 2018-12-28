@@ -1,0 +1,196 @@
+#!/bin/bash
+
+#shopt -u extglob
+
+date=`date | tr -d '\n'`
+scriptname=`basename $0`
+
+echo "$date starting script $scriptname"
+echo "-----"
+
+# A POSIX variable
+OPTIND=1         # Reset in case getopts has been used previously in the shell.
+
+# Initialize our own variables:
+output_file=""
+verbose=0
+
+while getopts "h?vf" opt; do
+    case "$opt" in
+#    h|\?)
+#        show_help
+#        exit 0
+#        ;;
+    f)  RUN_FORCE="YES"
+        ;;
+    esac
+done
+
+shift $((OPTIND-1))
+
+[ "$1" = "--" ] && shift
+
+# predefined vars
+
+# rewrite force
+
+RUN_FORCE="YES"
+
+sugarweb_folder="/var/www/html/sugarcrm"
+db_archive_folder="/var/backup/db"
+db_dump_folder=${db_archive_folder}"/daily/sugarcrm"
+#backup_folder="/var/backup/sugardata"
+dupl_db_archive_folder="<%= @dupl_db_archive_folder %>"
+
+owncloud_upload_folder="<%= @upload_folder_dupl %>"
+owncloud_user='<%= @login %>'
+owncloud_password='<%= @password %>'
+
+owncloud_url="webdavs://'${owncloud_user}:${owncloud_password}'@ownback-s2.sugarfactory.cz/remote.php/webdav"
+
+dupl_full_if_older_than="<%= @dupl_full_if_older_than %>"
+dupl_ca_cert_file="/etc/pki/tls/certs/ca-bundle.trust.crt"
+dupl_remove_all_but_n_full="<%= @dupl_remove_all_but_n_full %>"
+dupl_timeout="<%= @dupl_timeout %>"
+
+echo "RUN_FORCE: $RUN_FORCE"
+
+function services_start() {
+
+  if [ "$RUN_FORCE" != "YES" ]; then
+
+    echo -e "starting cron daemon..."
+    /etc/init.d/crond start
+
+    echo -e "starting apache daemon..."
+    /etc/init.d/httpd start
+
+  fi;
+
+}
+
+function services_stop() {
+
+  if [ "$RUN_FORCE" != "YES" ]; then
+
+     echo -e "stopping apache daemon..."
+     /etc/init.d/httpd stop
+     ret=$?
+
+     sleep 5
+
+     echo -e "stopping cron daemon..."
+     /etc/init.d/crond stop
+     ret=$?
+
+     sleep 5
+
+     if [[ `ps aux |grep cron.php -c` > 1 ]]; then 
+       echo "waiting to finish cron command...";
+       sleep 60;
+     else 
+       echo "sugar cron is not running..";
+     fi;
+
+  fi;
+
+}
+
+function my_exit(){
+
+  services_start;
+
+  echo "script exited with $1";
+  exit $1;
+
+}
+
+services_stop
+
+echo "-----"
+echo "Running Database export..";
+echo "-----"
+
+rs_mysqlbackup=`/usr/local/bin/automysqlbackup`
+ret=$?
+
+if [ $ret -eq 0 ]; then
+  echo "Database export completed successfully";
+else
+  echo "ERROR: Database export failed";
+  # always is retval non-zero
+  #my_exit 2;
+fi;
+
+echo "finding last sugarcrm database export.."
+
+sugar_db_dump=`find $db_dump_folder -name '*daily*' -type f -print 2>/dev/null |sort -h |tail -1 | tr -d '\n'`
+
+if [ -s "$sugar_db_dump" ]; then
+  echo "  found file.."
+  echo $sugar_db_dump
+else
+  echo "  ERROR: db file not found or it's zero size"
+  my_exit 3;
+fi
+
+echo "-----"
+echo "Starting duplicity for backup files in owncloud server..."
+echo "-----"
+
+command="duplicity -v 3 \
+    --no-encryption \
+    --timeout "${dupl_timeout}" \
+    --full-if-older-than "${dupl_full_if_older_than}" \
+    --include "${sugarweb_folder}" \
+    --include "${sugar_db_dump}" \
+    --include /etc/puppet/manifests \
+    --exclude '/**' \
+    / "${owncloud_url}${owncloud_upload_folder}
+
+rs_dupl=$(bash -c "shopt -s extglob; $command")
+ret_dupl=$?
+
+if [[ ${ret_dupl} -ne 0 ]]; then
+  echo "backup sugar data in owncloud failed ("${ret_dupl}")";
+  echo "results: $rs_dupl"
+else
+  echo "sugar data backuped in owncloud successfully ("${ret_dupl}")";
+  echo "results: $rs_dupl"
+fi;
+
+# remove older backups
+
+echo "------"
+echo "Starting duplicity for erasing old backup files from owncloud server..."
+echo "------"
+
+command_erase="duplicity -v 3 \
+    --no-encryption \
+    --timeout "${dupl_timeout}" \
+    remove-all-but-n-full "${dupl_remove_all_but_n_full}" --force \
+    "${owncloud_url}${owncloud_upload_folder}
+
+rs_dupl_erase=$(bash -c "shopt -s extglob; $command_erase")
+ret_dupl_erase=$?
+
+if [[ ${ret_dupl_erase} -ne 0 ]]; then
+  echo "erasing old backup data from owncloud failed ("${ret_dupl_erase}")";
+  echo "results: $rs_dupl_erase"
+else
+  echo "old backup data erased successfully from owncloud ("${ret_dupl_erase}")";
+  echo "results: $rs_dupl_erase"
+fi;
+
+# pre-finish actions
+services_start
+
+#finished
+date=`date | tr -d '\n'`
+scriptname=`basename $0`
+
+echo "-----"
+echo "$date script $scriptname finished"
+
+exit 0;
+

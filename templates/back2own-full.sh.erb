@@ -1,0 +1,243 @@
+#!/bin/bash
+
+date=`date | tr -d '\n'`
+scriptname=`basename $0`
+
+echo "$date starting script $scriptname"
+
+# A POSIX variable
+OPTIND=1         # Reset in case getopts has been used previously in the shell.
+
+# Initialize our own variables:
+output_file=""
+verbose=0
+
+while getopts "h?vf" opt; do
+    case "$opt" in
+#    h|\?)
+#        show_help
+#        exit 0
+#        ;;
+    f)  RUN_FORCE="YES"
+        ;;
+    esac
+done
+
+shift $((OPTIND-1))
+
+[ "$1" = "--" ] && shift
+
+# predefined vars
+
+# rewrite force
+
+RUN_FORCE="YES"
+
+sugarweb_folder="/var/www/html/sugarcrm"
+db_dump_folder="/var/backup/db/daily/sugarcrm"
+backup_folder="/var/backup/sugardata"
+
+sugarweb_archive_name="sugarcrm-webdata"
+sugardb_archive_name="sugarcrm-dbdata"
+
+owncloud_upload_folder="<%= @upload_folder %>"
+
+hierafile="/etc/puppet/hieradata/node--"`facter fqdn 2>/dev/null`".yaml"
+
+#owncloud_user=`puppet apply -e 'notice(hiera(sugarcrmstack::back2own::login))' 2>/dev/null |grep "Class\[main\]" |cut -d ' ' -f 3 | tr -d '\n'`
+owncloud_user='<%= @login %>'
+
+#owncloud_password=`puppet apply -e 'notice(hiera(sugarcrmstack::back2own::password))' 2>/dev/null |grep "Class\[main\]" |cut -d ' ' -f 3 | tr -d '\n'`
+owncloud_password='<%= @password %>'
+
+owncloud_url="https://ownback-s1.sugarfactory.cz/remote.php/webdav"
+
+owncloud_login=$owncloud_user":"$owncloud_password
+
+echo "RUN_FORCE: $RUN_FORCE"
+
+function services_start() {
+
+  if [ "$RUN_FORCE" != "YES" ]; then
+
+    echo -e "starting cron daemon..."
+    /etc/init.d/crond start
+
+    echo -e "starting apache daemon..."
+    /etc/init.d/httpd start
+
+  fi;
+
+}
+
+function services_stop() {
+
+  if [ "$RUN_FORCE" != "YES" ]; then
+
+     echo -e "stopping apache daemon..."
+     /etc/init.d/httpd stop
+     ret=$?
+
+     sleep 5
+
+     echo -e "stopping cron daemon..."
+     /etc/init.d/crond stop
+     ret=$?
+
+     sleep 5
+
+     if [[ `ps aux |grep cron.php -c` > 1 ]]; then 
+       echo "waiting to finish cron command...";
+       sleep 60;
+     else 
+       echo "sugar cron is not running..";
+     fi;
+
+  fi;
+
+}
+
+function my_exit(){
+
+  services_start;
+
+  echo "script exited with $1";
+  exit $1;
+
+}
+
+services_stop
+
+echo "archiving sugarcrm data..";
+
+#rs_tar=`tar -pczf $backup_folder/$sugarweb_archive_name.tar.gz $sugarweb_folder`
+rs_tar=`tar cf - $sugarweb_folder | pigz > $backup_folder/$sugarweb_archive_name.tar.gz`
+
+ret=$?
+
+if [ $? -eq 0 ]; then
+  echo "Archiving completed successfully";
+else
+  echo "ERROR: archiving failed";
+  my_exit 2;
+fi;
+
+echo "Running Database export..";
+rs_mysqlbackup=`/usr/local/bin/automysqlbackup`
+ret=$?
+
+if [ $ret -eq 0 ]; then
+  echo "Database export completed successfully";
+else
+  echo "ERROR: Database export failed";
+  # always is retval non-zero
+  #my_exit 2;
+fi;
+
+echo "finding last sugarcrm database export.."
+
+sugar_db_dump=`find $db_dump_folder -name *daily* -type f -print 2>/dev/null |sort -h |tail -1 | tr -d '\n'`
+
+#sugar_db_filename="${sugar_db_dump##*/}"
+
+if [ -s "$sugar_db_dump" ]; then
+  echo "  found file.."
+  echo $sugar_db_dump
+else
+  echo "  ERROR: db file not found or it's zero size"
+  my_exit 3;
+fi
+
+cp $sugar_db_dump $backup_folder/$sugardb_archive_name.sql.gz
+if [ $? -eq 0 ]; then
+  echo "Database file moved successfully";
+else
+  echo "Database file move failed";
+  my_exit 4;
+fi;
+
+#echo "remove another today mysql exports..."
+
+#rs_rm_dump=`find $db_dump_folder -name *daily* -type f -mtime -1 -and -mmin -59 -exec rm {} \; 2>/dev/null`
+
+
+echo "start erasing old files in owncloud server.."
+
+# curl -u user:'pass' -X DELETE https://owncloud-url/remote.php/webdav/directoryOrFileName
+
+command=" -g -X DELETE --silent --location --write-out %{http_code} -u ${owncloud_login} ${owncloud_url}/${owncloud_upload_folder}/${sugardb_archive_name}.sql.gz"
+rs_c3=$(curl ${command})
+ret_c3=$?
+
+command=" -g -X DELETE --silent --location --write-out %{http_code} -u ${owncloud_login} ${owncloud_url}/${owncloud_upload_folder}/${sugarweb_archive_name}.tar.gz"
+rs_c4=$(curl ${command})
+ret_c4=$?
+
+if [[ ${ret_c3} -eq 0 && ${rs_c3} != 000 && ${rs_c3} != 200 && ${rs_c3} != 201 && ${rs_c3} != 204 ]]; then
+  echo "Erasing sugar db-data in owncloud failed";
+  echo "results: "$rs_c3
+else
+  echo "sugar db-data erased in owncloud successfully";
+fi;
+
+if [[ ${ret_c4} -eq 0 && ${rs_c4} != 000 && ${rs_c4} != 200 && ${rs_c4} != 201 && ${rs_c4} != 204 ]]; then
+  echo "Erasing sugar web-data in owncloud failed";
+  echo "results: "$rs_c4
+else
+  echo "sugar web-data erased in owncloud successfully";
+fi;
+
+echo "start sending files to owncloud server.."
+
+# DEBUG
+#echo "owncloud login: $owncloud_login"
+
+command=" -g -X PUT --silent --location --write-out %{http_code} -u ${owncloud_login} ${owncloud_url}/${owncloud_upload_folder}/${sugardb_archive_name}.sql.gz --data-binary @${backup_folder}/${sugardb_archive_name}.sql.gz"
+
+# DEBUG
+#echo $command
+
+rs_c1=$(curl ${command})
+ret_c1=$?
+
+command=" -g -X PUT --silent --location --write-out %{http_code} -u ${owncloud_login} ${owncloud_url}/${owncloud_upload_folder}/${sugarweb_archive_name}.tar.gz --data-binary @${backup_folder}/${sugarweb_archive_name}.tar.gz"
+
+# DEBUG
+#echo $command
+
+rs_c2=$(curl ${command})
+ret_c2=$?
+
+if [[ ${ret_c1} -eq 0 && ${rs_c1} != 000 && ${rs_c1} != 200 && ${rs_c1} != 201 && ${rs_c1} != 204 ]]; then
+  echo "Saving sugar db-data to owncloud failed";
+  echo "results: "$rs_c1
+  my_exit 5;
+else
+  echo "sugar db-data saved to owncloud successfully";
+fi;
+
+if [[ ${ret_c2} -eq 0 && ${rs_c2} != 000 && ${rs_c2} != 200 && ${rs_c2} != 201 && ${rs_c2} != 204 ]]; then
+  echo "Saving sugar web-data to owncloud failed";
+  echo "results: "$rs_c2
+  my_exit 5;
+else
+  echo "sugar web-data saved to owncloud successfully";
+fi;
+
+#if [[ "$ret_c1" -eq 0 && "$ret_c2" -eq 0 ]]; then
+#  echo "Data saved to owncloud successfully";
+#else
+#  echo "Saving data to owncloud failed";
+#  my_exit 5;
+#fi;
+
+services_start
+
+#finished
+date=`date | tr -d '\n'`
+scriptname=`basename $0`
+
+echo "$date script $scriptname finished"
+
+exit 0;
+
