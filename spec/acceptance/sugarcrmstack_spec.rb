@@ -92,7 +92,7 @@ describe 'sugarcrmstack' do
           owner   => 'mysql',
           group   => 'mysql',
           mode    => '0755',
-          before  => Class['sugarcrmstack::mysqlserver'],
+          #before  => Class['sugarcrmstack::mysqlserver'],
           require => Package['mysql-server'],
         }
 
@@ -103,7 +103,7 @@ describe 'sugarcrmstack' do
           owner   => 'mysql',
           group   => 'mysql',
           mode    => '0644',
-          before  => Class['sugarcrmstack::mysqlserver'],
+          #before  => Class['sugarcrmstack::mysqlserver'],
           require => File['mysql-server log folder2'],
         }
 
