@@ -12,6 +12,7 @@ RSpec.configure do |c|
   hosts.each do |host|
     if host[:platform] =~ %r{el-6-x86_64} && host[:hypervisor] =~ %r{docker}
       on(host, "sed -i '/nodocs/d' /etc/yum.conf")
+      on(host, "cd  /etc/puppetlabs/code/modules && mv sugarcrmstack_v3 sugarcrmstack")
     end
     if host[:platform] =~ %r{el-7-x86_64} && host[:hypervisor] =~ %r{docker}
       on(host, "sed -i '/nodocs/d' /etc/yum.conf")
