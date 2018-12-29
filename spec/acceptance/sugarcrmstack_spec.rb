@@ -19,6 +19,7 @@ describe 'sugarcrmstack' do
       # necessary defs, because we dont have install class
       #
       if ($::operatingsystemmajrelease in ['7']){
+
         package { 'mysql-repo':
           ensure   => 'el7-5',
           name     => 'mysql-community-release',
@@ -26,6 +27,39 @@ describe 'sugarcrmstack' do
           #source => 'http://repo.mysql.com/mysql-community-release-el7.rpm'
           source   => 'https://repo.mysql.com/mysql-community-release-el7-5.noarch.rpm',
         }
+
+        package { "epel-repo":
+            name => "epel-release",
+            ensure => "installed",
+            provider => 'rpm',
+            source => 'http://dl.fedoraproject.org/pub/epel/7/x86_64/epel-release-7-11.noarch.rpm '
+        }
+
+        package { "remi-release":
+            ensure => "installed",
+            provider => 'rpm',
+            source => 'http://remi.mirrors.arminco.com/enterprise/remi-release-7.rpm',
+            require => Package["epel-repo"]
+        }
+
+        ini_setting { 'remi repo enable':
+            ensure  => present,
+            path    => "/etc/yum.repos.d/remi.repo",
+            section => 'remi',
+            setting => 'enabled',
+            value   => 1,
+            require => Package["remi-release"],
+        }
+
+        ini_setting { 'remi repo exclude packages':
+            ensure  => present,
+            path    => "/etc/yum.repos.d/remi.repo",
+            section => 'remi',
+            setting => 'exclude',
+            value   => "mysql-server* php* mysql-libs",
+            require => Ini_setting["remi repo enable"],
+        }
+
       }
 
       package { 'webtatic-release':
