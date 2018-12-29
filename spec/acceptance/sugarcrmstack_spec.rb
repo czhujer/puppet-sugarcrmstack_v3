@@ -9,8 +9,8 @@ describe 'sugarcrmstack' do
     apply_manifest(pp, catch_changes: true)
   end
 
-  #describe service('httpd') do
+  # describe service('httpd') do
   #  it { is_expected.to be_running }
   #  it { is_expected.to be_enabled }
-  #end
+  # end
 end
