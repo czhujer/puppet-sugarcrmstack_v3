@@ -110,7 +110,7 @@ describe 'sugarcrmstack' do
 
       class { 'sugarcrmstack::mysqlserver':
         sugar_version => '7.5',
-      #}
+      }
 
       class {'sugarcrmstack::mysqlbackup':
       }
