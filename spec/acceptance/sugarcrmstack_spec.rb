@@ -206,9 +206,23 @@ describe 'sugarcrmstack' do
       }
 
       # classes with real defs
-      class {'sugarcrmstack::apachephpng':
-        php_pkg_version => '5.6.39',
-        php_pkg_build   => '1',
+
+      if ($::operatingsystemmajrelease in ['6']){
+        class {'sugarcrmstack::apachephpng':
+          php_pkg_version => '5.6.39',
+          php_pkg_build   => '1',
+        }
+      }
+      if ($::operatingsystemmajrelease in ['7']){
+        class {'sugarcrmstack::apachephpng':
+          php_pkg_version     => '5.6.39',
+          php_pkg_build       => '1',
+          apache_default_mods => [ 'actions', 'authn_core', 'cache', 'ext_filter', 'mime', 'mime_magic', 'rewrite', 'speling',
+                                        'version', 'vhost_alias', 'auth_digest', 'authn_anon', 'authn_dbm', 'authz_dbm', 'authz_owner',
+                                        'expires', 'include', 'logio', 'substitute', 'usertrack', 'alias',
+                                        'authn_file', 'autoindex', 'dav', 'dav_fs', 'dir', 'negotiation', 'setenvif', 'auth_basic',
+                                        'authz_user', 'authz_groupfile', 'env', 'suexec']
+        }
       }
 
       class {'sugarcrmstack::back2own':
