@@ -34,7 +34,7 @@ RSpec.configure do |c|
     end
     if host[:platform] =~ %r{el-7-x86_64} && host[:hypervisor] =~ %r{docker}
       # on(host, "sed -i '/nodocs/d' /etc/yum.conf")
-      on(host, 'yum install git -yq')
+      on(host, 'yum install git iptables-services -yq')
     end
   end
 
