@@ -27,7 +27,13 @@ describe 'sugarcrmstack' do
           source   => 'https://repo.mysql.com/mysql-community-release-el7-5.noarch.rpm',
         }
       }
-      else{
+
+      package { 'webtatic-release':
+        ensure => 'absent',
+      }
+
+      if ($::operatingsystemmajrelease in ['6']){
+
         package { 'mysql-repo':
           ensure   => 'el6-7',
           name     => 'mysql-community-release',
@@ -35,13 +41,6 @@ describe 'sugarcrmstack' do
           #source => 'http://repo.mysql.com/mysql-community-release-el6.rpm'
           source   => 'https://repo.mysql.com/mysql-community-release-el6-7.noarch.rpm',
         }
-      }
-
-      package { 'webtatic-release':
-        ensure => 'absent',
-      }
-
-      if ($::operatingsystemmajrelease in ['6']){
 
         package { "epel-repo":
             name => "epel-release",
