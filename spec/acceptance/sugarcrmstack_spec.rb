@@ -223,6 +223,8 @@ describe 'sugarcrmstack' do
 
       class {'sugarcrmstack::postfixserver':
         postfix_server_fqdn => $fqdn,
+        postfix_service_enable => undef,
+        postfix_service_ensure => undef,
       }
 
       class {'sugarcrmstack::sugarcrm':
