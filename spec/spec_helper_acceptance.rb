@@ -49,7 +49,7 @@ RSpec.configure do |c|
       on host, puppet('module', 'install', 'thias-php'), { :acceptable_exit_codes => [0,1] }
       on host, puppet('module', 'install', 'puppetlabs-firewall'), { :acceptable_exit_codes => [0,1] }
       on host, puppet('module', 'install', 'puppetlabs-vcsrepo'), { :acceptable_exit_codes => [0,1] }
-      on (host, 'cd /etc/puppetlabs/code/modules && git clone https://github.com/SugarFactory/puppet-composer.git composer'), { :acceptable_exit_codes => [0] }
+      on(host, 'cd /etc/puppetlabs/code/modules && git clone https://github.com/SugarFactory/puppet-composer.git composer'), { :acceptable_exit_codes => [0] }
     end
   end
 end
