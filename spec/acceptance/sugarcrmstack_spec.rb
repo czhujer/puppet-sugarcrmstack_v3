@@ -60,6 +60,22 @@ describe 'sugarcrmstack' do
             require => Ini_setting["remi repo enable"],
         }
 
+        ini_setting { 'centos base repo exclude packages':
+            ensure  => present,
+            path    => "/etc/yum.repos.d/CentOS-Base.repo",
+            section => 'base',
+            setting => 'exclude',
+            value   => 'mysql-server* glusterfs*',
+        }
+
+        ini_setting { 'centos base repo exclude packages 2':
+            ensure  => present,
+            path    => "/etc/yum.repos.d/CentOS-Base.repo",
+            section => 'updates',
+            setting => 'exclude',
+            value   => "mysql-server*",
+        }
+        
       }
 
       package { 'webtatic-release':
