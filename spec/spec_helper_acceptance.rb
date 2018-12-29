@@ -30,7 +30,7 @@ RSpec.configure do |c|
   hosts.each do |host|
     if host[:platform] =~ %r{el-6-x86_64} && host[:hypervisor] =~ %r{docker}
       on(host, "sed -i '/nodocs/d' /etc/yum.conf")
-      on(host, 'yum install git -yq')
+      on(host, 'yum install git python-pip postfix -yq')
     end
     if host[:platform] =~ %r{el-7-x86_64} && host[:hypervisor] =~ %r{docker}
       # on(host, "sed -i '/nodocs/d' /etc/yum.conf")
