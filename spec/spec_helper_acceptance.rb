@@ -42,15 +42,15 @@ RSpec.configure do |c|
     # Install module and dependencies
     # puppet_module_install(:source => proj_root, :module_name => 'sugarcrmstack')
     hosts.each do |host|
-      on host, puppet('module', 'install', 'puppetlabs-stdlib', '-v', '4.25.1'), { acceptable_exit_codes: [0, 1] }
-      on host, puppet('module', 'install', 'puppetlabs-inifile', '-v', '2.4.0'), { acceptable_exit_codes: [0, 1] }
-      on host, puppet('module', 'install', 'puppetlabs-apache'), { acceptable_exit_codes: [0, 1] }
-      on host, puppet('module', 'install', 'puppetlabs-concat'), { acceptable_exit_codes: [0, 1] }
-      on host, puppet('module', 'install', 'puppetlabs-mysql'), { acceptable_exit_codes: [0, 1] }
-      on host, puppet('module', 'install', 'puppet-cron'), { acceptable_exit_codes: [0, 1] }
-      on host, puppet('module', 'install', 'thias-php'), { acceptable_exit_codes: [0, 1] }
-      on host, puppet('module', 'install', 'puppetlabs-firewall'), { acceptable_exit_codes: [0, 1] }
-      on host, puppet('module', 'install', 'puppetlabs-vcsrepo'), { acceptable_exit_codes: [0, 1] }
+      on host, puppet('module', 'install', 'puppetlabs-stdlib', '-v', '4.25.1'), acceptable_exit_codes: [0, 1]
+      on host, puppet('module', 'install', 'puppetlabs-inifile', '-v', '2.4.0'), acceptable_exit_codes: [0, 1]
+      on host, puppet('module', 'install', 'puppetlabs-apache'), acceptable_exit_codes: [0, 1]
+      on host, puppet('module', 'install', 'puppetlabs-concat'), acceptable_exit_codes: [0, 1]
+      on host, puppet('module', 'install', 'puppetlabs-mysql'), acceptable_exit_codes: [0, 1]
+      on host, puppet('module', 'install', 'puppet-cron'), acceptable_exit_codes: [0, 1]
+      on host, puppet('module', 'install', 'thias-php'), acceptable_exit_codes: [0, 1]
+      on host, puppet('module', 'install', 'puppetlabs-firewall'), acceptable_exit_codes: [0, 1]
+      on host, puppet('module', 'install', 'puppetlabs-vcsrepo'), acceptable_exit_codes: [0, 1]
       on(host, 'cd /etc/puppetlabs/code/modules && git clone https://github.com/SugarFactory/puppet-composer.git composer')
     end
   end
