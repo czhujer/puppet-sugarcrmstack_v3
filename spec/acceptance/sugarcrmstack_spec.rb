@@ -75,7 +75,7 @@ describe 'sugarcrmstack' do
             setting => 'exclude',
             value   => "mysql-server*",
         }
-        
+
       }
 
       package { 'webtatic-release':
