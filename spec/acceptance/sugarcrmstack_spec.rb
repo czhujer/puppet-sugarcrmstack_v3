@@ -76,6 +76,15 @@ describe 'sugarcrmstack' do
             value   => "mysql-server*",
         }
 
+        ini_setting { 'enable remi-php56 repo':
+          ensure  => present,
+          path    => '/etc/yum.repos.d/remi.repo',
+          section => 'remi-php56',
+          setting => 'enabled',
+          value   => '1',
+          before  => Class['sugarcrmstack::apachephpng'],
+        }
+
       }
 
       package { 'webtatic-release':
@@ -191,6 +200,7 @@ describe 'sugarcrmstack' do
       }
 
       class {'sugarcrmstack::postfixserver':
+        postfix_server_fqdn => $fqdn,
       }
 
       class {'sugarcrmstack::sugarcrm':
