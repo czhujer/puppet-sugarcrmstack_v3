@@ -4,15 +4,9 @@ require 'beaker/module_install_helper'
 
 run_puppet_install_helper
 
-RSpec.configure do |c|
-  # Readable test descriptions
-  c.formatter = :documentation
-  c.before :suite do
-    hosts.each do |host|
-      # fix module name
-      on(host, "cd /etc/puppetlabs/code/modules && ln -s sugarcrmstack_v3 sugarcrmstack")
-    end
-  end
+hosts.each do |host|
+  # fix module name
+  on(host, "cd /etc/puppetlabs/code/modules && ln -s sugarcrmstack_v3 sugarcrmstack")
 end
 
 install_module
