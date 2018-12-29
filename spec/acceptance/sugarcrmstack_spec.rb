@@ -13,7 +13,7 @@ describe 'sugarcrmstack' do
 
   context 'with sub-classes' do
     # Using puppet_apply as a helper
-    it 'should work idempotently with no errors' do
+    it 'works idempotently with no errors' do
       pp = <<-EOS
 
       # necessary defs, because we dont have install class
