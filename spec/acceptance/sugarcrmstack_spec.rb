@@ -13,7 +13,7 @@ describe 'sugarcrmstack' do
 
   context 'with sub-classes' do
     # Using puppet_apply as a helper
-    it 'works idempotently with no errors' do
+    it 'works with no errors' do
       pp = <<-EOS
 
       # necessary defs, because we dont have install class
@@ -223,8 +223,8 @@ describe 'sugarcrmstack' do
 
       class {'sugarcrmstack::postfixserver':
         postfix_server_fqdn => $fqdn,
-        postfix_service_enable => undef,
-        postfix_service_ensure => undef,
+        #postfix_service_enable => undef,
+        postfix_service_ensure => false,
       }
 
       class {'sugarcrmstack::sugarcrm':
