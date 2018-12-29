@@ -40,4 +40,5 @@ matrix:
 branches:
   only:
   - master
+  - testing
   - /^v\d/
