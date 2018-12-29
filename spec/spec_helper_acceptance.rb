@@ -44,9 +44,9 @@ RSpec.configure do |c|
     hosts.each do |host|
       on host, puppet('module', 'install', 'puppetlabs-stdlib', '-v', '4.25.1'), acceptable_exit_codes: [0, 1]
       on host, puppet('module', 'install', 'puppetlabs-inifile', '-v', '2.4.0'), acceptable_exit_codes: [0, 1]
-      on host, puppet('module', 'install', 'puppetlabs-apache'), acceptable_exit_codes: [0, 1]
-      on host, puppet('module', 'install', 'puppetlabs-concat'), acceptable_exit_codes: [0, 1]
-      on host, puppet('module', 'install', 'puppetlabs-mysql'), acceptable_exit_codes: [0, 1]
+      on host, puppet('module', 'install', 'puppetlabs-apache' '-v', '3.4.0'), acceptable_exit_codes: [0, 1]
+      on host, puppet('module', 'install', 'puppetlabs-concat', '-v', '4.1.1'), acceptable_exit_codes: [0, 1]
+      on host, puppet('module', 'install', 'puppetlabs-mysql', '-v', '6.2.0'), acceptable_exit_codes: [0, 1]
       on host, puppet('module', 'install', 'puppet-cron'), acceptable_exit_codes: [0, 1]
       on host, puppet('module', 'install', 'thias-php'), acceptable_exit_codes: [0, 1]
       on host, puppet('module', 'install', 'puppetlabs-firewall'), acceptable_exit_codes: [0, 1]
