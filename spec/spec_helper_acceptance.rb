@@ -7,6 +7,7 @@ run_puppet_install_helper
 # fix module name
 hosts.each do |host|
   on(host, 'cd /etc/puppetlabs/code/modules && ln -s sugarcrmstack_v3 sugarcrmstack')
+  on(host, 'mkdir -p /root/scripts')
 end
 
 install_module

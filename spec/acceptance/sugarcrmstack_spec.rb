@@ -124,6 +124,31 @@ describe 'sugarcrmstack' do
             value   => "mysql-server*",
         }
 
+        package { "ius-release":
+            ensure => "installed",
+            provider => 'rpm',
+            source => 'http://dl.iuscommunity.org/pub/ius/archive/CentOS/6/x86_64/ius-release-1.0-11.ius.centos6.noarch.rpm',
+            require => Package["epel-repo"]
+        }
+
+        ini_setting { 'ius-archive enable':
+            ensure  => present,
+            path    => "/etc/yum.repos.d/ius-archive.repo",
+            section => 'ius-archive',
+            setting => 'enabled',
+            value   => '1',
+            require => Package['ius-release'],
+        }
+
+        ini_setting { 'ius-archive exclude':
+            ensure  => present,
+            path    => "/etc/yum.repos.d/ius-archive.repo",
+            section => 'ius-archive',
+            setting => 'exclude',
+            value   => '',
+            require => Ini_setting['ius-archive enable'],
+        }
+
       }
 
       service {'cron':
