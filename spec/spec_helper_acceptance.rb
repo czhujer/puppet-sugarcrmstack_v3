@@ -20,7 +20,7 @@ install_module
 
 RSpec.configure do |c|
   # Project root
-  proj_root = File.expand_path(File.join(File.dirname(__FILE__), '..'))
+  # proj_root = File.expand_path(File.join(File.dirname(__FILE__), '..'))
 
   # Readable test descriptions
   c.formatter = :documentation
@@ -29,10 +29,12 @@ RSpec.configure do |c|
   hosts.each do |host|
     if host[:platform] =~ %r{el-6-x86_64} && host[:hypervisor] =~ %r{docker}
       on(host, "sed -i '/nodocs/d' /etc/yum.conf")
+      on(host, "yum install git -yq")
     end
-    # if host[:platform] =~ %r{el-7-x86_64} && host[:hypervisor] =~ %r{docker}
-    #  on(host, "sed -i '/nodocs/d' /etc/yum.conf")
-    # end
+    if host[:platform] =~ %r{el-7-x86_64} && host[:hypervisor] =~ %r{docker}
+      # on(host, "sed -i '/nodocs/d' /etc/yum.conf")
+      on(host, "yum install git -yq")
+    end
   end
 
   # Configure all nodes in nodeset
