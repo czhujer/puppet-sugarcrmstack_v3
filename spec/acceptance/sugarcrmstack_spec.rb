@@ -85,6 +85,28 @@ describe 'sugarcrmstack' do
           before  => Class['sugarcrmstack::apachephpng'],
         }
 
+        # log folder2
+        file { 'mysql-server log folder2':
+          ensure  => directory,
+          path    => '/var/log/mariadb',
+          owner   => 'mysql',
+          group   => 'mysql',
+          mode    => '0755',
+          before  => Class['sugarcrmstack::mysqlserver'],
+          require => Package['mysql-server'],
+        }
+
+        # slow query log2
+        file { 'mysql-server slow query log2':
+          ensure  => present,
+          path    => '/var/log/mariadb/mysql-slow.log',
+          owner   => 'mysql',
+          group   => 'mysql',
+          mode    => '0644',
+          before  => Class['sugarcrmstack::mysqlserver'],
+          require => File['mysql-server log folder2'],
+        }
+
       }
 
       package { 'webtatic-release':
