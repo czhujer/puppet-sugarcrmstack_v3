@@ -356,26 +356,26 @@ $php_fpm_manage_phpmyadmin_user=true,
   }
 
   class { 'apache':
-    mpm_module           => false,
-    default_vhost        => false,
-    purge_configs        => true,
-    #purge_vdir           => true,
-    #mod_enable_dir       => false,
+    mpm_module        => false,
+    default_vhost     => false,
+    purge_configs     => true,
+    #purge_vdir        => true,
+    #mod_enable_dir    => false,
     #
-    serveradmin          => $apache_serveradmin,
-    server_signature     => 'off',
-    server_tokens        => 'prod',
-    keepalive            => $apache_keepalive,
-    keepalive_timeout    => 2,
-    timeout              => $apache_timeout,
+    serveradmin       => $apache_serveradmin,
+    server_signature  => 'off',
+    server_tokens     => 'prod',
+    keepalive         => $apache_keepalive,
+    keepalive_timeout => 2,
+    timeout           => $apache_timeout,
     #
-    default_mods         => $apache_default_mods,
+    default_mods      => $apache_default_mods,
     #
-    service_manage       => $apache_service_manage,
-    service_enable       => $apache_service_enable,
-    service_ensure       => $apache_service_ensure,
+    service_manage    => $apache_service_manage,
+    service_enable    => $apache_service_enable,
+    service_ensure    => $apache_service_ensure,
     #
-    manage_user          => $apache_manage_user,
+    manage_user       => $apache_manage_user,
   }
 
   if($apache_mpm == 'worker' ){
@@ -410,13 +410,13 @@ $php_fpm_manage_phpmyadmin_user=true,
   }
 
   class { 'php::cli':
-    ensure => $php_pkg_version_full,
+    ensure           => $php_pkg_version_full,
     cli_package_name => $php_cli_package_name,
   }
 
   class { 'php::common':
     common_package_name => $php_common_package_name,
-    require => Class['php::cli'],
+    require             => Class['php::cli'],
   }
 
   if ($::sugarcrmstack_ng::sugar_version == '8.0'){
@@ -439,21 +439,21 @@ $php_fpm_manage_phpmyadmin_user=true,
   else{
     class { 'php::mod_php5':
       php_package_name => $php_pkg_prefix,
-      require => Class['php::cli'],
+      require          => Class['php::cli'],
     }
   }
 
   php::ini { '/etc/php.ini':
-     error_reporting            => "${php_error_reporting}",
-     memory_limit               => "${php_memory_limit}",
-     date_timezone              => 'Europe/Berlin',
-     max_execution_time         => $php_max_execution_time,
-     allow_url_fopen            => 'On',
-     upload_max_filesize        => $php_upload_max_filesize,
-     post_max_size              => $php_post_max_size,
-     session_gc_maxlifetime     => $php_session_gc_maxlifetime,
-     session_save_handler       => $php_session_save_handler,
-     session_save_path          => $php_session_save_path,
+     error_reporting        => ${php_error_reporting},
+     memory_limit           => ${php_memory_limit},
+     date_timezone          => 'Europe/Berlin',
+     max_execution_time     => $php_max_execution_time,
+     allow_url_fopen        => 'On',
+     upload_max_filesize    => $php_upload_max_filesize,
+     post_max_size          => $php_post_max_size,
+     session_gc_maxlifetime => $php_session_gc_maxlifetime,
+     session_save_handler   => $php_session_save_handler,
+     session_save_path      => $php_session_save_path,
   }
 
   $php_modules = [ "${php_pkg_prefix}-mcrypt",
@@ -479,23 +479,23 @@ $php_fpm_manage_phpmyadmin_user=true,
 
   if ($::sugarcrmstack_ng::sugar_version == '8.0'){
     php::fpm::conf { 'www':
-        package_name => "${php_pkg_prefix-fpm}",
-        listen  => '127.0.0.1:9001',
-        user    => 'apache',
+        package_name   => "${php_pkg_prefix-fpm}",
+        listen         => '127.0.0.1:9001',
+        user           => 'apache',
         pm_status_path => '/fpm-status',
-        ping_path    => '/fpm-ping',
+        ping_path      => '/fpm-ping',
         #
-        php_value => {
-          error_reporting            => "${php_error_reporting}",
-          memory_limit               => "${php_memory_limit}",
-          date_timezone              => 'Europe/Berlin',
-          max_execution_time         => $php_max_execution_time,
-          allow_url_fopen            => 'On',
-          upload_max_filesize        => $php_upload_max_filesize,
-          post_max_size              => $php_post_max_size,
-          session_gc_maxlifetime     => $php_session_gc_maxlifetime,
-          session_save_handler       => $php_session_save_handler,
-          session_save_path          => $php_session_save_path,
+        php_value      => {
+          error_reporting        => ${php_error_reporting},
+          memory_limit           => ${php_memory_limit},
+          date_timezone          => 'Europe/Berlin',
+          max_execution_time     => $php_max_execution_time,
+          allow_url_fopen        => 'On',
+          upload_max_filesize    => $php_upload_max_filesize,
+          post_max_size          => $php_post_max_size,
+          session_gc_maxlifetime => $php_session_gc_maxlifetime,
+          session_save_handler   => $php_session_save_handler,
+          session_save_path      => $php_session_save_path,
         },
     }~>File['/var/log/php-fpm']
 
@@ -508,7 +508,7 @@ $php_fpm_manage_phpmyadmin_user=true,
 
     file { '/var/lib/php/session-phpmyadmin':
         ensure  => 'directory',
-        mode    => '750',
+        mode    => '0750',
         owner   => 'phpmyadmin',
         group   => 'phpmyadmin',
         require => $require_session_phpmyadmin,
@@ -533,25 +533,25 @@ $php_fpm_manage_phpmyadmin_user=true,
     }
 
     php::fpm::conf { 'phpmyadmin':
-        package_name => "$php_pkg_prefix-fpm",
-        listen  => '127.0.0.1:9002',
-        user    => 'phpmyadmin',
-        pm_status_path => '/fpm-status',
-        ping_path    => '/fpm-ping',
+        package_name    => "$php_pkg_prefix-fpm",
+        listen          => '127.0.0.1:9002',
+        user            => 'phpmyadmin',
+        pm_status_path  => '/fpm-status',
+        ping_path       => '/fpm-ping',
         php_admin_value => {
           'session.save_handler' => $php_session_save_handler,
           'session.save_path'    => $php_session_phpmyadmin_save_path_final,
         },
     }~>File['/var/log/php-fpm']
 
-    class { php::fpm::daemon:
-          ensure => present,
+    class { 'php::fpm::daemon':
+          ensure       => present,
           package_name => "$php_pkg_prefix-fpm",
   #        log_owner => 'php-fpm',
   #        log_group => 'root',
   #        log_dir_mode => '0770',
-          log_owner => 'apache',
-          log_group => 'apache',
+          log_owner    => 'apache',
+          log_group    => 'apache',
           log_dir_mode => '0775',
     }
   }
@@ -822,7 +822,7 @@ $php_fpm_manage_phpmyadmin_user=true,
 
     file { '/usr/share/phpMyAdmin':
         ensure  => 'directory',
-        mode    => '755',
+        mode    => '0755',
         owner   => 'root',
         group   => 'root',
         require => Package['phpMyAdmin'],
@@ -841,7 +841,7 @@ $php_fpm_manage_phpmyadmin_user=true,
     if ($::sugarcrmstack_ng::sugar_version == '8.0'){
       file { '/usr/share/phpMyAdmin/tmp':
           ensure  => 'directory',
-          mode    => '750',
+          mode    => '0750',
           owner   => 'phpmyadmin',
           group   => 'phpmyadmin',
           require => Vcsrepo['/usr/share/phpMyAdmin'],
