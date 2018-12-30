@@ -284,11 +284,11 @@ class sugarcrmstack::mysqlserver (
       }
       else{
         $mysql_server_require = [
-                                 Package['percona-release'],
-                                 Package[$mysql_server_packages_old] ,
-                                 Ini_setting['mysql 5.7 repo enable'],
-                                 Ini_setting['mysql 5.6 repo disable'],
-                                ]
+          Package['percona-release'],
+          Package[$mysql_server_packages_old] ,
+          Ini_setting['mysql 5.7 repo enable'],
+          Ini_setting['mysql 5.6 repo disable'],
+        ]
       }
 
       if !defined(Class['sugarcrmstack_ng::install']){
@@ -317,12 +317,12 @@ class sugarcrmstack::mysqlserver (
           ensure   => absent,
           provider => yum,
           require  => [
-                     Package['webtatic-release'],
-                     Ini_setting['remi repo exclude packages'],
-                     Ini_setting['centos base repo exclude packages 2'],
-                     Ini_setting['centos base repo exclude packages'],
-                     Package['percona-release']
-         ],
+            Package['webtatic-release'],
+            Ini_setting['remi repo exclude packages'],
+            Ini_setting['centos base repo exclude packages 2'],
+            Ini_setting['centos base repo exclude packages'],
+            Package['percona-release']
+          ],
         }
 
       }
