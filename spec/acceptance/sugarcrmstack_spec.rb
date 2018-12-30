@@ -271,5 +271,25 @@ describe 'sugarcrmstack' do
       it { is_expected.to be_enabled }
       it { is_expected.to be_running }
     end
+
+    describe package('duplicity') do
+      it { is_expected.to be_installed }
+    end
+
+    describe package('postfix') do
+      it { is_expected.to be_installed }
+    end
+
+    describe service('crond') do
+      it { is_expected.to be_enabled }
+      it { is_expected.to be_running }
+    end
+
+    it { is_expected contain_file('/usr/local/bin/automysqlbackup').with_ensure('file') }
+
+    it { is_expected contain_file('/etc/php.ini').with_ensure('file') }
+
+    it { is_expected contain_file('/root/scripts/back2own-duplicity.sh').with_ensure('file') }
+
   end
 end
