@@ -35,10 +35,7 @@ class sugarcrmstack::mysqlserver (
   elsif str2bool($mysql_server_enable){
 
     if($::operatingsystemmajrelease in ['7'] and $mysql_server_use_pxc == true){
-      $mysql_override_options_profile = { 'mysqld' => { 'max_connections' => $mysql_server_config_max_connections,
-                                                        #'wsrep_provider'  => 'none',
-                                                      }
-                                        }
+      $mysql_override_options_profile = { 'mysqld' => { 'max_connections' => $mysql_server_config_max_connections } }
     }
     else{
       $mysql_override_options_profile = { 'mysqld' => { 'max_connections' => $mysql_server_config_max_connections } }
@@ -69,7 +66,7 @@ class sugarcrmstack::mysqlserver (
                 Ini_setting['centos base repo exclude packages'],
                 Exec['mysql-libs old'],
                 Exec['mysql-libs old2'],
-        ]
+        ],
       }
 
       $mysql_server_service_name = 'mysqld'
@@ -89,7 +86,7 @@ class sugarcrmstack::mysqlserver (
 
       if defined(Class['sugarcrmstack_ng::install']){
         $mysql_server_require = [
-         Class['sugarcrmstack_ng::install'],
+          Class['sugarcrmstack_ng::install'],
         ]
       }
       else{
@@ -381,7 +378,7 @@ class sugarcrmstack::mysqlserver (
           ensure     => 'present',
           #options    => ['GRANT'],
           privileges => ['CREATE', 'ALTER', 'DELETE', 'INSERT', 'SELECT', 'UPDATE', 'LOCK TABLES', 'DROP',
-    			'CREATE ROUTINE', 'ALTER ROUTINE', 'EXECUTE', 'CREATE TEMPORARY TABLES', 'INDEX'],
+          'CREATE ROUTINE', 'ALTER ROUTINE', 'EXECUTE', 'CREATE TEMPORARY TABLES', 'INDEX'],
           table      => 'sugarcrm.*',
           user       => 'sugarcrm@localhost',
         },
