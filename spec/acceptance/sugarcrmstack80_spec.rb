@@ -2,7 +2,7 @@ require 'spec_helper_acceptance'
 
 describe 'sugarcrmstack v8.0' do
   if os[:family] == 'redhat'
-    if os[:release] == '7'
+    #if os[:release] == '7'
 
       context 'v80 with sub-classes and basic setup' do
         # Using puppet_apply as a helper
@@ -195,6 +195,6 @@ describe 'sugarcrmstack v8.0' do
           it { is_expected.to be_file }
         end
       end
-    end
+    #end
   end
 end
