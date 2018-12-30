@@ -638,18 +638,18 @@ $php_fpm_manage_phpmyadmin_user=true,
     }
 
     php::module::ini { 'pecl-apcu':
-      pkgname => "${php_pkg_prefix}-pecl-apcu",
-      prefix  => '40',
+      pkgname  => "${php_pkg_prefix}-pecl-apcu",
+      prefix   => '40',
       settings => {
-        'apc.enabled'      => '1',
-        'apc.optimization' => '1',
-        'apc.shm_segments' => '1',
-        'apc.shm_size'     => '32M',
-        'apc.user_ttl'     => '0',
-        'apc.ttl'          => '0',
+        'apc.enabled'          => '1',
+        'apc.optimization'     => '1',
+        'apc.shm_segments'     => '1',
+        'apc.shm_size'         => '32M',
+        'apc.user_ttl'         => '0',
+        'apc.ttl'              => '0',
         'apc.cache_by_default' => '1',
-        'apc.num_files_hint' => '10000',
-        'apc.mmap_file_mask' => '/tmp/apc.XXXXXX',
+        'apc.num_files_hint'   => '10000',
+        'apc.mmap_file_mask'   => '/tmp/apc.XXXXXX',
       },
       notify  => Service['httpd'],
     }
@@ -664,19 +664,19 @@ $php_fpm_manage_phpmyadmin_user=true,
     }
 
     php::module::ini { 'opcache':
-      pkgname => "${php_pkg_prefix}-opcache",
-      prefix  => '10',
-      zend    => true,
+      pkgname  => "${php_pkg_prefix}-opcache",
+      prefix   => '10',
+      zend     => true,
       settings => {
-        'opcache.enable'                     => '1',
-        'opcache.fast_shutdown'              => '1',
-        'opcache.interned_strings_buffer'    => '16',
-        'opcache.max_accelerated_files'      => '1000000',
-        'opcache.memory_consumption'         => '256',
-        'opcache.revalidate_freq'            => '0',
-        'opcache.revalidate_path'            => '1',
+        'opcache.enable'                  => '1',
+        'opcache.fast_shutdown'           => '1',
+        'opcache.interned_strings_buffer' => '16',
+        'opcache.max_accelerated_files'   => '1000000',
+        'opcache.memory_consumption'      => '256',
+        'opcache.revalidate_freq'         => '0',
+        'opcache.revalidate_path'         => '1',
       },
-      notify  => Service['httpd'],
+      notify   => Service['httpd'],
     }
 
   }
@@ -742,8 +742,7 @@ $php_fpm_manage_phpmyadmin_user=true,
       docroot         => '/var/www/html/sugarcrm-http',
       error_log_file  => 'error_log',
       access_log_file => 'access_log',
-      rewrites => [
-        {
+      rewrites        => [ {
           comment      => 'redirect to TTTPS',
           rewrite_cond => ['%{SERVER_PORT} !^443$'],
           rewrite_rule => ['^/(.*) https://%{HTTP_HOST}/$1 [NC,R,L]'],

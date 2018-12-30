@@ -26,10 +26,10 @@ $dupl_timeout = '120',
 
     if ! defined (File[$backup_dir]) {
       file { $backup_dir:
-        ensure  => directory,
-        mode    => '0755',
-        owner   => 'root',
-        group   => 'root',
+        ensure => directory,
+        mode   => '0755',
+        owner  => 'root',
+        group  => 'root',
       }
     }
 
@@ -54,9 +54,9 @@ $dupl_timeout = '120',
     if($handle_cron_job){
       file { '/etc/cron.daily/back2own-full.sh':
         ensure  => $cron_job_ensure,
-	      target  => '/root/scripts/back2own-full.sh',
-	      notify  => Service['cron'],
-	      require => File['back2own full script'],
+        target  => '/root/scripts/back2own-full.sh',
+        notify  => Service['cron'],
+        require => File['back2own full script'],
       }
     }
 
