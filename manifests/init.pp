@@ -16,12 +16,12 @@ class sugarcrmstack (
 
   if defined(Class['sugarcrmstack_ng']){
     if ($::sugarcrmstack_ng::sugar_version != '7.5' and $::sugarcrmstack_ng::sugar_version != '7.9' and $::sugarcrmstack_ng::sugar_version != '8.0'){
-      fail("Class['sugarcrmstack_ng::apachephpng']: This class is compatible only with sugar_version 7.5,7.9 or 8.0 (not ${::sugarcrmstack_ng::sugar_version})")
+      fail("Class['sugarcrmstack']: This class is compatible only with sugar_version 7.5,7.9 or 8.0 (not ${::sugarcrmstack_ng::sugar_version})")
     }
   }
   else{
-    if ($sugarcrmstack::sugar_version != '7.5' and $sugarcrmstack::sugar_version != '7.9'){
-      fail("Class['sugarcrmstack::apachephpng']: This class is compatible only with sugar_version 7.5 or 7.9 (not ${sugarcrmstack::sugar_version})")
+    if ($sugarcrmstack::sugar_version != '7.5' and $sugarcrmstack::sugar_version != '7.9' and $sugarcrmstack::sugar_version != '8.0'){
+      fail("Class['sugarcrmstack']: This class is compatible only with sugar_version 7.5,7.9 or 8.0 (not ${sugarcrmstack::sugar_version})")
     }
   }
 
