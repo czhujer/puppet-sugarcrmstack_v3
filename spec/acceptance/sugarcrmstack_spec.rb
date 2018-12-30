@@ -281,21 +281,20 @@ describe 'sugarcrmstack' do
       it { is_expected.to be_running }
     end
 
-    it { is_expected.to contain_file('/usr/bin/duplicity').with({
-      'ensure' => 'present',
-      'mode'   => '0755',
-      )} }
-    it { is_expected.to contain_file('/usr/local/bin/automysqlbackup').with({
-      'ensure' => 'present',
-      'mode'   => '0755',
-      )} }
-    it { is_expected.to contain_file('/etc/php.ini').with({
-      'ensure' => 'present',
-      'mode'   => '0644',
-      )} }
-    it { is_expected.to contain_file('/root/scripts/back2own-duplicity.sh').with({
-      'ensure' => 'present',
-      'mode'   => '0755',
-      )} }
+    describe file('/usr/bin/duplicity') do
+      it { is_expected.to be_file }
+    end
+
+    describe file('/usr/local/bin/automysqlbackup') do
+      it { is_expected.to be_file }
+    end
+
+    describe file('/etc/php.ini') do
+      it { is_expected.to be_file }
+    end
+
+    describe file('/root/scripts/back2own-duplicity.sh') do
+      it { is_expected.to be_file }
+    end
   end
 end
