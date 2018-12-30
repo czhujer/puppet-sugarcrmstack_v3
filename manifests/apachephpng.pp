@@ -444,8 +444,8 @@ $php_fpm_manage_phpmyadmin_user=true,
   }
 
   php::ini { '/etc/php.ini':
-     error_reporting            => "$php_error_reporting",
-     memory_limit               => "$php_memory_limit",
+     error_reporting            => "${php_error_reporting}",
+     memory_limit               => "${php_memory_limit}",
      date_timezone              => 'Europe/Berlin',
      max_execution_time         => $php_max_execution_time,
      allow_url_fopen            => 'On',
@@ -479,15 +479,15 @@ $php_fpm_manage_phpmyadmin_user=true,
 
   if ($::sugarcrmstack_ng::sugar_version == '8.0'){
     php::fpm::conf { 'www':
-        package_name => "$php_pkg_prefix-fpm",
+        package_name => "${php_pkg_prefix-fpm}",
         listen  => '127.0.0.1:9001',
         user    => 'apache',
         pm_status_path => '/fpm-status',
         ping_path    => '/fpm-ping',
         #
         php_value => {
-          error_reporting            => "$php_error_reporting",
-          memory_limit               => "$php_memory_limit",
+          error_reporting            => "${php_error_reporting}",
+          memory_limit               => "${php_memory_limit}",
           date_timezone              => 'Europe/Berlin',
           max_execution_time         => $php_max_execution_time,
           allow_url_fopen            => 'On',
@@ -539,7 +539,7 @@ $php_fpm_manage_phpmyadmin_user=true,
         pm_status_path => '/fpm-status',
         ping_path    => '/fpm-ping',
         php_admin_value => {
- 	        'session.save_handler' => $php_session_save_handler,
+          'session.save_handler' => $php_session_save_handler,
           'session.save_path'    => $php_session_phpmyadmin_save_path_final,
         },
     }~>File['/var/log/php-fpm']

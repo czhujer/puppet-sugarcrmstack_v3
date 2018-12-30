@@ -25,6 +25,6 @@ class sugarcrmstack (
     }
   }
 
-  notice "This class does nothing.. Use sugarcrmstack_ng or call sub-classes directly..."
+  notice 'This class does nothing.. Use sugarcrmstack_ng or call sub-classes directly...'
 
 }
