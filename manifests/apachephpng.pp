@@ -166,79 +166,71 @@ $php_fpm_manage_phpmyadmin_user=true,
       provider       => 'directory',
       require        => 'all granted',
       allow_override => ['all'],
-      options        => ['all']
+      options        => ['all'],
     }
 
-    $directories_sugarcrm_ssl2 =
-       {
-         path             => '/var/www/html',
-         provider         => 'directory',
-         require          => 'all granted',
-         allow_override   => ['all'],
-         options          => ['all']
-      }
-
+    $directories_sugarcrm_ssl2 = {
+      path           => '/var/www/html',
+      provider       => 'directory',
+      require        => 'all granted',
+      allow_override => ['all'],
+      options        => ['all'],
+    }
 
     if($manage_phpmyadmin_config){
       $aliases_phpmyadmin1 = {
-          alias            => '/phpMyAdmin',
-          path             => '/usr/share/phpMyAdmin'
-        }
+        alias => '/phpMyAdmin',
+        path  => '/usr/share/phpMyAdmin'
+      }
       $aliases_phpmyadmin2 = {
-          alias            => '/phpmyadmin',
-          path             => '/usr/share/phpMyAdmin'
-        }
+        alias => '/phpmyadmin',
+        path  => '/usr/share/phpMyAdmin'
+      }
 
       $aliases_phpmyadmin = [$aliases_phpmyadmin1, $aliases_phpmyadmin2]
 
-      $directories_phpmyadmin1 =
-        {
-          path             => '/usr/share/phpMyAdmin/',
-          provider         => 'directory',
-          require          => 'all granted',
-          adddefaultcharset => 'UTF-8',
-        }
+      $directories_phpmyadmin1 = {
+        path              => '/usr/share/phpMyAdmin/',
+        provider          => 'directory',
+        require           => 'all granted',
+        adddefaultcharset => 'UTF-8',
+      }
 
-      $directories_phpmyadmin2 =
-        {
-          path             => '/usr/share/phpMyAdmin/setup/',
-          provider         => 'directory',
-          require          => 'all denied',
-        }
+      $directories_phpmyadmin2 = {
+        path     => '/usr/share/phpMyAdmin/setup/',
+        provider => 'directory',
+        require  => 'all denied',
+      }
 
-      $directories_phpmyadmin3 =
-        {
-          path             => '/usr/share/phpMyAdmin/libraries/',
-          provider         => 'directory',
-          require          => 'all denied',
-        }
+      $directories_phpmyadmin3 = {
+        path     => '/usr/share/phpMyAdmin/libraries/',
+        provider => 'directory',
+        require  => 'all denied',
+      }
 
-      $directories_phpmyadmin4 =
-        {
-          path             => '/usr/share/phpMyAdmin/setup/lib/',
-          provider         => 'directory',
-          require          => 'all denied',
-        }
+      $directories_phpmyadmin4 = {
+        path     => '/usr/share/phpMyAdmin/setup/lib/',
+        provider => 'directory',
+        require  => 'all denied',
+      }
 
-      $directories_phpmyadmin5 =
-        {
-          path             => '/usr/share/phpMyAdmin/.git',
-          provider         => 'directory',
-          require          => 'all denied',
-        }
+      $directories_phpmyadmin5 = {
+        path     => '/usr/share/phpMyAdmin/.git',
+        provider => 'directory',
+        require  => 'all denied',
+      }
 
-      $directories_phpmyadmin6 =
-        {
-          path             => '/usr/share/phpMyAdmin/setup/frames/',
-          provider         => 'directory',
-          require          => 'all denied',
-        }
+      $directories_phpmyadmin6 = {
+        path     => '/usr/share/phpMyAdmin/setup/frames/',
+        provider => 'directory',
+        require  => 'all denied',
+      }
 
       $directories_all = [ $directories_sugarcrm_ssl1, $directories_sugarcrm_ssl2,
                                     $directories_phpmyadmin1, $directories_phpmyadmin2,
                                     $directories_phpmyadmin3, $directories_phpmyadmin4,
                                     $directories_phpmyadmin5, $directories_phpmyadmin6,
-                         ]
+      ]
     }
     else{
       $aliases_phpmyadmin = []
