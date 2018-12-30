@@ -1,10 +1,10 @@
 
 class sugarcrmstack::mysqlserver (
-$mysql_server_enable="1",
+$mysql_server_enable='1',
 $mysql_server_service_manage=true,
 $mysql_server_service_enabled=true,
 $mysql_server_service_restart=true,
-$mysql_server_config_max_connections="1024",
+$mysql_server_config_max_connections='1024',
 $mysql_server_use_pxc=false,
 #
 $sugar_version=$sugarcrmstack::sugar_version,
@@ -22,15 +22,15 @@ $mysql_root_password=$sugarcrmstack::mysql_root_password,
     #variables check
   if (defined(Class['sugarcrmstack']) and $sugar_version == undef) {
     warning "Missing variable \"$sugar_version\""
-    fail("exiting...")
+    fail('exiting...')
   }
   elsif (defined(Class['sugarcrmstack_ng']) and $sugarcrmstack_ng::sugar_version == undef) {
     warning "Missing variable \"sugarcrmstack_ng::sugar_version\""
-    fail("exiting...")
+    fail('exiting...')
   }
 
   if ($galeracluster_galeracluster_enable == 1){
-    notice "Using galeracluster..."
+    notice 'Using galeracluster...'
   }
   elsif str2bool($mysql_server_enable){
 
@@ -46,32 +46,30 @@ $mysql_root_password=$sugarcrmstack::mysql_root_password,
 
     if($sugar_version == '7.2'){
 
-      #mysql libs
-
       exec { 'mysql-libs old':
-            command => "/usr/bin/yum -y -d 0 erase mysql-libs-5.1.73-3.el6_5.x86_64",
-            path => "/usr/local/bin/:/bin/",
-            onlyif => "rpm -q mysql-libs-5.1.73-3.el6_5.x86_64",
-            before => Package[$sugarcrmstack::packages::packages_system_utils],
+        command => '/usr/bin/yum -y -d 0 erase mysql-libs-5.1.73-3.el6_5.x86_64',
+        path    => '/usr/local/bin/:/bin/',
+        onlyif  => 'rpm -q mysql-libs-5.1.73-3.el6_5.x86_64',
+        before  => Package[$sugarcrmstack::packages::packages_system_utils],
       }
 
       exec { 'mysql-libs old2':
-            command => "/usr/bin/yum -y -d 0 erase mysql-libs-5.1.71-1.centos6.x86_64",
-            path => "/usr/local/bin/:/bin/",
-            onlyif => "rpm -q mysql-libs-5.1.71-1.centos6.x86_64",
-            before => Package[$sugarcrmstack::packages::packages_system_utils],
+        command => '/usr/bin/yum -y -d 0 erase mysql-libs-5.1.71-1.centos6.x86_64',
+        path    => '/usr/local/bin/:/bin/',
+        onlyif  => 'rpm -q mysql-libs-5.1.71-1.centos6.x86_64',
+        before  => Package[$sugarcrmstack::packages::packages_system_utils],
       }
 
       package { 'mysql55-libs':
-        ensure => "5.5.44-2.ius.centos6",
+        ensure  => '5.5.44-2.ius.centos6',
         require => [
                 Ini_setting['webtatic-archive repo exclude packages'],
                 Ini_setting['remi repo exclude packages'],
                 Ini_setting['centos base repo exclude packages 2'],
                 Ini_setting['centos base repo exclude packages'],
-                Exec["mysql-libs old"],
-                Exec["mysql-libs old2"],
-            ]
+                Exec['mysql-libs old'],
+                Exec['mysql-libs old2'],
+        ]
       }
 
       $mysql_server_service_name = 'mysqld'
@@ -83,7 +81,7 @@ $mysql_root_password=$sugarcrmstack::mysql_root_password,
     elsif($sugar_version == '7.5') and ($mysql_server_use_pxc == false){
 
       # set variables
-      $mysql_server_packages_old = ["mysql55", "mysql55-libs", "mysql55-server"]
+      $mysql_server_packages_old = ['mysql55', 'mysql55-libs', 'mysql55-server']
 
       $mysql_server_service_name = 'mysqld'
       $mysql_server_package_name = 'mysql-community-server'
@@ -126,9 +124,9 @@ $mysql_root_password=$sugarcrmstack::mysql_root_password,
 
         # remove old packages
         package { $mysql_server_packages_old:
-          ensure => "absent",
-          provider => "yum",
-          require => [
+          ensure   => 'absent',
+          provider => 'yum',
+          require  => [
                      Package['webtatic-release'],
                      Ini_setting['remi repo exclude packages'],
                      Ini_setting['centos base repo exclude packages 2'],
@@ -140,13 +138,13 @@ $mysql_root_password=$sugarcrmstack::mysql_root_password,
     }
     elsif ($sugar_version == '7.5') and ($mysql_server_use_pxc == true){
 
-      $mysql_server_packages_old = ["mysql55", "mysql55-libs", "mysql55-server", "mysql-community-server", "mysql-community-client" ]
+      $mysql_server_packages_old = ['mysql55', 'mysql55-libs', 'mysql55-server', 'mysql-community-server', 'mysql-community-client' ]
 
       if !defined(Class['sugarcrmstack_ng::install']){
-        package { "percona-release":
+        package { 'percona-release':
           provider => rpm,
           ensure   => installed,
-          source   => "https://www.percona.com/redir/downloads/percona-release/redhat/0.1-4/percona-release-0.1-4.noarch.rpm",
+          source   => 'https://www.percona.com/redir/downloads/percona-release/redhat/0.1-4/percona-release-0.1-4.noarch.rpm',
         }
       }
 
@@ -206,7 +204,7 @@ $mysql_root_password=$sugarcrmstack::mysql_root_password,
     elsif ($sugar_version == '7.9') and ($mysql_server_use_pxc == false){
 
       # set variables
-      $mysql_server_packages_old = ["mysql55", "mysql55-libs", "mysql55-server"]
+      $mysql_server_packages_old = ['mysql55', 'mysql55-libs', 'mysql55-server']
 
       $mysql_server_service_name = 'mysqld'
       $mysql_server_package_name = 'mysql-community-server'
@@ -249,9 +247,9 @@ $mysql_root_password=$sugarcrmstack::mysql_root_password,
 
         #remove old packages
         package { $mysql_server_packages_old:
-          ensure => "absent",
-          provider => "yum",
-          require => [
+          ensure   => 'absent',
+          provider => 'yum',
+          require  => [
                      Package['webtatic-release'],
                      Ini_setting['remi repo exclude packages'],
                      Ini_setting['centos base repo exclude packages 2'],
@@ -265,15 +263,15 @@ $mysql_root_password=$sugarcrmstack::mysql_root_password,
 
       # add percona repo
       if !defined(Class['sugarcrmstack_ng::install']){
-        package { "percona-release":
+        package { 'percona-release':
           provider => rpm,
           ensure   => installed,
-          source   => "https://www.percona.com/redir/downloads/percona-release/redhat/0.1-4/percona-release-0.1-4.noarch.rpm",
+          source   => 'https://www.percona.com/redir/downloads/percona-release/redhat/0.1-4/percona-release-0.1-4.noarch.rpm',
         }
       }
 
       # set variables
-      $mysql_server_packages_old = ["mysql55", "mysql55-libs", "mysql55-server", "mysql-community-server", "mysql-community-client" ]
+      $mysql_server_packages_old = ['mysql55', 'mysql55-libs', 'mysql55-server', 'mysql-community-server', 'mysql-community-client' ]
 
       $mysql_server_service_name = 'mysql'
       $mysql_server_package_name = 'Percona-XtraDB-Cluster-server-57'
@@ -360,7 +358,7 @@ $mysql_root_password=$sugarcrmstack::mysql_root_password,
     }
     else{
       warning "I can't run with sugarcrm version $sugar_version / $sugarcrmstack_ng::sugar_version"
-      fail("exiting...")
+      fail('exiting...')
     }
 
     $mysql_override_options_final = deep_merge($mysql_override_options, $mysql_override_options_profile)
@@ -401,34 +399,33 @@ $mysql_root_password=$sugarcrmstack::mysql_root_password,
     class { '::mysql::server':
       root_password    => $mysql_root_password,
       override_options => $mysql_override_options_final,
-      users => $mysql_users,
-      grants => $mysql_grants,
-      package_name => $mysql_server_package_name,
-      package_ensure => $mysql_server_package_ensure,
-      service_manage => $mysql_server_service_manage,
-      service_enabled => $mysql_server_service_enabled,
-      service_name    => $mysql_server_service_name,
-      restart  => $mysql_server_service_restart,
-      require => $mysql_server_require,
-
-    } #end of class mysql
+      users            => $mysql_users,
+      grants           => $mysql_grants,
+      package_name     => $mysql_server_package_name,
+      package_ensure   => $mysql_server_package_ensure,
+      service_manage   => $mysql_server_service_manage,
+      service_enabled  => $mysql_server_service_enabled,
+      service_name     => $mysql_server_service_name,
+      restart          => $mysql_server_service_restart,
+      require          => $mysql_server_require,
+    }
 
     # slow query log
-    file { "mysql-server slow query log":
+    file { 'mysql-server slow query log':
       ensure  => present,
-      path    => "/var/log/mysql-slow.log",
+      path    => '/var/log/mysql-slow.log',
       owner   => 'mysql',
       group   => 'mysql',
       mode    => '0640',
-      notify => Service["mysqld"],
-      #require => Package["$mysql_server_package_name"],
+      notify  => Service['mysqld'],
+      #require => Package['$mysql_server_package_name'],
       require => Class['::mysql::server::install'],
     }
 
     # logrotate for mysql slow-query log
-    file { "mysql-server slow query log logrotate":
+    file { 'mysql-server slow query log logrotate':
       ensure  => present,
-      path    => "/etc/logrotate.d/mysql-slow",
+      path    => '/etc/logrotate.d/mysql-slow',
       content => template('sugarcrmstack/logrotate.conf.mysql-slow.erb'),
       owner   => 'root',
       group   => 'root',
@@ -437,7 +434,7 @@ $mysql_root_password=$sugarcrmstack::mysql_root_password,
 
   } #end of if str2bool($mysql_server_enable)
   else{
-    warning "Mysqlserver is disable"
+    warning 'Mysqlserver is disable'
   }
 
 } #end of class
