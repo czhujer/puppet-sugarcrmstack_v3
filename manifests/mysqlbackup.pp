@@ -25,12 +25,12 @@ class sugarcrmstack::mysqlbackup(
 
   file { $automyqslbackup_backup_dir:
 	  ensure => 'directory',
-    mode   => '0755',
+    mode  => '0755',
   }
 
   file { 'automyqslbackup main file':
-	  ensure  => file,
-	  path    => '/usr/local/bin/automysqlbackup',
+	  ensure   => file,
+	  path     => '/usr/local/bin/automysqlbackup',
     source  => 'puppet:///modules/sugarcrmstack/automysqlbackup/automysqlbackup',
     recurse => true,
     mode    => '0755',
