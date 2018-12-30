@@ -686,12 +686,12 @@ $php_fpm_manage_phpmyadmin_user=true,
   if($xdebug_module_manage){
 
     php::module { "${php_pkg_prefix}-pecl-xdebug":
-       ensure  => $xdebug_module_ensure,
-       require => [
-                 #Class['php::mod_php5'],
-                 Class['php::common'],
-                ],
-       notify  => Service['httpd'],
+      ensure  => $xdebug_module_ensure,
+      require => [
+        #Class['php::mod_php5'],
+        Class['php::common'],
+      ],
+      notify  => Service['httpd'],
     }
 
     php::module::ini { 'pecl-xdebug':
@@ -733,24 +733,24 @@ $php_fpm_manage_phpmyadmin_user=true,
   }
   else{
 
-   apache::vhost { 'sugarcrm':
-    serveraliases    => '*',
-    port             => $apache_http_port,
-    docroot          => '/var/www/html/sugarcrm',
-    docroot_group    => 'apache',
-    docroot_owner    => 'apache',
-    docroot_mode     => '755',
-    #
-    error_log_file   => 'error_log',
-    access_log_file  => 'access_log',
-    #
-    custom_fragment  => $apache_main_vhost_custom_fragment,
-    #
-    proxy_pass_match => $proxy_pass_match,
-    #
-    directories      => $directories_all,
-    aliases          => $aliases_phpmyadmin,
-   }
+    apache::vhost { 'sugarcrm':
+      serveraliases    => '*',
+      port             => $apache_http_port,
+      docroot          => '/var/www/html/sugarcrm',
+      docroot_group    => 'apache',
+      docroot_owner    => 'apache',
+      docroot_mode     => '755',
+      #
+      error_log_file   => 'error_log',
+      access_log_file  => 'access_log',
+      #
+      custom_fragment  => $apache_main_vhost_custom_fragment,
+      #
+      proxy_pass_match => $proxy_pass_match,
+      #
+      directories      => $directories_all,
+      aliases          => $aliases_phpmyadmin,
+    }
 
   }
 
