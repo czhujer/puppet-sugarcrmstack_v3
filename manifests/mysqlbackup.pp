@@ -3,21 +3,21 @@
 #
 
 class sugarcrmstack::mysqlbackup(
-$mysqlbackup_login_user = 'automysqlbackup',
-$mysqlbackup_login_password = '',
-$mysqlbackup_host='localhost',
-$mysqlbackup_backup_dir = '/var/backup/db',
-$mysqlbackup_email = 'infrastruktura-logy@sugarfactory.cz',
-$mysqlbackup_usessl = 'no',
-$mysqlbackup_rotation_daily = 6,
-$mysqlbackup_rotation_weekly = 6,
-$mysqlbackup_rotation_monthly = 28,
-$mysqlbackup_enable_cron_job = true,
+  $mysqlbackup_login_user = 'automysqlbackup',
+  $mysqlbackup_login_password = '',
+  $mysqlbackup_host='localhost',
+  $mysqlbackup_backup_dir = '/var/backup/db',
+  $mysqlbackup_email = 'infrastruktura-logy@sugarfactory.cz',
+  $mysqlbackup_usessl = 'no',
+  $mysqlbackup_rotation_daily = 6,
+  $mysqlbackup_rotation_weekly = 6,
+  $mysqlbackup_rotation_monthly = 28,
+  $mysqlbackup_enable_cron_job = true,
 ){
 
   file { 'automyqslbackup config dir':
     ensure => 'directory',
-	  path   => '/etc/automysqlbackup',
+    path   => '/etc/automysqlbackup',
     mode   => '0755',
   }
 
@@ -29,7 +29,7 @@ $mysqlbackup_enable_cron_job = true,
   }
 
   file { 'automyqslbackup main file':
-	  ensure  => present,
+	  ensure  => file,
 	  path    => '/usr/local/bin/automysqlbackup',
     source  => 'puppet:///modules/sugarcrmstack/automysqlbackup/automysqlbackup',
     recurse => true,
@@ -37,7 +37,7 @@ $mysqlbackup_enable_cron_job = true,
   }
 
   file { 'automysqlbackup config file':
-	  ensure  => present,
+	  ensure  => file,
 	  path    => '/etc/automysqlbackup/localhost.conf',
 	  content => template('sugarcrmstack/automysqlbackup-conf.erb'),
 	  owner   => 'root',
@@ -55,7 +55,7 @@ $mysqlbackup_enable_cron_job = true,
   if($mysqlbackup_enable_cron_job){
 
     file { '/etc/cron.daily/automysqlbackup':
-      ensure  => 'link',
+      ensure => 'link',
 	    target  => '/usr/local/bin/automysqlbackup',
 	    notify  => Service['cron'],
 	    require => File['automyqslbackup main file'],
@@ -63,7 +63,7 @@ $mysqlbackup_enable_cron_job = true,
   }
   else{
     file { '/etc/cron.daily/automysqlbackup':
-      ensure  => absent,
+      ensure => absent,
 	    notify  => Service['cron'],
 	    require => File['automyqslbackup main file'],
     }
