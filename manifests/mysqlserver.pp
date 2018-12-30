@@ -21,7 +21,7 @@ $mysql_root_password=$sugarcrmstack::mysql_root_password,
   #variables check
     #variables check
   if (defined(Class['sugarcrmstack']) and $sugar_version == undef) {
-    warning "Missing variable \"$sugar_version\""
+    warning "Missing variable \"sugar_version\""
     fail('exiting...')
   }
   elsif (defined(Class['sugarcrmstack_ng']) and $sugarcrmstack_ng::sugar_version == undef) {
@@ -357,7 +357,7 @@ $mysql_root_password=$sugarcrmstack::mysql_root_password,
       $mysql_server_require = []
     }
     else{
-      warning "I can't run with sugarcrm version $sugar_version / $sugarcrmstack_ng::sugar_version"
+      warning "I can't run with sugarcrm version ${sugar_version} / ${sugarcrmstack_ng::sugar_version}"
       fail('exiting...')
     }
 
