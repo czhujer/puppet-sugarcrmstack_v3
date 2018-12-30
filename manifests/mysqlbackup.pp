@@ -24,23 +24,23 @@ class sugarcrmstack::mysqlbackup(
   $automyqslbackup_backup_dir = ['/var/backup', '/var/backup/db']
 
   file { $automyqslbackup_backup_dir:
-	  ensure => 'directory',
-    mode  => '0755',
+    ensure => 'directory',
+    mode   => '0755',
   }
 
   file { 'automyqslbackup main file':
-	  ensure   => file,
-	  path     => '/usr/local/bin/automysqlbackup',
+    ensure  => file,
+    path    => '/usr/local/bin/automysqlbackup',
     source  => 'puppet:///modules/sugarcrmstack/automysqlbackup/automysqlbackup',
     recurse => true,
     mode    => '0755',
   }
 
   file { 'automysqlbackup config file':
-	  ensure   => file,
-	  path     => '/etc/automysqlbackup/localhost.conf',
-	  content  => template('sugarcrmstack/automysqlbackup-conf.erb'),
-	  owner    => 'root',
+    ensure  => file,
+    path    => '/etc/automysqlbackup/localhost.conf',
+    content => template('sugarcrmstack/automysqlbackup-conf.erb'),
+    owner   => 'root',
     group   => 'root',
     mode    => '0644',
     require => File['automyqslbackup config dir'],
@@ -56,16 +56,16 @@ class sugarcrmstack::mysqlbackup(
 
     file { '/etc/cron.daily/automysqlbackup':
       ensure => 'link',
-	    target  => '/usr/local/bin/automysqlbackup',
-	    notify  => Service['cron'],
-	    require => File['automyqslbackup main file'],
+      target  => '/usr/local/bin/automysqlbackup',
+      notify  => Service['cron'],
+      require => File['automyqslbackup main file'],
     }
   }
   else{
     file { '/etc/cron.daily/automysqlbackup':
       ensure => absent,
-	    notify  => Service['cron'],
-	    require => File['automyqslbackup main file'],
+      notify  => Service['cron'],
+      require => File['automyqslbackup main file'],
     }
   }
 }
