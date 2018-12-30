@@ -166,79 +166,71 @@ $php_fpm_manage_phpmyadmin_user=true,
       provider       => 'directory',
       require        => 'all granted',
       allow_override => ['all'],
-      options        => ['all']
+      options        => ['all'],
     }
 
-    $directories_sugarcrm_ssl2 =
-       {
-         path             => '/var/www/html',
-         provider         => 'directory',
-         require          => 'all granted',
-         allow_override   => ['all'],
-         options          => ['all']
-      }
-
+    $directories_sugarcrm_ssl2 = {
+      path           => '/var/www/html',
+      provider       => 'directory',
+      require        => 'all granted',
+      allow_override => ['all'],
+      options        => ['all'],
+    }
 
     if($manage_phpmyadmin_config){
       $aliases_phpmyadmin1 = {
-          alias            => '/phpMyAdmin',
-          path             => '/usr/share/phpMyAdmin'
-        }
+        alias => '/phpMyAdmin',
+        path  => '/usr/share/phpMyAdmin',
+      }
       $aliases_phpmyadmin2 = {
-          alias            => '/phpmyadmin',
-          path             => '/usr/share/phpMyAdmin'
-        }
+        alias => '/phpmyadmin',
+        path  => '/usr/share/phpMyAdmin',
+      }
 
       $aliases_phpmyadmin = [$aliases_phpmyadmin1, $aliases_phpmyadmin2]
 
-      $directories_phpmyadmin1 =
-        {
-          path             => '/usr/share/phpMyAdmin/',
-          provider         => 'directory',
-          require          => 'all granted',
-          adddefaultcharset => 'UTF-8',
-        }
+      $directories_phpmyadmin1 = {
+        path              => '/usr/share/phpMyAdmin/',
+        provider          => 'directory',
+        require           => 'all granted',
+        adddefaultcharset => 'UTF-8',
+      }
 
-      $directories_phpmyadmin2 =
-        {
-          path             => '/usr/share/phpMyAdmin/setup/',
-          provider         => 'directory',
-          require          => 'all denied',
-        }
+      $directories_phpmyadmin2 = {
+        path     => '/usr/share/phpMyAdmin/setup/',
+        provider => 'directory',
+        require  => 'all denied',
+      }
 
-      $directories_phpmyadmin3 =
-        {
-          path             => '/usr/share/phpMyAdmin/libraries/',
-          provider         => 'directory',
-          require          => 'all denied',
-        }
+      $directories_phpmyadmin3 = {
+        path     => '/usr/share/phpMyAdmin/libraries/',
+        provider => 'directory',
+        require  => 'all denied',
+      }
 
-      $directories_phpmyadmin4 =
-        {
-          path             => '/usr/share/phpMyAdmin/setup/lib/',
-          provider         => 'directory',
-          require          => 'all denied',
-        }
+      $directories_phpmyadmin4 = {
+        path     => '/usr/share/phpMyAdmin/setup/lib/',
+        provider => 'directory',
+        require  => 'all denied',
+      }
 
-      $directories_phpmyadmin5 =
-        {
-          path             => '/usr/share/phpMyAdmin/.git',
-          provider         => 'directory',
-          require          => 'all denied',
-        }
+      $directories_phpmyadmin5 = {
+        path     => '/usr/share/phpMyAdmin/.git',
+        provider => 'directory',
+        require  => 'all denied',
+      }
 
-      $directories_phpmyadmin6 =
-        {
-          path             => '/usr/share/phpMyAdmin/setup/frames/',
-          provider         => 'directory',
-          require          => 'all denied',
-        }
+      $directories_phpmyadmin6 = {
+        path     => '/usr/share/phpMyAdmin/setup/frames/',
+        provider => 'directory',
+        require  => 'all denied',
+      }
 
       $directories_all = [ $directories_sugarcrm_ssl1, $directories_sugarcrm_ssl2,
                                     $directories_phpmyadmin1, $directories_phpmyadmin2,
                                     $directories_phpmyadmin3, $directories_phpmyadmin4,
                                     $directories_phpmyadmin5, $directories_phpmyadmin6,
-                         ]
+      ]
     }
     else{
       $aliases_phpmyadmin = []
@@ -247,98 +239,89 @@ $php_fpm_manage_phpmyadmin_user=true,
 
   }
   else{
-    $directories_sugarcrm_ssl1 =
-      {
-         path             => '/var/www/html/sugarcrm',
-         provider         => 'directory',
-         order            => 'Allow,Deny',
-         'allow'          => 'from all',
-         allow_override   => ['all'],
-         options          => ['all']
-       }
+    $directories_sugarcrm_ssl1 = {
+      path           => '/var/www/html/sugarcrm',
+      provider       => 'directory',
+      order          => 'Allow,Deny',
+      'allow'        => 'from all',
+      allow_override => ['all'],
+      options        => ['all'],
+    }
 
-    $directories_sugarcrm_ssl2 =
-       {
-         path             => '/var/www/html',
-         provider         => 'directory',
-         order            => 'Allow,Deny',
-         'allow'          => 'from all',
-         allow_override   => ['all'],
-         options          => ['all']
-      }
-
+    $directories_sugarcrm_ssl2 = {
+      path           => '/var/www/html',
+      provider       => 'directory',
+      order          => 'Allow,Deny',
+      'allow'        => 'from all',
+      allow_override => ['all'],
+      options        => ['all'],
+    }
 
     if($manage_phpmyadmin_config){
       $aliases_phpmyadmin1 = {
-          alias            => '/phpMyAdmin',
-          path             => '/usr/share/phpMyAdmin'
-        }
+        alias => '/phpMyAdmin',
+        path  => '/usr/share/phpMyAdmin',
+      }
       $aliases_phpmyadmin2 = {
-          alias            => '/phpmyadmin',
-          path             => '/usr/share/phpMyAdmin'
-        }
+        alias => '/phpmyadmin',
+        path  => '/usr/share/phpMyAdmin',
+      }
 
       $aliases_phpmyadmin = [$aliases_phpmyadmin1, $aliases_phpmyadmin2]
 
-      $directories_phpmyadmin1 =
-        {
-          path             => '/usr/share/phpMyAdmin/',
-          provider         => 'directory',
-          order            => 'Allow,Deny',
-          'allow'          => 'from all',
-          adddefaultcharset => 'UTF-8',
-        }
+      $directories_phpmyadmin1 = {
+        path              => '/usr/share/phpMyAdmin/',
+        provider          => 'directory',
+        order             => 'Allow,Deny',
+        'allow'           => 'from all',
+        adddefaultcharset => 'UTF-8',
+      }
 
-      $directories_phpmyadmin2 =
-        {
-          path             => '/usr/share/phpMyAdmin/setup/',
-          provider         => 'directory',
-          order            => 'Deny,Allow',
-          'deny'          => 'from All',
-          'allow'          => 'from None',
-        }
+      $directories_phpmyadmin2 = {
+        path     => '/usr/share/phpMyAdmin/setup/',
+        provider => 'directory',
+        order    => 'Deny,Allow',
+        'deny'   => 'from All',
+        'allow'  => 'from None',
+      }
 
-      $directories_phpmyadmin3 =
-        {
-          path             => '/usr/share/phpMyAdmin/libraries/',
-          provider         => 'directory',
-          order            => 'Deny,Allow',
-          'deny'           => 'from All',
-          'allow'          => 'from None',
-        }
+      $directories_phpmyadmin3 = {
+        path     => '/usr/share/phpMyAdmin/libraries/',
+        provider => 'directory',
+        order    => 'Deny,Allow',
+        'deny'   => 'from All',
+        'allow'  => 'from None',
+      }
 
-      $directories_phpmyadmin4 =
-        {
-          path             => '/usr/share/phpMyAdmin/setup/lib/',
-          provider         => 'directory',
-          order            => 'Deny,Allow',
-          'deny'           => 'from All',
-          'allow'          => 'from None',
-        }
+      $directories_phpmyadmin4 = {
+        path     => '/usr/share/phpMyAdmin/setup/lib/',
+        provider => 'directory',
+        order    => 'Deny,Allow',
+        'deny'   => 'from All',
+        'allow'  => 'from None',
+      }
 
-      $directories_phpmyadmin5 =
-        {
-          path             => '/usr/share/phpMyAdmin/.git',
-          provider         => 'directory',
-          order            => 'Deny,Allow',
-          'deny'           => 'from All',
-          'allow'          => 'from None',
-        }
+      $directories_phpmyadmin5 = {
+        path     => '/usr/share/phpMyAdmin/.git',
+        provider => 'directory',
+        order    => 'Deny,Allow',
+        'deny'   => 'from All',
+        'allow'  => 'from None',
+      }
 
-      $directories_phpmyadmin6 =
-        {
-          path             => '/usr/share/phpMyAdmin/setup/frames/',
-          provider         => 'directory',
-          order            => 'Deny,Allow',
-          'deny'           => 'from All',
-          'allow'          => 'from None',
-        }
+      $directories_phpmyadmin6 = {
+        path     => '/usr/share/phpMyAdmin/setup/frames/',
+        provider => 'directory',
+        order    => 'Deny,Allow',
+        'deny'   => 'from All',
+        'allow'  => 'from None',
+      }
 
       $directories_all = [ $directories_sugarcrm_ssl1, $directories_sugarcrm_ssl2,
                                     $directories_phpmyadmin1, $directories_phpmyadmin2,
                                     $directories_phpmyadmin3, $directories_phpmyadmin4,
                                     $directories_phpmyadmin5, $directories_phpmyadmin6,
-                         ]
+      ]
     }
     else{
       $aliases_phpmyadmin = []
@@ -443,59 +426,59 @@ $php_fpm_manage_phpmyadmin_user=true,
   }
 
   php::ini { '/etc/php.ini':
-     error_reporting        => $php_error_reporting,
-     memory_limit           => $php_memory_limit,
-     date_timezone          => 'Europe/Berlin',
-     max_execution_time     => $php_max_execution_time,
-     allow_url_fopen        => 'On',
-     upload_max_filesize    => $php_upload_max_filesize,
-     post_max_size          => $php_post_max_size,
-     session_gc_maxlifetime => $php_session_gc_maxlifetime,
-     session_save_handler   => $php_session_save_handler,
-     session_save_path      => $php_session_save_path,
+    error_reporting        => $php_error_reporting,
+    memory_limit           => $php_memory_limit,
+    date_timezone          => 'Europe/Berlin',
+    max_execution_time     => $php_max_execution_time,
+    allow_url_fopen        => 'On',
+    upload_max_filesize    => $php_upload_max_filesize,
+    post_max_size          => $php_post_max_size,
+    session_gc_maxlifetime => $php_session_gc_maxlifetime,
+    session_save_handler   => $php_session_save_handler,
+    session_save_path      => $php_session_save_path,
   }
 
   $php_modules = [ "${php_pkg_prefix}-mcrypt",
-                   "${php_pkg_prefix}-imap",
-                   "${php_pkg_prefix}-soap",
-                   'php-php-gettext',
-                   'php-tcpdf',
-                   'php-tcpdf-dejavu-sans-fonts',
+    "${php_pkg_prefix}-imap",
+    "${php_pkg_prefix}-soap",
+    'php-php-gettext',
+    'php-tcpdf',
+    'php-tcpdf-dejavu-sans-fonts',
 #                   "${php_pkg_prefix}-opcache",
 #                   "${php_pkg_prefix}-memcache",
-                   $php_pkg_mysql,
-                   "${php_pkg_prefix}-pecl-redis",
+    $php_pkg_mysql,
+    "${php_pkg_prefix}-pecl-redis",
 #                   "${php_pkg_prefix}-pecl-apcu",
 #                   "${php_pkg_prefix}-pecl-xdebug",
-                  ]
+  ]
 
   php::module { $php_modules:
-     require => [
-                 #Class['php::mod_php5'],
-                 Class['php::common'],
-                ],
+    require => [
+      #Class['php::mod_php5'],
+      Class['php::common'],
+    ],
   }
 
   if ($::sugarcrmstack_ng::sugar_version == '8.0' or $sugarcrmstack::sugar_version == '8.0'){
     php::fpm::conf { 'www':
-        package_name   => "${php_pkg_prefix}-fpm",
-        listen         => '127.0.0.1:9001',
-        user           => 'apache',
-        pm_status_path => '/fpm-status',
-        ping_path      => '/fpm-ping',
-        #
-        php_value      => {
-          error_reporting        => $php_error_reporting,
-          memory_limit           => $php_memory_limit,
-          date_timezone          => 'Europe/Berlin',
-          max_execution_time     => $php_max_execution_time,
-          allow_url_fopen        => 'On',
-          upload_max_filesize    => $php_upload_max_filesize,
-          post_max_size          => $php_post_max_size,
-          session_gc_maxlifetime => $php_session_gc_maxlifetime,
-          session_save_handler   => $php_session_save_handler,
-          session_save_path      => $php_session_save_path,
-        },
+      package_name   => "${php_pkg_prefix}-fpm",
+      listen         => '127.0.0.1:9001',
+      user           => 'apache',
+      pm_status_path => '/fpm-status',
+      ping_path      => '/fpm-ping',
+      #
+      php_value      => {
+        error_reporting        => $php_error_reporting,
+        memory_limit           => $php_memory_limit,
+        date_timezone          => 'Europe/Berlin',
+        max_execution_time     => $php_max_execution_time,
+        allow_url_fopen        => 'On',
+        upload_max_filesize    => $php_upload_max_filesize,
+        post_max_size          => $php_post_max_size,
+        session_gc_maxlifetime => $php_session_gc_maxlifetime,
+        session_save_handler   => $php_session_save_handler,
+        session_save_path      => $php_session_save_path,
+      },
     }~>File['/var/log/php-fpm']
 
     if($manage_phpmyadmin_files == true){
@@ -506,11 +489,11 @@ $php_fpm_manage_phpmyadmin_user=true,
     }
 
     file { '/var/lib/php/session-phpmyadmin':
-        ensure  => 'directory',
-        mode    => '0750',
-        owner   => 'phpmyadmin',
-        group   => 'phpmyadmin',
-        require => $require_session_phpmyadmin,
+      ensure  => 'directory',
+      mode    => '0750',
+      owner   => 'phpmyadmin',
+      group   => 'phpmyadmin',
+      require => $require_session_phpmyadmin,
     }
 
     file { '/var/log/php-fpm/phpmyadmin-error.log':
@@ -532,45 +515,42 @@ $php_fpm_manage_phpmyadmin_user=true,
     }
 
     php::fpm::conf { 'phpmyadmin':
-        package_name    => "${php_pkg_prefix}-fpm",
-        listen          => '127.0.0.1:9002',
-        user            => 'phpmyadmin',
-        pm_status_path  => '/fpm-status',
-        ping_path       => '/fpm-ping',
-        php_admin_value => {
-          'session.save_handler' => $php_session_save_handler,
-          'session.save_path'    => $php_session_phpmyadmin_save_path_final,
-        },
+      package_name    => "${php_pkg_prefix}-fpm",
+      listen          => '127.0.0.1:9002',
+      user            => 'phpmyadmin',
+      pm_status_path  => '/fpm-status',
+      ping_path       => '/fpm-ping',
+      php_admin_value => {
+        'session.save_handler' => $php_session_save_handler,
+        'session.save_path'    => $php_session_phpmyadmin_save_path_final,
+      },
     }~>File['/var/log/php-fpm']
 
     class { 'php::fpm::daemon':
-          ensure       => present,
-          package_name => "${php_pkg_prefix}-fpm",
-  #        log_owner => 'php-fpm',
-  #        log_group => 'root',
-  #        log_dir_mode => '0770',
-          log_owner    => 'apache',
-          log_group    => 'apache',
-          log_dir_mode => '0775',
+      ensure       => present,
+      package_name => "${php_pkg_prefix}-fpm",
+      log_owner    => 'apache',
+      log_group    => 'apache',
+      log_dir_mode => '0775',
     }
   }
 
   if($php_cache_engine == 'apcu'){
 
     php::module { "${php_pkg_prefix}-pecl-${php_apc_name}":
-       ensure  => installed,
-       require => [
-                 #Class['php::mod_php5'],
-                 Class['php::common'],
-                ],
+      ensure  => installed,
+      require => [
+        #Class['php::mod_php5'],
+        Class['php::common'],
+      ],
     }
 
     php::module { "${php_pkg_prefix}-${php_opcache_name}":
-       ensure  => absent,
-       require => [
-                 #Class['php::mod_php5'],
-                 Class['php::common'],
-                ],
+      ensure  => absent,
+      require => [
+        #Class['php::mod_php5'],
+        Class['php::common'],
+      ],
     }
 
     php::module::ini { 'pecl-apcu':
@@ -593,21 +573,21 @@ $php_fpm_manage_phpmyadmin_user=true,
   elsif($php_cache_engine == 'opcache'){
 
     php::module { "${php_pkg_prefix}-pecl-${php_apc_name}":
-       ensure  => absent,
-       require => [
-                 #Class['php::mod_php5'],
-                 Class['php::common'],
-                ],
-       notify  => Service['httpd'],
+      ensure  => absent,
+      require => [
+        #Class['php::mod_php5'],
+        Class['php::common'],
+      ],
+      notify  => Service['httpd'],
     }
 
     php::module { "${php_pkg_prefix}-${php_opcache_name}":
-       ensure  => installed,
-       require => [
-                 #Class['php::mod_php5'],
-                 Class['php::common'],
-                ],
-       notify  => Service['httpd'],
+      ensure  => installed,
+      require => [
+        #Class['php::mod_php5'],
+        Class['php::common'],
+      ],
+      notify  => Service['httpd'],
     }
 
     php::module::ini { 'opcache':
@@ -629,73 +609,73 @@ $php_fpm_manage_phpmyadmin_user=true,
   elsif($php_cache_engine == 'opcache+apcu'){
 
     php::module { "${php_pkg_prefix}-pecl-apcu":
-       ensure  => installed,
-       require => [
-                 #Class['php::mod_php5'],
-                 Class['php::common'],
-                ],
-       notify  => Service['httpd'],
+      ensure  => installed,
+      require => [
+        #Class['php::mod_php5'],
+        Class['php::common'],
+      ],
+      notify  => Service['httpd'],
     }
 
     php::module::ini { 'pecl-apcu':
-      pkgname => "${php_pkg_prefix}-pecl-apcu",
-      prefix  => '40',
+      pkgname  => "${php_pkg_prefix}-pecl-apcu",
+      prefix   => '40',
       settings => {
-        'apc.enabled'      => '1',
-        'apc.optimization' => '1',
-        'apc.shm_segments' => '1',
-        'apc.shm_size'     => '32M',
-        'apc.user_ttl'     => '0',
-        'apc.ttl'          => '0',
+        'apc.enabled'          => '1',
+        'apc.optimization'     => '1',
+        'apc.shm_segments'     => '1',
+        'apc.shm_size'         => '32M',
+        'apc.user_ttl'         => '0',
+        'apc.ttl'              => '0',
         'apc.cache_by_default' => '1',
-        'apc.num_files_hint' => '10000',
-        'apc.mmap_file_mask' => '/tmp/apc.XXXXXX',
+        'apc.num_files_hint'   => '10000',
+        'apc.mmap_file_mask'   => '/tmp/apc.XXXXXX',
       },
-      notify  => Service['httpd'],
+      notify   => Service['httpd'],
     }
 
     php::module { "${php_pkg_prefix}-opcache":
-       ensure  => installed,
-       require => [
-                 #Class['php::mod_php5'],
-                 Class['php::common'],
-                ],
-       notify  => Service['httpd'],
+      ensure  => installed,
+      require => [
+        #Class['php::mod_php5'],
+        Class['php::common'],
+      ],
+      notify  => Service['httpd'],
     }
 
     php::module::ini { 'opcache':
-      pkgname => "${php_pkg_prefix}-opcache",
-      prefix  => '10',
-      zend    => true,
+      pkgname  => "${php_pkg_prefix}-opcache",
+      prefix   => '10',
+      zend     => true,
       settings => {
-        'opcache.enable'                     => '1',
-        'opcache.fast_shutdown'              => '1',
-        'opcache.interned_strings_buffer'    => '16',
-        'opcache.max_accelerated_files'      => '1000000',
-        'opcache.memory_consumption'         => '256',
-        'opcache.revalidate_freq'            => '0',
-        'opcache.revalidate_path'            => '1',
+        'opcache.enable'                  => '1',
+        'opcache.fast_shutdown'           => '1',
+        'opcache.interned_strings_buffer' => '16',
+        'opcache.max_accelerated_files'   => '1000000',
+        'opcache.memory_consumption'      => '256',
+        'opcache.revalidate_freq'         => '0',
+        'opcache.revalidate_path'         => '1',
       },
-      notify  => Service['httpd'],
+      notify   => Service['httpd'],
     }
 
   }
   elsif($php_cache_engine == 'absent'){
 
     php::module { "${php_pkg_prefix}-pecl-${php_apc_name}":
-       ensure  => absent,
-       require => [
-                 #Class['php::mod_php5'],
-                 Class['php::common'],
-                ],
+      ensure  => absent,
+      require => [
+        #Class['php::mod_php5'],
+        Class['php::common'],
+      ],
     }
 
     php::module { "${php_pkg_prefix}-${php_opcache_name}":
-       ensure  => absent,
-       require => [
-                 #Class['php::mod_php5'],
-                 Class['php::common'],
-                ],
+      ensure  => absent,
+      require => [
+        #Class['php::mod_php5'],
+        Class['php::common'],
+      ],
     }
 
   } #end of absent
@@ -706,12 +686,12 @@ $php_fpm_manage_phpmyadmin_user=true,
   if($xdebug_module_manage){
 
     php::module { "${php_pkg_prefix}-pecl-xdebug":
-       ensure  => $xdebug_module_ensure,
-       require => [
-                 #Class['php::mod_php5'],
-                 Class['php::common'],
-                ],
-       notify  => Service['httpd'],
+      ensure  => $xdebug_module_ensure,
+      require => [
+        #Class['php::mod_php5'],
+        Class['php::common'],
+      ],
+      notify  => Service['httpd'],
     }
 
     php::module::ini { 'pecl-xdebug':
@@ -742,8 +722,7 @@ $php_fpm_manage_phpmyadmin_user=true,
       docroot         => '/var/www/html/sugarcrm-http',
       error_log_file  => 'error_log',
       access_log_file => 'access_log',
-      rewrites => [
-        {
+      rewrites        => [ {
           comment      => 'redirect to TTTPS',
           rewrite_cond => ['%{SERVER_PORT} !^443$'],
           rewrite_rule => ['^/(.*) https://%{HTTP_HOST}/$1 [NC,R,L]'],
@@ -754,24 +733,24 @@ $php_fpm_manage_phpmyadmin_user=true,
   }
   else{
 
-   apache::vhost { 'sugarcrm':
-    serveraliases    => '*',
-    port             => $apache_http_port,
-    docroot          => '/var/www/html/sugarcrm',
-    docroot_group    => 'apache',
-    docroot_owner    => 'apache',
-    docroot_mode     => '755',
-    #
-    error_log_file   => 'error_log',
-    access_log_file  => 'access_log',
-    #
-    custom_fragment  => $apache_main_vhost_custom_fragment,
-    #
-    proxy_pass_match => $proxy_pass_match,
-    #
-    directories      => $directories_all,
-    aliases          => $aliases_phpmyadmin,
-   }
+    apache::vhost { 'sugarcrm':
+      serveraliases    => '*',
+      port             => $apache_http_port,
+      docroot          => '/var/www/html/sugarcrm',
+      docroot_group    => 'apache',
+      docroot_owner    => 'apache',
+      docroot_mode     => '755',
+      #
+      error_log_file   => 'error_log',
+      access_log_file  => 'access_log',
+      #
+      custom_fragment  => $apache_main_vhost_custom_fragment,
+      #
+      proxy_pass_match => $proxy_pass_match,
+      #
+      directories      => $directories_all,
+      aliases          => $aliases_phpmyadmin,
+    }
 
   }
 

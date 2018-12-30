@@ -1,27 +1,27 @@
 
 class sugarcrmstack::mysqlserver (
-$mysql_server_enable='1',
-$mysql_server_service_manage=true,
-$mysql_server_service_enabled=true,
-$mysql_server_service_restart=true,
-$mysql_server_config_max_connections='1024',
-$mysql_server_use_pxc=false,
-#
-$sugar_version=$sugarcrmstack::sugar_version,
-$galeracluster_galeracluster_enable = undef,
-$mysql_override_options=$sugarcrmstack::mysql_override_options,
-$mysql_users_custom=$sugarcrmstack::mysql_users_custom,
-$mysql_grants_custom=$sugarcrmstack::mysql_grants_custom,
-#
-$mysql_sugarcrm_pass_hash=$sugarcrmstack::mysql_sugarcrm_pass_hash,
-$mysql_automysqlbackup_pass_hash=$sugarcrmstack::mysql_automysqlbackup_pass_hash,
-$mysql_root_password=$sugarcrmstack::mysql_root_password,
+  $mysql_server_enable='1',
+  $mysql_server_service_manage=true,
+  $mysql_server_service_enabled=true,
+  $mysql_server_service_restart=true,
+  $mysql_server_config_max_connections='1024',
+  $mysql_server_use_pxc=false,
+  #
+  $sugar_version=$sugarcrmstack::sugar_version,
+  $galeracluster_galeracluster_enable = undef,
+  $mysql_override_options=$sugarcrmstack::mysql_override_options,
+  $mysql_users_custom=$sugarcrmstack::mysql_users_custom,
+  $mysql_grants_custom=$sugarcrmstack::mysql_grants_custom,
+  #
+  $mysql_sugarcrm_pass_hash=$sugarcrmstack::mysql_sugarcrm_pass_hash,
+  $mysql_automysqlbackup_pass_hash=$sugarcrmstack::mysql_automysqlbackup_pass_hash,
+  $mysql_root_password=$sugarcrmstack::mysql_root_password,
 ){
 
   #variables check
     #variables check
   if (defined(Class['sugarcrmstack']) and $sugar_version == undef) {
-    warning "Missing variable \"$sugar_version\""
+    warning "Missing variable \"sugar_version\""
     fail('exiting...')
   }
   elsif (defined(Class['sugarcrmstack_ng']) and $sugarcrmstack_ng::sugar_version == undef) {
@@ -35,10 +35,7 @@ $mysql_root_password=$sugarcrmstack::mysql_root_password,
   elsif str2bool($mysql_server_enable){
 
     if($::operatingsystemmajrelease in ['7'] and $mysql_server_use_pxc == true){
-      $mysql_override_options_profile = { 'mysqld' => { 'max_connections' => $mysql_server_config_max_connections,
-                                                        #'wsrep_provider'  => 'none',
-                                                      }
-                                        }
+      $mysql_override_options_profile = { 'mysqld' => { 'max_connections' => $mysql_server_config_max_connections } }
     }
     else{
       $mysql_override_options_profile = { 'mysqld' => { 'max_connections' => $mysql_server_config_max_connections } }
@@ -69,7 +66,7 @@ $mysql_root_password=$sugarcrmstack::mysql_root_password,
                 Ini_setting['centos base repo exclude packages'],
                 Exec['mysql-libs old'],
                 Exec['mysql-libs old2'],
-        ]
+        ],
       }
 
       $mysql_server_service_name = 'mysqld'
@@ -89,16 +86,16 @@ $mysql_root_password=$sugarcrmstack::mysql_root_password,
 
       if defined(Class['sugarcrmstack_ng::install']){
         $mysql_server_require = [
-                              Class['sugarcrmstack_ng::install'],
-                             ]
+          Class['sugarcrmstack_ng::install'],
+        ]
       }
       else{
         $mysql_server_require = [
-                                 Package['mysql-repo'],
-                                 Package[$mysql_server_packages_old],
-                                 Ini_setting['mysql 5.6 repo enable'],
-                                 Ini_setting['mysql 5.7 repo disable'],
-                                ]
+          Package['mysql-repo'],
+          Package[$mysql_server_packages_old],
+          Ini_setting['mysql 5.6 repo enable'],
+          Ini_setting['mysql 5.7 repo disable'],
+        ]
       }
 
       # update repos
@@ -127,12 +124,12 @@ $mysql_root_password=$sugarcrmstack::mysql_root_password,
           ensure   => 'absent',
           provider => 'yum',
           require  => [
-                     Package['webtatic-release'],
-                     Ini_setting['remi repo exclude packages'],
-                     Ini_setting['centos base repo exclude packages 2'],
-                     Ini_setting['centos base repo exclude packages'],
-                     Package['mysql-repo']
-         ],
+            Package['webtatic-release'],
+            Ini_setting['remi repo exclude packages'],
+            Ini_setting['centos base repo exclude packages 2'],
+            Ini_setting['centos base repo exclude packages'],
+            Package['mysql-repo'],
+          ],
         }
       }
     }
@@ -142,8 +139,8 @@ $mysql_root_password=$sugarcrmstack::mysql_root_password,
 
       if !defined(Class['sugarcrmstack_ng::install']){
         package { 'percona-release':
-          provider => rpm,
           ensure   => installed,
+          provider => rpm,
           source   => 'https://www.percona.com/redir/downloads/percona-release/redhat/0.1-4/percona-release-0.1-4.noarch.rpm',
         }
       }
@@ -154,16 +151,16 @@ $mysql_root_password=$sugarcrmstack::mysql_root_password,
 
       if defined(Class['sugarcrmstack_ng::install']){
         $mysql_server_require = [
-                              Class['sugarcrmstack_ng::install'],
-                             ]
+          Class['sugarcrmstack_ng::install'],
+        ]
       }
       else{
         $mysql_server_require = [
-                              Package['percona-release'],
-                              Package[$mysql_server_packages_old],
-                              Ini_setting['mysql 5.6 repo enable'],
-                              Ini_setting['mysql 5.7 repo disable'],
-                             ]
+          Package['percona-release'],
+          Package[$mysql_server_packages_old],
+          Ini_setting['mysql 5.6 repo enable'],
+          Ini_setting['mysql 5.7 repo disable'],
+        ]
       }
 
       if !defined(Class['sugarcrmstack_ng::install']){
@@ -191,12 +188,12 @@ $mysql_root_password=$sugarcrmstack::mysql_root_password,
           ensure   => absent,
           provider => yum,
           require  => [
-                     Package['webtatic-release'],
-                     Ini_setting['remi repo exclude packages'],
-                     Ini_setting['centos base repo exclude packages 2'],
-                     Ini_setting['centos base repo exclude packages'],
-                     Package['percona-release']
-         ],
+            Package['webtatic-release'],
+            Ini_setting['remi repo exclude packages'],
+            Ini_setting['centos base repo exclude packages 2'],
+            Ini_setting['centos base repo exclude packages'],
+            Package['percona-release'],
+          ],
         }
       }
 
@@ -212,16 +209,16 @@ $mysql_root_password=$sugarcrmstack::mysql_root_password,
 
       if defined(Class['sugarcrmstack_ng::install']){
         $mysql_server_require = [
-                              Class['sugarcrmstack_ng::install'],
-                             ]
+          Class['sugarcrmstack_ng::install'],
+        ]
       }
       else{
         $mysql_server_require = [
-                                 Package['mysql-repo'],
-                                 Package[$mysql_server_packages_old],
-                                 Ini_setting['mysql 5.7 repo enable'],
-                                 Ini_setting['mysql 5.6 repo disable'],
-                                ]
+          Package['mysql-repo'],
+          Package[$mysql_server_packages_old],
+          Ini_setting['mysql 5.7 repo enable'],
+          Ini_setting['mysql 5.6 repo disable'],
+        ]
       }
 
       # update repos
@@ -250,12 +247,12 @@ $mysql_root_password=$sugarcrmstack::mysql_root_password,
           ensure   => 'absent',
           provider => 'yum',
           require  => [
-                     Package['webtatic-release'],
-                     Ini_setting['remi repo exclude packages'],
-                     Ini_setting['centos base repo exclude packages 2'],
-                     Ini_setting['centos base repo exclude packages'],
-                     Package['mysql-repo']
-         ],
+            Package['webtatic-release'],
+            Ini_setting['remi repo exclude packages'],
+            Ini_setting['centos base repo exclude packages 2'],
+            Ini_setting['centos base repo exclude packages'],
+            Package['mysql-repo'],
+          ],
         }
       }
     }
@@ -264,8 +261,8 @@ $mysql_root_password=$sugarcrmstack::mysql_root_password,
       # add percona repo
       if !defined(Class['sugarcrmstack_ng::install']){
         package { 'percona-release':
-          provider => rpm,
           ensure   => installed,
+          provider => rpm,
           source   => 'https://www.percona.com/redir/downloads/percona-release/redhat/0.1-4/percona-release-0.1-4.noarch.rpm',
         }
       }
@@ -279,16 +276,16 @@ $mysql_root_password=$sugarcrmstack::mysql_root_password,
 
       if defined(Class['sugarcrmstack_ng::install']){
         $mysql_server_require = [
-                              Class['sugarcrmstack_ng::install'],
-                             ]
+          Class['sugarcrmstack_ng::install'],
+        ]
       }
       else{
         $mysql_server_require = [
-                                 Package['percona-release'],
-                                 Package[$mysql_server_packages_old] ,
-                                 Ini_setting['mysql 5.7 repo enable'],
-                                 Ini_setting['mysql 5.6 repo disable'],
-                                ]
+          Package['percona-release'],
+          Package[$mysql_server_packages_old] ,
+          Ini_setting['mysql 5.7 repo enable'],
+          Ini_setting['mysql 5.6 repo disable'],
+        ]
       }
 
       if !defined(Class['sugarcrmstack_ng::install']){
@@ -317,12 +314,12 @@ $mysql_root_password=$sugarcrmstack::mysql_root_password,
           ensure   => absent,
           provider => yum,
           require  => [
-                     Package['webtatic-release'],
-                     Ini_setting['remi repo exclude packages'],
-                     Ini_setting['centos base repo exclude packages 2'],
-                     Ini_setting['centos base repo exclude packages'],
-                     Package['percona-release']
-         ],
+            Package['webtatic-release'],
+            Ini_setting['remi repo exclude packages'],
+            Ini_setting['centos base repo exclude packages 2'],
+            Ini_setting['centos base repo exclude packages'],
+            Package['percona-release']
+          ],
         }
 
       }
@@ -357,22 +354,22 @@ $mysql_root_password=$sugarcrmstack::mysql_root_password,
       $mysql_server_require = []
     }
     else{
-      warning "I can't run with sugarcrm version $sugar_version / $sugarcrmstack_ng::sugar_version"
+      warning "I can't run with sugarcrm version ${sugar_version} / ${sugarcrmstack_ng::sugar_version}"
       fail('exiting...')
     }
 
     $mysql_override_options_final = deep_merge($mysql_override_options, $mysql_override_options_profile)
 
     $mysql_users_default = {
-       'sugarcrm@localhost' => {
-         ensure                   => 'present',
-         password_hash            => $mysql_sugarcrm_pass_hash,
-        },
-       'automysqlbackup@localhost' => {
-         ensure                   => 'present',
-         password_hash            => $mysql_automysqlbackup_pass_hash,
-       },
-      }
+      'sugarcrm@localhost' => {
+        ensure        => 'present',
+        password_hash => $mysql_sugarcrm_pass_hash,
+      },
+      'automysqlbackup@localhost' => {
+        ensure        => 'present',
+        password_hash => $mysql_automysqlbackup_pass_hash,
+      },
+    }
 
     $mysql_users = deep_merge($mysql_users_custom,$mysql_users_default)
 
@@ -381,7 +378,7 @@ $mysql_root_password=$sugarcrmstack::mysql_root_password,
           ensure     => 'present',
           #options    => ['GRANT'],
           privileges => ['CREATE', 'ALTER', 'DELETE', 'INSERT', 'SELECT', 'UPDATE', 'LOCK TABLES', 'DROP',
-    			'CREATE ROUTINE', 'ALTER ROUTINE', 'EXECUTE', 'CREATE TEMPORARY TABLES', 'INDEX'],
+          'CREATE ROUTINE', 'ALTER ROUTINE', 'EXECUTE', 'CREATE TEMPORARY TABLES', 'INDEX'],
           table      => 'sugarcrm.*',
           user       => 'sugarcrm@localhost',
         },
@@ -392,7 +389,7 @@ $mysql_root_password=$sugarcrmstack::mysql_root_password,
           table      => '*.*',
           user       => 'automysqlbackup@localhost',
         },
-       }
+    }
 
     $mysql_grants = deep_merge($mysql_grants_custom,$mysql_grants_default)
 
