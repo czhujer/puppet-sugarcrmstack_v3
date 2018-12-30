@@ -1,7 +1,6 @@
 require 'spec_helper_acceptance'
 
 describe 'sugarcrmstack v8.0' do
-
   context 'v80 with sub-classes and basic setup' do
     # Using puppet_apply as a helper
     it 'works with no errors' do
@@ -193,5 +192,4 @@ describe 'sugarcrmstack v8.0' do
       it { is_expected.to be_file }
     end
   end
-
 end
