@@ -1,36 +1,36 @@
 class sugarcrmstack::apachephpng (
-$apache_serveradmin="info@sugarfactory.cz",
-$apache_mpm="prefork", #or worker
+$apache_serveradmin='info@sugarfactory.cz',
+$apache_mpm='prefork', #or worker
 $apache_https_port=443,
 $apache_http_port=80,
 $apache_http_redirect=true,
 $apache_timeout=60,
-$apache_keepalive="On",
-$apache_default_mods=[ "actions", "authn_core", "cache", "ext_filter", "mime", "mime_magic", "rewrite", "speling", "suexec", "version", "vhost_alias", "auth_digest", "authn_anon", "authn_dbm", "authz_dbm", "authz_owner", "expires", "include", "logio", "substitute", "usertrack", "authn_alias", "authn_default", "alias", "authn_file", "autoindex", "dav", "dav_fs", "deflate", "dir", "negotiation", "setenvif", "auth_basic", "authz_user", "authz_groupfile", "env", "authz_default", ],
+$apache_keepalive='On',
+$apache_default_mods=[ 'actions', 'authn_core', 'cache', 'ext_filter', 'mime', 'mime_magic', 'rewrite', 'speling', 'suexec', 'version', 'vhost_alias', 'auth_digest', 'authn_anon', 'authn_dbm', 'authz_dbm', 'authz_owner', 'expires', 'include', 'logio', 'substitute', 'usertrack', 'authn_alias', 'authn_default', 'alias', 'authn_file', 'autoindex', 'dav', 'dav_fs', 'deflate', 'dir', 'negotiation', 'setenvif', 'auth_basic', 'authz_user', 'authz_groupfile', 'env', 'authz_default', ],
 $apache_service_manage=true,
 $apache_service_enable=true,
 $apache_service_ensure='running',
 $apache_manage_user=true,
-$apache_main_vhost_custom_fragment="",
+$apache_main_vhost_custom_fragment='',
 $proxy_pass_match=[],
 $apache_ssl_chain=undef,
 $php_max_execution_time=90,
-$php_memory_limit="512M",
-$php_upload_max_filesize="10M",
-$php_post_max_size="10M",
+$php_memory_limit='512M',
+$php_upload_max_filesize='10M',
+$php_post_max_size='10M',
 $php_session_gc_maxlifetime=3600,
-$php_session_save_handler="files", #or memcache, redis
-$php_session_save_path="/var/lib/php/session", # or IP/host memcache
-$php_session_phpmyadmin_save_path="/var/lib/php/session-phpmyadmin",
-$php_pkg_version="5.4.45", #or 5.5
-$php_pkg_build="1",
-$php_cache_engine="opcache", #or apc or opcache+apcu or absent (for disabling cache)
-$php_error_reporting="E_ALL & ~E_DEPRECATED & ~E_NOTICE & ~E_STRICT & ~E_NOTICE",
+$php_session_save_handler='files', #or memcache, redis
+$php_session_save_path='/var/lib/php/session', # or IP/host memcache
+$php_session_phpmyadmin_save_path='/var/lib/php/session-phpmyadmin',
+$php_pkg_version='5.4.45', #or 5.5
+$php_pkg_build='1',
+$php_cache_engine='opcache', #or apc or opcache+apcu or absent (for disabling cache)
+$php_error_reporting='E_ALL & ~E_DEPRECATED & ~E_NOTICE & ~E_STRICT & ~E_NOTICE',
 $use_php_mysqlnd=true,
 $manage_firewall=true,
 $manage_phpmyadmin_config=true, #false
 $manage_phpmyadmin_files=true,
-$phpmyadmin_files_repo_tag="RELEASE_4_8_4",
+$phpmyadmin_files_repo_tag='RELEASE_4_8_4',
 $phpmyadmin_files_repo_depth=1,
 $manage_sugarcrm_files_ownership=true,
 $xdebug_module_manage=true,
@@ -58,8 +58,8 @@ $php_fpm_manage_phpmyadmin_user=true,
 
   validate_bool($manage_sugarcrm_files_ownership)
 
-  #validate_re("${xdebug_module_ensure}", '^[absent|present]$')
-  validate_re("${xdebug_module_ensure}", ['^absent$', '^present$'] )
+  #validate_re('${xdebug_module_ensure}', '^[absent|present]$')
+  validate_re($xdebug_module_ensure, ['^absent$', '^present$'] )
 
   unless $php_upload_max_filesize =~ /^[0-9]{1,10}(K|M|G)?/ {
     fail('Class[\'sugarcrmstack::apachephpng\']: php_upload_max_filesize has wrong value (regexp: /^[0-9]{1,10}(K|M|G)/)')
@@ -74,7 +74,7 @@ $php_fpm_manage_phpmyadmin_user=true,
   }
 
   if defined(Class['sugarcrmstack_ng']){
-    if ($::sugarcrmstack_ng::sugar_version != "7.5" and $::sugarcrmstack_ng::sugar_version != "7.9" and $::sugarcrmstack_ng::sugar_version != "8.0"){
+    if ($::sugarcrmstack_ng::sugar_version != '7.5' and $::sugarcrmstack_ng::sugar_version != '7.9' and $::sugarcrmstack_ng::sugar_version != '8.0'){
       fail("Class['sugarcrmstack_ng::apachephpng']: This class is compatible only with sugar_version 7.5,7.9 or 8.0 (not ${::sugarcrmstack_ng::sugar_version})")
     }
   }
@@ -92,11 +92,11 @@ $php_fpm_manage_phpmyadmin_user=true,
     fail("Class['sugarcrmstack::apachephpng']: apache_http_port is not intenger: ${apache_http_port}")
   }
 
-  if($php_session_save_handler== "memcache" and $php_session_save_path == "/var/lib/php/session"){
+  if($php_session_save_handler== 'memcache' and $php_session_save_path == '/var/lib/php/session'){
     fail("Class['sugarcrmstack::apachephpng']: PHP session_save_path cant be folder with memcache engine")
    }
 
-  if($php_session_save_handler== "redis" and $php_session_save_path == "/var/lib/php/session"){
+  if($php_session_save_handler== 'redis' and $php_session_save_path == '/var/lib/php/session'){
     fail("Class['sugarcrmstack::apachephpng']: PHP session_save_path can't be folder with redis engine")
    }
 
