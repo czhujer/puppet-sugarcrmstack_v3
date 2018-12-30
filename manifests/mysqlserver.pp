@@ -46,24 +46,22 @@ $mysql_root_password=$sugarcrmstack::mysql_root_password,
 
     if($sugar_version == '7.2'){
 
-      #mysql libs
-
       exec { 'mysql-libs old':
-            command => '/usr/bin/yum -y -d 0 erase mysql-libs-5.1.73-3.el6_5.x86_64',
-            path => '/usr/local/bin/:/bin/',
-            onlyif => 'rpm -q mysql-libs-5.1.73-3.el6_5.x86_64',
-            before => Package[$sugarcrmstack::packages::packages_system_utils],
+        command => '/usr/bin/yum -y -d 0 erase mysql-libs-5.1.73-3.el6_5.x86_64',
+        path    => '/usr/local/bin/:/bin/',
+        onlyif  => 'rpm -q mysql-libs-5.1.73-3.el6_5.x86_64',
+        before  => Package[$sugarcrmstack::packages::packages_system_utils],
       }
 
       exec { 'mysql-libs old2':
-            command => '/usr/bin/yum -y -d 0 erase mysql-libs-5.1.71-1.centos6.x86_64',
-            path => '/usr/local/bin/:/bin/',
-            onlyif => 'rpm -q mysql-libs-5.1.71-1.centos6.x86_64',
-            before => Package[$sugarcrmstack::packages::packages_system_utils],
+        command => '/usr/bin/yum -y -d 0 erase mysql-libs-5.1.71-1.centos6.x86_64',
+        path    => '/usr/local/bin/:/bin/',
+        onlyif  => 'rpm -q mysql-libs-5.1.71-1.centos6.x86_64',
+        before  => Package[$sugarcrmstack::packages::packages_system_utils],
       }
 
       package { 'mysql55-libs':
-        ensure => '5.5.44-2.ius.centos6',
+        ensure  => '5.5.44-2.ius.centos6',
         require => [
                 Ini_setting['webtatic-archive repo exclude packages'],
                 Ini_setting['remi repo exclude packages'],
@@ -71,7 +69,7 @@ $mysql_root_password=$sugarcrmstack::mysql_root_password,
                 Ini_setting['centos base repo exclude packages'],
                 Exec['mysql-libs old'],
                 Exec['mysql-libs old2'],
-            ]
+        ]
       }
 
       $mysql_server_service_name = 'mysqld'
@@ -126,9 +124,9 @@ $mysql_root_password=$sugarcrmstack::mysql_root_password,
 
         # remove old packages
         package { $mysql_server_packages_old:
-          ensure => 'absent',
+          ensure   => 'absent',
           provider => 'yum',
-          require => [
+          require  => [
                      Package['webtatic-release'],
                      Ini_setting['remi repo exclude packages'],
                      Ini_setting['centos base repo exclude packages 2'],
@@ -249,9 +247,9 @@ $mysql_root_password=$sugarcrmstack::mysql_root_password,
 
         #remove old packages
         package { $mysql_server_packages_old:
-          ensure => 'absent',
+          ensure   => 'absent',
           provider => 'yum',
-          require => [
+          require  => [
                      Package['webtatic-release'],
                      Ini_setting['remi repo exclude packages'],
                      Ini_setting['centos base repo exclude packages 2'],
@@ -401,17 +399,16 @@ $mysql_root_password=$sugarcrmstack::mysql_root_password,
     class { '::mysql::server':
       root_password    => $mysql_root_password,
       override_options => $mysql_override_options_final,
-      users => $mysql_users,
-      grants => $mysql_grants,
-      package_name => $mysql_server_package_name,
-      package_ensure => $mysql_server_package_ensure,
-      service_manage => $mysql_server_service_manage,
-      service_enabled => $mysql_server_service_enabled,
-      service_name    => $mysql_server_service_name,
-      restart  => $mysql_server_service_restart,
-      require => $mysql_server_require,
-
-    } #end of class mysql
+      users            => $mysql_users,
+      grants           => $mysql_grants,
+      package_name     => $mysql_server_package_name,
+      package_ensure   => $mysql_server_package_ensure,
+      service_manage   => $mysql_server_service_manage,
+      service_enabled  => $mysql_server_service_enabled,
+      service_name     => $mysql_server_service_name,
+      restart          => $mysql_server_service_restart,
+      require          => $mysql_server_require,
+    }
 
     # slow query log
     file { 'mysql-server slow query log':
@@ -420,7 +417,7 @@ $mysql_root_password=$sugarcrmstack::mysql_root_password,
       owner   => 'mysql',
       group   => 'mysql',
       mode    => '0640',
-      notify => Service['mysqld'],
+      notify  => Service['mysqld'],
       #require => Package['$mysql_server_package_name'],
       require => Class['::mysql::server::install'],
     }
