@@ -180,11 +180,11 @@ $php_fpm_manage_phpmyadmin_user=true,
     if($manage_phpmyadmin_config){
       $aliases_phpmyadmin1 = {
         alias => '/phpMyAdmin',
-        path  => '/usr/share/phpMyAdmin'
+        path  => '/usr/share/phpMyAdmin',
       }
       $aliases_phpmyadmin2 = {
         alias => '/phpmyadmin',
-        path  => '/usr/share/phpMyAdmin'
+        path  => '/usr/share/phpMyAdmin',
       }
 
       $aliases_phpmyadmin = [$aliases_phpmyadmin1, $aliases_phpmyadmin2]
