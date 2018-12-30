@@ -26,7 +26,7 @@ $git_hooks_template='default',
     group   => 'apache',
     require => [
 #	         File["sugarcrm directory"],
-    		 Exec["sugarcrm directory2"],
+      Exec["sugarcrm directory2"],
     ]
   }
 
@@ -38,7 +38,7 @@ $git_hooks_template='default',
     group   => 'apache',
     require => [
 #                File["sugarcrm directory"],
-    		 Exec["sugarcrm directory2"],
+      Exec["sugarcrm directory2"],
     ]
   }
 
@@ -50,7 +50,7 @@ $git_hooks_template='default',
     group   => 'apache',
     require => [
 #                 File["sugarcrm directory"],
-    		 Exec["sugarcrm directory2"],
+      Exec["sugarcrm directory2"],
     ]
   }
 
@@ -62,7 +62,7 @@ $git_hooks_template='default',
     group   => 'apache',
     require => [
 #                File["sugarcrm directory"],
-    		 Exec['sugarcrm directory2'],
+      Exec['sugarcrm directory2'],
     ]
   }
 
@@ -74,7 +74,7 @@ $git_hooks_template='default',
     group   => 'apache',
     require => [
 #                File["sugarcrm directory"],
-    		 Exec["sugarcrm directory2"],
+      Exec["sugarcrm directory2"],
     ]
   }
 
@@ -87,9 +87,9 @@ $git_hooks_template='default',
     group   => 'apache',
     require => [
 #                File["sugarcrm directory"],
-    		 Exec["sugarcrm directory2"],
-    		 File['sugarcrm _sf_git folder'],
-      ]
+      Exec["sugarcrm directory2"],
+      File['sugarcrm _sf_git folder'],
+    ]
   }
 
   file {'sugarcrm install test file':
@@ -100,8 +100,8 @@ $git_hooks_template='default',
     group   => 'apache',
     require => [
 #                File["sugarcrm directory"],
-    	  Exec["sugarcrm directory2"],
-      ]
+      Exec["sugarcrm directory2"],
+    ]
   }
 
   if str2bool($changing_perm_for_custom_dir){
@@ -128,7 +128,7 @@ $git_hooks_template='default',
 #    mode   =>  0775,
     require => [
 #                File["sugarcrm directory"],
-    		 Exec["sugarcrm directory2"],
+      Exec["sugarcrm directory2"],
     ]
   }
 
@@ -136,11 +136,11 @@ $git_hooks_template='default',
     command	=> '/bin/find /var/www/html/sugarcrm -type f -exec chmod 644 {} \; ',
     before  => [
                File[$sugarcrm_folders1],
-             ],
+    ],
     require => [
 #               File["sugarcrm directory"],
-               Exec["sugarcrm directory2"],
-             ],
+      Exec["sugarcrm directory2"],
+    ],
   }
 
   exec { 'sugar d basic perms':
@@ -148,8 +148,8 @@ $git_hooks_template='default',
     before  => File[$sugarcrm_folders1],
     require => [
 #               File["sugarcrm directory"],
-               Exec["sugarcrm directory2"],
-             ],
+      Exec["sugarcrm directory2"],
+    ],
   }
 
   exec { 'sugar f cache perms':
@@ -174,16 +174,17 @@ $git_hooks_template='default',
 
   if str2bool ($git_hooks_support){
 
-    $sugarcrm_git_folders = ["/var/www/html/sugarcrm/.git",
-		      "/var/www/html/sugarcrm/.git/hooks",
-                     ]
+    $sugarcrm_git_folders = [
+      "/var/www/html/sugarcrm/.git",
+      "/var/www/html/sugarcrm/.git/hooks",
+    ]
 
     file { $sugarcrm_git_folders:
       ensure  => 'directory',
       mode    => '0755',
       require => [
 #                File["sugarcrm directory"],
-    		 Exec["sugarcrm directory2"],
+        Exec["sugarcrm directory2"],
       ]
     }
 
