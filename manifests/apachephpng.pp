@@ -478,7 +478,7 @@ $php_fpm_manage_phpmyadmin_user=true,
 
   if ($::sugarcrmstack_ng::sugar_version == '8.0' or $sugarcrmstack::sugar_version == '8.0'){
     php::fpm::conf { 'www':
-        package_name   => $php_pkg_prefix-fpm,
+        package_name   => "${php_pkg_prefix}-fpm",
         listen         => '127.0.0.1:9001',
         user           => 'apache',
         pm_status_path => '/fpm-status',
@@ -532,7 +532,7 @@ $php_fpm_manage_phpmyadmin_user=true,
     }
 
     php::fpm::conf { 'phpmyadmin':
-        package_name    => $php_pkg_prefix-fpm,
+        package_name    => "${php_pkg_prefix}-fpm",
         listen          => '127.0.0.1:9002',
         user            => 'phpmyadmin',
         pm_status_path  => '/fpm-status',
