@@ -108,9 +108,9 @@ describe 'sugarcrmstack' do
         }
 
         package { 'python-pip':
-            ensure => "installed",
-            after  => Package['epel-repo'],
-            before => Package['duplicity'],
+            ensure  => "installed",
+            require => Package['epel-repo'],
+            before  => Package['duplicity'],
         }
       }
 
