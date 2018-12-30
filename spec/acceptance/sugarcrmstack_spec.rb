@@ -107,10 +107,10 @@ describe 'sugarcrmstack' do
           require => File['mysql-server log folder2'],
         }
 
-        package { 'python-pip':
-            ensure  => "installed",
-            require => Package['epel-repo'],
-            before  => Package['duplicity'],
+        package { 'python2-pip':
+          ensure  => "installed",
+          require => Package['epel-repo'],
+          before  => Package['duplicity'],
         }
       }
 
