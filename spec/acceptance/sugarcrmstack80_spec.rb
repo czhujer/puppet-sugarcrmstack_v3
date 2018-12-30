@@ -50,6 +50,15 @@ describe 'sugarcrmstack v8.0' do
             require => Ini_setting["remi repo enable"],
         }
 
+        ini_setting { 'enable remi-php71 repo':
+          ensure  => present,
+          path    => '/etc/yum.repos.d/remi-php71.repo',
+          section => 'remi-php71',
+          setting => 'enabled',
+          value   => '1',
+          require => Package['remi-release'],
+        }
+
         ini_setting { 'centos base repo exclude packages':
             ensure  => present,
             path    => "/etc/yum.repos.d/CentOS-Base.repo",
@@ -66,14 +75,14 @@ describe 'sugarcrmstack v8.0' do
             value   => "mysql-server*",
         }
 
-        ini_setting { 'enable remi-php56 repo':
-          ensure  => present,
-          path    => '/etc/yum.repos.d/remi.repo',
-          section => 'remi-php56',
-          setting => 'enabled',
-          value   => '1',
-          before  => Class['sugarcrmstack::apachephpng'],
-        }
+        # ini_setting { 'enable remi-php56 repo':
+        #  ensure  => present,
+        #  path    => '/etc/yum.repos.d/remi.repo',
+        #  section => 'remi-php56',
+        #  setting => 'enabled',
+        #  value   => '1',
+        #  before  => Class['sugarcrmstack::apachephpng'],
+        # }
 
         # log folder2
         file { 'mysql-server log folder2':
@@ -104,6 +113,7 @@ describe 'sugarcrmstack v8.0' do
 
       # main class
       class { 'sugarcrmstack':
+        sugar_version => '8.0',
       }
 
       # classes with real defs

@@ -79,8 +79,8 @@ $php_fpm_manage_phpmyadmin_user=true,
     }
   }
   else{
-    if ($sugarcrmstack::sugar_version != '7.5' and $sugarcrmstack::sugar_version != '7.9'){
-      fail("Class['sugarcrmstack::apachephpng']: This class is compatible only with sugar_version 7.5 or 7.9 (not ${sugarcrmstack::sugar_version})")
+    if ($sugarcrmstack::sugar_version != '7.5' and $sugarcrmstack::sugar_version != '7.9' and $sugarcrmstack::sugar_version != '8.0'){
+      fail("Class['sugarcrmstack::apachephpng']: This class is compatible only with sugar_version 7.5,7.9 or 8.0 (not ${sugarcrmstack::sugar_version})")
     }
   }
 
@@ -418,7 +418,7 @@ $php_fpm_manage_phpmyadmin_user=true,
     require             => Class['php::cli'],
   }
 
-  if ($::sugarcrmstack_ng::sugar_version == '8.0'){
+  if ($::sugarcrmstack_ng::sugar_version == '8.0' or $sugarcrmstack::sugar_version == '8.0'){
 
     class { 'apache::mod::proxy':
     }
@@ -476,9 +476,9 @@ $php_fpm_manage_phpmyadmin_user=true,
                 ],
   }
 
-  if ($::sugarcrmstack_ng::sugar_version == '8.0'){
+  if ($::sugarcrmstack_ng::sugar_version == '8.0' or $sugarcrmstack::sugar_version == '8.0'){
     php::fpm::conf { 'www':
-        package_name   => $php_pkg_prefix-fpm,
+        package_name   => "${php_pkg_prefix}-fpm",
         listen         => '127.0.0.1:9001',
         user           => 'apache',
         pm_status_path => '/fpm-status',
@@ -532,7 +532,7 @@ $php_fpm_manage_phpmyadmin_user=true,
     }
 
     php::fpm::conf { 'phpmyadmin':
-        package_name    => $php_pkg_prefix-fpm,
+        package_name    => "${php_pkg_prefix}-fpm",
         listen          => '127.0.0.1:9002',
         user            => 'phpmyadmin',
         pm_status_path  => '/fpm-status',
@@ -545,7 +545,7 @@ $php_fpm_manage_phpmyadmin_user=true,
 
     class { 'php::fpm::daemon':
           ensure       => present,
-          package_name => $php_pkg_prefix-fpm,
+          package_name => "${php_pkg_prefix}-fpm",
   #        log_owner => 'php-fpm',
   #        log_group => 'root',
   #        log_dir_mode => '0770',
@@ -837,7 +837,7 @@ $php_fpm_manage_phpmyadmin_user=true,
       require  => Package['phpMyAdmin'],
     }
 
-    if ($::sugarcrmstack_ng::sugar_version == '8.0'){
+    if ($::sugarcrmstack_ng::sugar_version == '8.0' or $sugarcrmstack::sugar_version == '8.0'){
       file { '/usr/share/phpMyAdmin/tmp':
           ensure  => 'directory',
           mode    => '0750',
