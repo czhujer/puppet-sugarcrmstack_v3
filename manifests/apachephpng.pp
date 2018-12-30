@@ -103,16 +103,16 @@ $php_fpm_manage_phpmyadmin_user=true,
   if($php_pkg_version =~ /^5\.4\.[3-4][0-9]$/){
     $php_common_package_name = 'php54-common'
     $php_cli_package_name = 'php54-cli'
-    $php_apc_name         = "apc"
-    $php_opcache_name     = "pecl-zendopcache"
+    $php_apc_name         = 'apc'
+    $php_opcache_name     = 'pecl-zendopcache'
     $php_pkg_version_full = "${php_pkg_version}-${php_pkg_build}.ius.centos6"
-    $php_pkg_prefix       = "php54"
+    $php_pkg_prefix       = 'php54'
 
     if($use_php_mysqlnd == true){
-      $php_pkg_mysql = "php54-mysqlnd"
+      $php_pkg_mysql = 'php54-mysqlnd'
     }
     else{
-      $php_pkg_mysql = "php54-mysql"
+      $php_pkg_mysql = 'php54-mysql'
     }
 
     unless($sugarcrmstack::support_for_old_php == 1){
@@ -123,38 +123,38 @@ $php_fpm_manage_phpmyadmin_user=true,
   elsif($php_pkg_version =~ /^5\.5\.[0-3]{0,1}[0-9]/){
     $php_common_package_name = 'php55u-common'
     $php_cli_package_name = 'php55u-cli'
-    $php_apc_name         = "apcu"
-    $php_opcache_name     = "opcache"
+    $php_apc_name         = 'apcu'
+    $php_opcache_name     = 'opcache'
     $php_pkg_version_full = "${php_pkg_version}-${php_pkg_build}.ius.centos6"
-    $php_pkg_prefix       = "php55u"
-    $php_pkg_mysql        = "php55u-mysqlnd"
+    $php_pkg_prefix       = 'php55u'
+    $php_pkg_mysql        = 'php55u-mysqlnd'
   }
   elsif($php_pkg_version =~ /^5\.6\.[0-3]{0,1}[0-9]/ and $::operatingsystemmajrelease in ['7']){
     $php_common_package_name = 'php-common'
     $php_cli_package_name = 'php-cli'
-    $php_apc_name         = "apcu"
-    $php_opcache_name     = "opcache"
+    $php_apc_name         = 'apcu'
+    $php_opcache_name     = 'opcache'
     $php_pkg_version_full = "${php_pkg_version}-${php_pkg_build}.el7.remi"
-    $php_pkg_prefix       = "php"
-    $php_pkg_mysql        = "php-mysqlnd"
+    $php_pkg_prefix       = 'php'
+    $php_pkg_mysql        = 'php-mysqlnd'
   }
   elsif($php_pkg_version =~ /^5\.6\.[0-3]{0,1}[0-9]/){
     $php_common_package_name = 'php56u-common'
     $php_cli_package_name = 'php56u-cli'
-    $php_apc_name         = "apcu"
-    $php_opcache_name     = "opcache"
+    $php_apc_name         = 'apcu'
+    $php_opcache_name     = 'opcache'
     $php_pkg_version_full = "${php_pkg_version}-${php_pkg_build}.ius.centos6"
-    $php_pkg_prefix       = "php56u"
-    $php_pkg_mysql        = "php56u-mysqlnd"
+    $php_pkg_prefix       = 'php56u'
+    $php_pkg_mysql        = 'php56u-mysqlnd'
   }
   elsif($php_pkg_version =~ /^7\.1\.[0-9][0-9]/){
     $php_common_package_name = 'php-common'
     $php_cli_package_name = 'php-cli'
-    $php_apc_name         = "apcu"
-    $php_opcache_name     = "opcache"
+    $php_apc_name         = 'apcu'
+    $php_opcache_name     = 'opcache'
     $php_pkg_version_full = "${php_pkg_version}-${php_pkg_build}.el7.remi"
-    $php_pkg_prefix       = "php"
-    $php_pkg_mysql        = "php-mysqlnd"
+    $php_pkg_prefix       = 'php'
+    $php_pkg_mysql        = 'php-mysqlnd'
   }
   else {
     fail("Class['sugarcrmstack::apachephpng']: Unsupported PHP version: ${php_pkg_version}")
@@ -163,7 +163,7 @@ $php_fpm_manage_phpmyadmin_user=true,
   if ($::operatingsystemmajrelease in ['7']){
     $directories_sugarcrm_ssl1 =
       {
-         path             => "/var/www/html/sugarcrm",
+         path             => '/var/www/html/sugarcrm',
          provider         => 'directory',
          require          => 'all granted',
          allow_override   => ['all'],
@@ -172,7 +172,7 @@ $php_fpm_manage_phpmyadmin_user=true,
 
     $directories_sugarcrm_ssl2 =
        {
-         path             => "/var/www/html",
+         path             => '/var/www/html',
          provider         => 'directory',
          require          => 'all granted',
          allow_override   => ['all'],
@@ -194,7 +194,7 @@ $php_fpm_manage_phpmyadmin_user=true,
 
       $directories_phpmyadmin1 =
         {
-          path             => "/usr/share/phpMyAdmin/",
+          path             => '/usr/share/phpMyAdmin/',
           provider         => 'directory',
           require          => 'all granted',
           adddefaultcharset => 'UTF-8',
@@ -202,35 +202,35 @@ $php_fpm_manage_phpmyadmin_user=true,
 
       $directories_phpmyadmin2 =
         {
-          path             => "/usr/share/phpMyAdmin/setup/",
+          path             => '/usr/share/phpMyAdmin/setup/',
           provider         => 'directory',
           require          => 'all denied',
         }
 
       $directories_phpmyadmin3 =
         {
-          path             => "/usr/share/phpMyAdmin/libraries/",
+          path             => '/usr/share/phpMyAdmin/libraries/',
           provider         => 'directory',
           require          => 'all denied',
         }
 
       $directories_phpmyadmin4 =
         {
-          path             => "/usr/share/phpMyAdmin/setup/lib/",
+          path             => '/usr/share/phpMyAdmin/setup/lib/',
           provider         => 'directory',
           require          => 'all denied',
         }
 
       $directories_phpmyadmin5 =
         {
-          path             => "/usr/share/phpMyAdmin/.git",
+          path             => '/usr/share/phpMyAdmin/.git',
           provider         => 'directory',
           require          => 'all denied',
         }
 
       $directories_phpmyadmin6 =
         {
-          path             => "/usr/share/phpMyAdmin/setup/frames/",
+          path             => '/usr/share/phpMyAdmin/setup/frames/',
           provider         => 'directory',
           require          => 'all denied',
         }
@@ -250,7 +250,7 @@ $php_fpm_manage_phpmyadmin_user=true,
   else{
     $directories_sugarcrm_ssl1 =
       {
-         path             => "/var/www/html/sugarcrm",
+         path             => '/var/www/html/sugarcrm',
          provider         => 'directory',
          order            => 'Allow,Deny',
          'allow'          => 'from all',
@@ -260,7 +260,7 @@ $php_fpm_manage_phpmyadmin_user=true,
 
     $directories_sugarcrm_ssl2 =
        {
-         path             => "/var/www/html",
+         path             => '/var/www/html',
          provider         => 'directory',
          order            => 'Allow,Deny',
          'allow'          => 'from all',
@@ -283,7 +283,7 @@ $php_fpm_manage_phpmyadmin_user=true,
 
       $directories_phpmyadmin1 =
         {
-          path             => "/usr/share/phpMyAdmin/",
+          path             => '/usr/share/phpMyAdmin/',
           provider         => 'directory',
           order            => 'Allow,Deny',
           'allow'          => 'from all',
@@ -292,7 +292,7 @@ $php_fpm_manage_phpmyadmin_user=true,
 
       $directories_phpmyadmin2 =
         {
-          path             => "/usr/share/phpMyAdmin/setup/",
+          path             => '/usr/share/phpMyAdmin/setup/',
           provider         => 'directory',
           order            => 'Deny,Allow',
           'deny'          => 'from All',
@@ -301,7 +301,7 @@ $php_fpm_manage_phpmyadmin_user=true,
 
       $directories_phpmyadmin3 =
         {
-          path             => "/usr/share/phpMyAdmin/libraries/",
+          path             => '/usr/share/phpMyAdmin/libraries/',
           provider         => 'directory',
           order            => 'Deny,Allow',
           'deny'           => 'from All',
@@ -310,7 +310,7 @@ $php_fpm_manage_phpmyadmin_user=true,
 
       $directories_phpmyadmin4 =
         {
-          path             => "/usr/share/phpMyAdmin/setup/lib/",
+          path             => '/usr/share/phpMyAdmin/setup/lib/',
           provider         => 'directory',
           order            => 'Deny,Allow',
           'deny'           => 'from All',
@@ -319,7 +319,7 @@ $php_fpm_manage_phpmyadmin_user=true,
 
       $directories_phpmyadmin5 =
         {
-          path             => "/usr/share/phpMyAdmin/.git",
+          path             => '/usr/share/phpMyAdmin/.git',
           provider         => 'directory',
           order            => 'Deny,Allow',
           'deny'           => 'from All',
@@ -328,7 +328,7 @@ $php_fpm_manage_phpmyadmin_user=true,
 
       $directories_phpmyadmin6 =
         {
-          path             => "/usr/share/phpMyAdmin/setup/frames/",
+          path             => '/usr/share/phpMyAdmin/setup/frames/',
           provider         => 'directory',
           order            => 'Deny,Allow',
           'deny'           => 'from All',
@@ -363,8 +363,8 @@ $php_fpm_manage_phpmyadmin_user=true,
     #mod_enable_dir       => false,
     #
     serveradmin          => $apache_serveradmin,
-    server_signature     => "off",
-    server_tokens        => "prod",
+    server_signature     => 'off',
+    server_tokens        => 'prod',
     keepalive            => $apache_keepalive,
     keepalive_timeout    => 2,
     timeout              => $apache_timeout,
@@ -396,7 +396,7 @@ $php_fpm_manage_phpmyadmin_user=true,
   }
 
 #  class { 'apache::mod::php':
-#    package_name => "php56u",
+#    package_name => 'php56u',
 #    require => Ini_setting['ius repo exclude php56u'],
 #  }
 
@@ -416,10 +416,10 @@ $php_fpm_manage_phpmyadmin_user=true,
 
   class { 'php::common':
     common_package_name => $php_common_package_name,
-    require => Class["php::cli"],
+    require => Class['php::cli'],
   }
 
-  if ($::sugarcrmstack_ng::sugar_version == "8.0"){
+  if ($::sugarcrmstack_ng::sugar_version == '8.0'){
 
     class { 'apache::mod::proxy':
     }
@@ -439,16 +439,16 @@ $php_fpm_manage_phpmyadmin_user=true,
   else{
     class { 'php::mod_php5':
       php_package_name => $php_pkg_prefix,
-      require => Class["php::cli"],
+      require => Class['php::cli'],
     }
   }
 
   php::ini { '/etc/php.ini':
      error_reporting            => "$php_error_reporting",
      memory_limit               => "$php_memory_limit",
-     date_timezone              => "Europe/Berlin",
+     date_timezone              => 'Europe/Berlin',
      max_execution_time         => $php_max_execution_time,
-     allow_url_fopen            => "On",
+     allow_url_fopen            => 'On',
      upload_max_filesize        => $php_upload_max_filesize,
      post_max_size              => $php_post_max_size,
      session_gc_maxlifetime     => $php_session_gc_maxlifetime,
@@ -477,7 +477,7 @@ $php_fpm_manage_phpmyadmin_user=true,
                 ],
   }
 
-  if ($::sugarcrmstack_ng::sugar_version == "8.0"){
+  if ($::sugarcrmstack_ng::sugar_version == '8.0'){
     php::fpm::conf { 'www':
         package_name => "$php_pkg_prefix-fpm",
         listen  => '127.0.0.1:9001',
@@ -488,9 +488,9 @@ $php_fpm_manage_phpmyadmin_user=true,
         php_value => {
           error_reporting            => "$php_error_reporting",
           memory_limit               => "$php_memory_limit",
-          date_timezone              => "Europe/Berlin",
+          date_timezone              => 'Europe/Berlin',
           max_execution_time         => $php_max_execution_time,
-          allow_url_fopen            => "On",
+          allow_url_fopen            => 'On',
           upload_max_filesize        => $php_upload_max_filesize,
           post_max_size              => $php_post_max_size,
           session_gc_maxlifetime     => $php_session_gc_maxlifetime,
@@ -556,7 +556,7 @@ $php_fpm_manage_phpmyadmin_user=true,
     }
   }
 
-  if($php_cache_engine == "apcu"){
+  if($php_cache_engine == 'apcu'){
 
     php::module { "${php_pkg_prefix}-pecl-${php_apc_name}":
        ensure  => installed,
@@ -591,7 +591,7 @@ $php_fpm_manage_phpmyadmin_user=true,
     }
 
   } #end of apcu
-  elsif($php_cache_engine == "opcache"){
+  elsif($php_cache_engine == 'opcache'){
 
     php::module { "${php_pkg_prefix}-pecl-${php_apc_name}":
        ensure  => absent,
@@ -627,7 +627,7 @@ $php_fpm_manage_phpmyadmin_user=true,
     }
 
   } #end of opcache
-  elsif($php_cache_engine == "opcache+apcu"){
+  elsif($php_cache_engine == 'opcache+apcu'){
 
     php::module { "${php_pkg_prefix}-pecl-apcu":
        ensure  => installed,
@@ -681,7 +681,7 @@ $php_fpm_manage_phpmyadmin_user=true,
     }
 
   }
-  elsif($php_cache_engine == "absent"){
+  elsif($php_cache_engine == 'absent'){
 
     php::module { "${php_pkg_prefix}-pecl-${php_apc_name}":
        ensure  => absent,
@@ -809,14 +809,14 @@ $php_fpm_manage_phpmyadmin_user=true,
 
   if($manage_sugarcrm_files_ownership == true){
     exec { 'sugarcrm directory2':
-      command => "/bin/chown apache:apache /var/www/html/sugarcrm -R",
+      command => '/bin/chown apache:apache /var/www/html/sugarcrm -R',
       require => File['/var/www/html/sugarcrm'],
     }
   }
 
   if($manage_phpmyadmin_files == true){
 
-    package { "phpMyAdmin":
+    package { 'phpMyAdmin':
       ensure => absent,
     }
 
@@ -828,17 +828,17 @@ $php_fpm_manage_phpmyadmin_user=true,
         require => Package['phpMyAdmin'],
     }
 
-    vcsrepo { "/usr/share/phpMyAdmin":
+    vcsrepo { '/usr/share/phpMyAdmin':
       ensure   => present,
       provider => git,
-      source   => "https://github.com/phpmyadmin/phpmyadmin.git",
+      source   => 'https://github.com/phpmyadmin/phpmyadmin.git',
       revision => $phpmyadmin_files_repo_tag,
       depth    => $phpmyadmin_files_repo_depth,
       user     => 'root',
-      require => Package["phpMyAdmin"],
+      require => Package['phpMyAdmin'],
     }
 
-    if ($::sugarcrmstack_ng::sugar_version == "8.0"){
+    if ($::sugarcrmstack_ng::sugar_version == '8.0'){
       file { '/usr/share/phpMyAdmin/tmp':
           ensure  => 'directory',
           mode    => '750',
