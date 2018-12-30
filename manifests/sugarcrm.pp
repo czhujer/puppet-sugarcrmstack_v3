@@ -133,43 +133,43 @@ $git_hooks_template='default',
   }
 
   exec { 'sugar f basic perms':
-    command	=> '/bin/find /var/www/html/sugarcrm -type f -exec chmod 644 {} \; ',
+    command => '/bin/find /var/www/html/sugarcrm -type f -exec chmod 644 {} \; ',
     before  => [
       File[$sugarcrm_folders1],
     ],
     require => [
-#               File['sugarcrm directory'],
+    #               File['sugarcrm directory'],
       Exec['sugarcrm directory2'],
     ],
   }
 
   exec { 'sugar d basic perms':
-    command	=> '/bin/find /var/www/html/sugarcrm -type d -exec chmod 755 {} \; ',
+    command => '/bin/find /var/www/html/sugarcrm -type d -exec chmod 755 {} \; ',
     before  => File[$sugarcrm_folders1],
     require => [
-#               File['sugarcrm directory'],
+    #               File['sugarcrm directory'],
       Exec['sugarcrm directory2'],
     ],
   }
 
   exec { 'sugar f cache perms':
-    command	=> '/bin/find /var/www/html/sugarcrm/cache/ -type d -exec chmod 0775 {} \; ',
-    require	=> File[$sugarcrm_folders1],
+    command => '/bin/find /var/www/html/sugarcrm/cache/ -type d -exec chmod 0775 {} \; ',
+    require => File[$sugarcrm_folders1],
   }
 
   exec { 'sugar f custom perms':
-    command	=> '/bin/find /var/www/html/sugarcrm/custom/ -type d -exec chmod 0775 {} \; ',
-    require	=> File[$sugarcrm_folders1],
+    command => '/bin/find /var/www/html/sugarcrm/custom/ -type d -exec chmod 0775 {} \; ',
+    require => File[$sugarcrm_folders1],
   }
 
   exec { 'sugar f upload perms':
-    command	=> '/bin/find /var/www/html/sugarcrm/upload/ -type d -exec chmod 0775 {} \; ',
-    require	=> File[$sugarcrm_folders1],
+    command => '/bin/find /var/www/html/sugarcrm/upload/ -type d -exec chmod 0775 {} \; ',
+    require => File[$sugarcrm_folders1],
   }
 
   exec { 'sugar f modules perms':
-    command	=> '/bin/find /var/www/html/sugarcrm/modules/ -type d -exec chmod 0775 {} \; ',
-    require	=> File[$sugarcrm_folders1],
+    command => '/bin/find /var/www/html/sugarcrm/modules/ -type d -exec chmod 0775 {} \; ',
+    require => File[$sugarcrm_folders1],
   }
 
   if str2bool ($git_hooks_support){
