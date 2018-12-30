@@ -37,10 +37,10 @@ class sugarcrmstack::mysqlbackup(
   }
 
   file { 'automysqlbackup config file':
-	  ensure  => file,
-	  path    => '/etc/automysqlbackup/localhost.conf',
-	  content => template('sugarcrmstack/automysqlbackup-conf.erb'),
-	  owner   => 'root',
+	  ensure   => file,
+	  path     => '/etc/automysqlbackup/localhost.conf',
+	  content  => template('sugarcrmstack/automysqlbackup-conf.erb'),
+	  owner    => 'root',
     group   => 'root',
     mode    => '0644',
     require => File['automyqslbackup config dir'],
