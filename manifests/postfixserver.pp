@@ -14,11 +14,11 @@ $sugar_version = $sugarcrmstack::sugar_version,
   }
 
   if $postfix_server_fqdn == undef{
-     $my_fqdn = $::fqdn
-     $postfix_server_fqdn_final = "${my_fqdn}.sugarfactory.cz"
+    $my_fqdn = $::fqdn
+    $postfix_server_fqdn_final = "${my_fqdn}.sugarfactory.cz"
   }
   else{
-     $postfix_server_fqdn_final = $postfix_server_fqdn
+    $postfix_server_fqdn_final = $postfix_server_fqdn
   }
 
   if str2bool($postfix_server_enable){
@@ -35,13 +35,13 @@ $sugar_version = $sugarcrmstack::sugar_version,
     }
 
     service {'postfix':
-      ensure  => $postfix_service_ensure,
-      enable  => $postfix_service_enable,
-      require => Package['postfix'],
+      ensure    => $postfix_service_ensure,
+      enable    => $postfix_service_enable,
+      require   => Package['postfix'],
       subscribe => [
         Ini_setting['postfix conf myorigin'],
         Ini_setting['postfix conf myhostname'],
-      ]
+      ],
     }
 
     ini_setting { 'postfix conf myorigin':
