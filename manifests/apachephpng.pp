@@ -545,7 +545,7 @@ $php_fpm_manage_phpmyadmin_user=true,
 
     class { 'php::fpm::daemon':
           ensure       => present,
-          package_name => $php_pkg_prefix-fpm,
+          package_name => "${php_pkg_prefix}-fpm",
   #        log_owner => 'php-fpm',
   #        log_group => 'root',
   #        log_dir_mode => '0770',
