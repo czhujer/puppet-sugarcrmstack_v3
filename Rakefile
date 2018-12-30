@@ -37,6 +37,12 @@ RSpec::Core::RakeTask.new(:acceptance) do |t|
   t.pattern = 'spec/acceptance'
 end
 
+desc 'Run acceptance tests for Sugar 8.0'
+RSpec::Core::RakeTask.new(:beakerSugar80) do |t|
+  t.rspec_opts = ['--color']
+  t.pattern = 'spec/acceptance/sugarcrmstack80_spec.rb'
+end
+
 desc 'Run tests metadata_lint, release_checks'
 task test: [
   :metadata_lint,
