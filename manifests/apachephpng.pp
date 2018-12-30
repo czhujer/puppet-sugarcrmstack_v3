@@ -94,11 +94,11 @@ $php_fpm_manage_phpmyadmin_user=true,
 
   if($php_session_save_handler== 'memcache' and $php_session_save_path == '/var/lib/php/session'){
     fail("Class['sugarcrmstack::apachephpng']: PHP session_save_path cant be folder with memcache engine")
-   }
+  }
 
   if($php_session_save_handler== 'redis' and $php_session_save_path == '/var/lib/php/session'){
     fail("Class['sugarcrmstack::apachephpng']: PHP session_save_path can't be folder with redis engine")
-   }
+  }
 
   if($php_pkg_version =~ /^5\.4\.[3-4][0-9]$/){
     $php_common_package_name = 'php54-common'
@@ -161,14 +161,13 @@ $php_fpm_manage_phpmyadmin_user=true,
   }
 
   if ($::operatingsystemmajrelease in ['7']){
-    $directories_sugarcrm_ssl1 =
-      {
-         path             => '/var/www/html/sugarcrm',
-         provider         => 'directory',
-         require          => 'all granted',
-         allow_override   => ['all'],
-         options          => ['all']
-       }
+    $directories_sugarcrm_ssl1 = {
+      path           => '/var/www/html/sugarcrm',
+      provider       => 'directory',
+      require        => 'all granted',
+      allow_override => ['all'],
+      options        => ['all']
+    }
 
     $directories_sugarcrm_ssl2 =
        {
@@ -533,7 +532,7 @@ $php_fpm_manage_phpmyadmin_user=true,
     }
 
     php::fpm::conf { 'phpmyadmin':
-        package_name    => "$php_pkg_prefix-fpm",
+        package_name    => $php_pkg_prefix-fpm,
         listen          => '127.0.0.1:9002',
         user            => 'phpmyadmin',
         pm_status_path  => '/fpm-status',
@@ -546,7 +545,7 @@ $php_fpm_manage_phpmyadmin_user=true,
 
     class { 'php::fpm::daemon':
           ensure       => present,
-          package_name => "$php_pkg_prefix-fpm",
+          package_name => $php_pkg_prefix-fpm,
   #        log_owner => 'php-fpm',
   #        log_group => 'root',
   #        log_dir_mode => '0770',
