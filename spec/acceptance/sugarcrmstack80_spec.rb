@@ -1,7 +1,6 @@
 require 'spec_helper_acceptance'
 
 describe 'sugarcrmstack v8.0' do
-
   if os[:family] == 'redhat'
     if os[:release] == '7'
 
@@ -161,6 +160,11 @@ describe 'sugarcrmstack v8.0' do
           it { is_expected.to be_installed }
         end
 
+        describe service('php-fpm') do
+          it { is_expected.to be_enabled }
+          it { is_expected.to be_running }
+        end
+
         describe service('mysqld') do
           it { is_expected.to be_enabled }
           it { is_expected.to be_running }
@@ -193,5 +197,4 @@ describe 'sugarcrmstack v8.0' do
       end
     end
   end
-
 end
