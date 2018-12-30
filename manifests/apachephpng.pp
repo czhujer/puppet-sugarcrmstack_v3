@@ -426,59 +426,59 @@ $php_fpm_manage_phpmyadmin_user=true,
   }
 
   php::ini { '/etc/php.ini':
-     error_reporting        => $php_error_reporting,
-     memory_limit           => $php_memory_limit,
-     date_timezone          => 'Europe/Berlin',
-     max_execution_time     => $php_max_execution_time,
-     allow_url_fopen        => 'On',
-     upload_max_filesize    => $php_upload_max_filesize,
-     post_max_size          => $php_post_max_size,
-     session_gc_maxlifetime => $php_session_gc_maxlifetime,
-     session_save_handler   => $php_session_save_handler,
-     session_save_path      => $php_session_save_path,
+    error_reporting        => $php_error_reporting,
+    memory_limit           => $php_memory_limit,
+    date_timezone          => 'Europe/Berlin',
+    max_execution_time     => $php_max_execution_time,
+    allow_url_fopen        => 'On',
+    upload_max_filesize    => $php_upload_max_filesize,
+    post_max_size          => $php_post_max_size,
+    session_gc_maxlifetime => $php_session_gc_maxlifetime,
+    session_save_handler   => $php_session_save_handler,
+    session_save_path      => $php_session_save_path,
   }
 
   $php_modules = [ "${php_pkg_prefix}-mcrypt",
-                   "${php_pkg_prefix}-imap",
-                   "${php_pkg_prefix}-soap",
-                   'php-php-gettext',
-                   'php-tcpdf',
-                   'php-tcpdf-dejavu-sans-fonts',
+    "${php_pkg_prefix}-imap",
+    "${php_pkg_prefix}-soap",
+    'php-php-gettext',
+    'php-tcpdf',
+    'php-tcpdf-dejavu-sans-fonts',
 #                   "${php_pkg_prefix}-opcache",
 #                   "${php_pkg_prefix}-memcache",
-                   $php_pkg_mysql,
-                   "${php_pkg_prefix}-pecl-redis",
+    $php_pkg_mysql,
+    "${php_pkg_prefix}-pecl-redis",
 #                   "${php_pkg_prefix}-pecl-apcu",
 #                   "${php_pkg_prefix}-pecl-xdebug",
-                  ]
+  ]
 
   php::module { $php_modules:
-     require => [
-                 #Class['php::mod_php5'],
-                 Class['php::common'],
-                ],
+    require => [
+      #Class['php::mod_php5'],
+      Class['php::common'],
+    ],
   }
 
   if ($::sugarcrmstack_ng::sugar_version == '8.0' or $sugarcrmstack::sugar_version == '8.0'){
     php::fpm::conf { 'www':
-        package_name   => "${php_pkg_prefix}-fpm",
-        listen         => '127.0.0.1:9001',
-        user           => 'apache',
-        pm_status_path => '/fpm-status',
-        ping_path      => '/fpm-ping',
-        #
-        php_value      => {
-          error_reporting        => $php_error_reporting,
-          memory_limit           => $php_memory_limit,
-          date_timezone          => 'Europe/Berlin',
-          max_execution_time     => $php_max_execution_time,
-          allow_url_fopen        => 'On',
-          upload_max_filesize    => $php_upload_max_filesize,
-          post_max_size          => $php_post_max_size,
-          session_gc_maxlifetime => $php_session_gc_maxlifetime,
-          session_save_handler   => $php_session_save_handler,
-          session_save_path      => $php_session_save_path,
-        },
+      package_name   => "${php_pkg_prefix}-fpm",
+      listen         => '127.0.0.1:9001',
+      user           => 'apache',
+      pm_status_path => '/fpm-status',
+      ping_path      => '/fpm-ping',
+      #
+      php_value      => {
+        error_reporting        => $php_error_reporting,
+        memory_limit           => $php_memory_limit,
+        date_timezone          => 'Europe/Berlin',
+        max_execution_time     => $php_max_execution_time,
+        allow_url_fopen        => 'On',
+        upload_max_filesize    => $php_upload_max_filesize,
+        post_max_size          => $php_post_max_size,
+        session_gc_maxlifetime => $php_session_gc_maxlifetime,
+        session_save_handler   => $php_session_save_handler,
+        session_save_path      => $php_session_save_path,
+      },
     }~>File['/var/log/php-fpm']
 
     if($manage_phpmyadmin_files == true){
@@ -489,11 +489,11 @@ $php_fpm_manage_phpmyadmin_user=true,
     }
 
     file { '/var/lib/php/session-phpmyadmin':
-        ensure  => 'directory',
-        mode    => '0750',
-        owner   => 'phpmyadmin',
-        group   => 'phpmyadmin',
-        require => $require_session_phpmyadmin,
+      ensure  => 'directory',
+      mode    => '0750',
+      owner   => 'phpmyadmin',
+      group   => 'phpmyadmin',
+      require => $require_session_phpmyadmin,
     }
 
     file { '/var/log/php-fpm/phpmyadmin-error.log':
@@ -515,45 +515,42 @@ $php_fpm_manage_phpmyadmin_user=true,
     }
 
     php::fpm::conf { 'phpmyadmin':
-        package_name    => "${php_pkg_prefix}-fpm",
-        listen          => '127.0.0.1:9002',
-        user            => 'phpmyadmin',
-        pm_status_path  => '/fpm-status',
-        ping_path       => '/fpm-ping',
-        php_admin_value => {
-          'session.save_handler' => $php_session_save_handler,
-          'session.save_path'    => $php_session_phpmyadmin_save_path_final,
-        },
+      package_name    => "${php_pkg_prefix}-fpm",
+      listen          => '127.0.0.1:9002',
+      user            => 'phpmyadmin',
+      pm_status_path  => '/fpm-status',
+      ping_path       => '/fpm-ping',
+      php_admin_value => {
+        'session.save_handler' => $php_session_save_handler,
+        'session.save_path'    => $php_session_phpmyadmin_save_path_final,
+      },
     }~>File['/var/log/php-fpm']
 
     class { 'php::fpm::daemon':
-          ensure       => present,
-          package_name => "${php_pkg_prefix}-fpm",
-  #        log_owner => 'php-fpm',
-  #        log_group => 'root',
-  #        log_dir_mode => '0770',
-          log_owner    => 'apache',
-          log_group    => 'apache',
-          log_dir_mode => '0775',
+      ensure       => present,
+      package_name => "${php_pkg_prefix}-fpm",
+      log_owner    => 'apache',
+      log_group    => 'apache',
+      log_dir_mode => '0775',
     }
   }
 
   if($php_cache_engine == 'apcu'){
 
     php::module { "${php_pkg_prefix}-pecl-${php_apc_name}":
-       ensure  => installed,
-       require => [
-                 #Class['php::mod_php5'],
-                 Class['php::common'],
-                ],
+      ensure  => installed,
+      require => [
+        #Class['php::mod_php5'],
+        Class['php::common'],
+      ],
     }
 
     php::module { "${php_pkg_prefix}-${php_opcache_name}":
-       ensure  => absent,
-       require => [
-                 #Class['php::mod_php5'],
-                 Class['php::common'],
-                ],
+      ensure  => absent,
+      require => [
+        #Class['php::mod_php5'],
+        Class['php::common'],
+      ],
     }
 
     php::module::ini { 'pecl-apcu':
@@ -576,21 +573,21 @@ $php_fpm_manage_phpmyadmin_user=true,
   elsif($php_cache_engine == 'opcache'){
 
     php::module { "${php_pkg_prefix}-pecl-${php_apc_name}":
-       ensure  => absent,
-       require => [
-                 #Class['php::mod_php5'],
-                 Class['php::common'],
-                ],
-       notify  => Service['httpd'],
+      ensure  => absent,
+      require => [
+        #Class['php::mod_php5'],
+        Class['php::common'],
+      ],
+      notify  => Service['httpd'],
     }
 
     php::module { "${php_pkg_prefix}-${php_opcache_name}":
-       ensure  => installed,
-       require => [
-                 #Class['php::mod_php5'],
-                 Class['php::common'],
-                ],
-       notify  => Service['httpd'],
+      ensure  => installed,
+      require => [
+        #Class['php::mod_php5'],
+        Class['php::common'],
+      ],
+      notify  => Service['httpd'],
     }
 
     php::module::ini { 'opcache':
@@ -612,12 +609,12 @@ $php_fpm_manage_phpmyadmin_user=true,
   elsif($php_cache_engine == 'opcache+apcu'){
 
     php::module { "${php_pkg_prefix}-pecl-apcu":
-       ensure  => installed,
-       require => [
-                 #Class['php::mod_php5'],
-                 Class['php::common'],
-                ],
-       notify  => Service['httpd'],
+      ensure  => installed,
+      require => [
+        #Class['php::mod_php5'],
+        Class['php::common'],
+      ],
+      notify  => Service['httpd'],
     }
 
     php::module::ini { 'pecl-apcu':
@@ -638,12 +635,12 @@ $php_fpm_manage_phpmyadmin_user=true,
     }
 
     php::module { "${php_pkg_prefix}-opcache":
-       ensure  => installed,
-       require => [
-                 #Class['php::mod_php5'],
-                 Class['php::common'],
-                ],
-       notify  => Service['httpd'],
+      ensure  => installed,
+      require => [
+        #Class['php::mod_php5'],
+        Class['php::common'],
+      ],
+      notify  => Service['httpd'],
     }
 
     php::module::ini { 'opcache':
@@ -666,19 +663,19 @@ $php_fpm_manage_phpmyadmin_user=true,
   elsif($php_cache_engine == 'absent'){
 
     php::module { "${php_pkg_prefix}-pecl-${php_apc_name}":
-       ensure  => absent,
-       require => [
-                 #Class['php::mod_php5'],
-                 Class['php::common'],
-                ],
+      ensure  => absent,
+      require => [
+        #Class['php::mod_php5'],
+        Class['php::common'],
+      ],
     }
 
     php::module { "${php_pkg_prefix}-${php_opcache_name}":
-       ensure  => absent,
-       require => [
-                 #Class['php::mod_php5'],
-                 Class['php::common'],
-                ],
+      ensure  => absent,
+      require => [
+        #Class['php::mod_php5'],
+        Class['php::common'],
+      ],
     }
 
   } #end of absent
