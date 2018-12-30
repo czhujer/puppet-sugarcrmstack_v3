@@ -107,6 +107,11 @@ describe 'sugarcrmstack' do
           require => File['mysql-server log folder2'],
         }
 
+        package { 'python-pip':
+            ensure => "installed",
+            after  => Package['epel-repo'],
+            before => Package['duplicity'],
+        }
       }
 
       package { 'webtatic-release':
