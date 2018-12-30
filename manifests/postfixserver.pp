@@ -1,7 +1,7 @@
 
 class sugarcrmstack::postfixserver (
-$postfix_server_enable="1",
-$postfix_server_fqdn = "",
+$postfix_server_enable='1',
+$postfix_server_fqdn = '',
 $postfix_service_enable = true,
 $postfix_service_ensure = true,
 $sugar_version = $sugarcrmstack::sugar_version,
@@ -10,7 +10,7 @@ $sugar_version = $sugarcrmstack::sugar_version,
   #variables check
   if $sugar_version == undef {
     warning "Missing variable \"sugar_version\""
-    fail("exiting...")
+    fail('exiting...')
   }
 
   if $postfix_server_fqdn == undef{
@@ -23,7 +23,7 @@ $sugar_version = $sugarcrmstack::sugar_version,
 
   if str2bool($postfix_server_enable){
 
-    $packages_sendmail = ["sendmail-cf", "sendmail" ]
+    $packages_sendmail = ['sendmail-cf', 'sendmail' ]
 
     package { $packages_sendmail:
         ensure => absent,
@@ -46,7 +46,7 @@ $sugar_version = $sugarcrmstack::sugar_version,
 
     ini_setting { 'postfix conf myorigin':
         ensure  => present,
-        path    => "/etc/postfix/main.cf",
+        path    => '/etc/postfix/main.cf',
         section => '',
         setting => 'myorigin',
         value   => '$myhostname',
@@ -55,7 +55,7 @@ $sugar_version = $sugarcrmstack::sugar_version,
 
     ini_setting { 'postfix conf myhostname':
         ensure  => present,
-        path    => "/etc/postfix/main.cf",
+        path    => '/etc/postfix/main.cf',
         section => '',
         setting => 'myhostname',
         value   => $postfix_server_fqdn_final,
@@ -64,7 +64,7 @@ $sugar_version = $sugarcrmstack::sugar_version,
 
   } #end of if str2bool($postfix_server_enable)
   else{
-    warning "Postfix-server is disable"
+    warning 'Postfix-server is disable'
   }
 
 } #end of class
