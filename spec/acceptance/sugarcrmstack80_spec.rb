@@ -113,6 +113,7 @@ describe 'sugarcrmstack v8.0' do
 
       # main class
       class { 'sugarcrmstack':
+        sugar_version => '8.0',
       }
 
       # classes with real defs
