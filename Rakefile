@@ -32,9 +32,21 @@ task 'lint:auto_correct' do
   Rake::Task[:lint].invoke
 end
 
-desc 'Run acceptance tests'
+desc 'Run all acceptance tests'
 RSpec::Core::RakeTask.new(:acceptance) do |t|
   t.pattern = 'spec/acceptance'
+end
+
+desc 'Run basic acceptance tests (Sugar 7.x)'
+RSpec::Core::RakeTask.new(:beakerSugar) do |t|
+  t.rspec_opts = ['--color']
+  t.pattern = 'spec/acceptance/sugarcrmstack_spec.rb'
+end
+
+desc 'Run acceptance tests for Sugar 8.0'
+RSpec::Core::RakeTask.new(:beakerSugar80) do |t|
+  t.rspec_opts = ['--color']
+  t.pattern = 'spec/acceptance/sugarcrmstack80_spec.rb'
 end
 
 desc 'Run tests metadata_lint, release_checks'
