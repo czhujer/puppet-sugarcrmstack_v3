@@ -444,8 +444,8 @@ $php_fpm_manage_phpmyadmin_user=true,
   }
 
   php::ini { '/etc/php.ini':
-     error_reporting        => ${php_error_reporting},
-     memory_limit           => ${php_memory_limit},
+     error_reporting        => $php_error_reporting,
+     memory_limit           => $php_memory_limit,
      date_timezone          => 'Europe/Berlin',
      max_execution_time     => $php_max_execution_time,
      allow_url_fopen        => 'On',
@@ -486,8 +486,8 @@ $php_fpm_manage_phpmyadmin_user=true,
         ping_path      => '/fpm-ping',
         #
         php_value      => {
-          error_reporting        => ${php_error_reporting},
-          memory_limit           => ${php_memory_limit},
+          error_reporting        => $php_error_reporting,
+          memory_limit           => $php_memory_limit,
           date_timezone          => 'Europe/Berlin',
           max_execution_time     => $php_max_execution_time,
           allow_url_fopen        => 'On',
@@ -575,8 +575,8 @@ $php_fpm_manage_phpmyadmin_user=true,
     }
 
     php::module::ini { 'pecl-apcu':
-      pkgname => "${php_pkg_prefix}-pecl-${php_apc_name}",
-      prefix  => '40',
+      pkgname  => "${php_pkg_prefix}-pecl-${php_apc_name}",
+      prefix   => '40',
       settings => {
         'apc.enabled'      => '1',
         'apc.optimization' => '1',
@@ -612,17 +612,17 @@ $php_fpm_manage_phpmyadmin_user=true,
     }
 
     php::module::ini { 'opcache':
-      pkgname => "${php_pkg_prefix}-${php_opcache_name}",
-      prefix  => '10',
-      zend    => true,
+      pkgname  => "${php_pkg_prefix}-${php_opcache_name}",
+      prefix   => '10',
+      zend     => true,
       settings => {
-        'opcache.enable'                     => '1',
-        'opcache.fast_shutdown'              => '1',
-        'opcache.interned_strings_buffer'    => '16',
-        'opcache.max_accelerated_files'      => '1000000',
-        'opcache.memory_consumption'         => '256',
-        'opcache.revalidate_freq'            => '0',
-        'opcache.revalidate_path'            => '1',
+        'opcache.enable'                  => '1',
+        'opcache.fast_shutdown'           => '1',
+        'opcache.interned_strings_buffer' => '16',
+        'opcache.max_accelerated_files'   => '1000000',
+        'opcache.memory_consumption'      => '256',
+        'opcache.revalidate_freq'         => '0',
+        'opcache.revalidate_path'         => '1',
       },
     }
 
@@ -756,54 +756,54 @@ $php_fpm_manage_phpmyadmin_user=true,
   else{
 
    apache::vhost { 'sugarcrm':
-    serveraliases   => '*',
-    port            => $apache_http_port,
-    docroot         => '/var/www/html/sugarcrm',
-    docroot_group   => 'apache',
-    docroot_owner   => 'apache',
-    docroot_mode    => '755',
+    serveraliases    => '*',
+    port             => $apache_http_port,
+    docroot          => '/var/www/html/sugarcrm',
+    docroot_group    => 'apache',
+    docroot_owner    => 'apache',
+    docroot_mode     => '755',
     #
-    error_log_file  => 'error_log',
-    access_log_file => 'access_log',
+    error_log_file   => 'error_log',
+    access_log_file  => 'access_log',
     #
-    custom_fragment => $apache_main_vhost_custom_fragment,
+    custom_fragment  => $apache_main_vhost_custom_fragment,
     #
     proxy_pass_match => $proxy_pass_match,
     #
-    directories     => $directories_all,
-    aliases         => $aliases_phpmyadmin,
+    directories      => $directories_all,
+    aliases          => $aliases_phpmyadmin,
    }
 
   }
 
   apache::vhost { 'sugarcrm-ssl':
-    serveraliases   => '*',
-    port            => $apache_https_port,
-    docroot         => '/var/www/html/sugarcrm',
-    docroot_group   => 'apache',
-    docroot_owner   => 'apache',
-    docroot_mode    => '755',
-    ssl             => true,
-    ssl_chain       => $apache_ssl_chain,
+    serveraliases    => '*',
+    port             => $apache_https_port,
+    docroot          => '/var/www/html/sugarcrm',
+    docroot_group    => 'apache',
+    docroot_owner    => 'apache',
+    docroot_mode     => '755',
+    ssl              => true,
+    ssl_chain        => $apache_ssl_chain,
     #
-    error_log_file  => 'ssl_error_log',
-    access_log_file => 'ssl_access_log',
+    error_log_file   => 'ssl_error_log',
+    access_log_file  => 'ssl_access_log',
     #
-    custom_fragment => $apache_main_vhost_custom_fragment,
+    custom_fragment  => $apache_main_vhost_custom_fragment,
     #
     proxy_pass_match => $proxy_pass_match,
     #
-    directories     => $directories_all,
-    aliases         => $aliases_phpmyadmin,
+    directories      => $directories_all,
+    aliases          => $aliases_phpmyadmin,
   }
 
   if($manage_firewall == true){
     firewall { "100 accept tcp to dport ${apache_https_port}, ${apache_http_port} / APACHE":
-        chain   => 'INPUT',
-        state   => 'NEW',
-        proto   => 'tcp',
-        dport   => [$apache_https_port, $apache_http_port],
-        action  => 'accept',
+        chain  => 'INPUT',
+        state  => 'NEW',
+        proto  => 'tcp',
+        dport  => [$apache_https_port, $apache_http_port],
+        action => 'accept',
     }
   }
 
@@ -835,7 +835,7 @@ $php_fpm_manage_phpmyadmin_user=true,
       revision => $phpmyadmin_files_repo_tag,
       depth    => $phpmyadmin_files_repo_depth,
       user     => 'root',
-      require => Package['phpMyAdmin'],
+      require  => Package['phpMyAdmin'],
     }
 
     if ($::sugarcrmstack_ng::sugar_version == '8.0'){
