@@ -286,10 +286,7 @@ describe 'sugarcrmstack' do
     end
 
     it { is_expected contain_file('/usr/local/bin/automysqlbackup').with_ensure('file') }
-
     it { is_expected contain_file('/etc/php.ini').with_ensure('file') }
-
     it { is_expected contain_file('/root/scripts/back2own-duplicity.sh').with_ensure('file') }
-
   end
 end
