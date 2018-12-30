@@ -245,7 +245,7 @@ $php_fpm_manage_phpmyadmin_user=true,
       order          => 'Allow,Deny',
       'allow'        => 'from all',
       allow_override => ['all'],
-      options        => ['all']
+      options        => ['all'],
     }
 
     $directories_sugarcrm_ssl2 = {
@@ -254,79 +254,74 @@ $php_fpm_manage_phpmyadmin_user=true,
       order          => 'Allow,Deny',
       'allow'        => 'from all',
       allow_override => ['all'],
-      options        => ['all']
+      options        => ['all'],
     }
 
     if($manage_phpmyadmin_config){
       $aliases_phpmyadmin1 = {
         alias => '/phpMyAdmin',
-        path  => '/usr/share/phpMyAdmin'
+        path  => '/usr/share/phpMyAdmin',
       }
       $aliases_phpmyadmin2 = {
         alias => '/phpmyadmin',
-        path  => '/usr/share/phpMyAdmin'
+        path  => '/usr/share/phpMyAdmin',
       }
 
       $aliases_phpmyadmin = [$aliases_phpmyadmin1, $aliases_phpmyadmin2]
 
       $directories_phpmyadmin1 = {
-        path             => '/usr/share/phpMyAdmin/',
-          provider         => 'directory',
-          order            => 'Allow,Deny',
-          'allow'          => 'from all',
-          adddefaultcharset => 'UTF-8',
+        path              => '/usr/share/phpMyAdmin/',
+        provider          => 'directory',
+        order             => 'Allow,Deny',
+        'allow'           => 'from all',
+        adddefaultcharset => 'UTF-8',
       }
 
-      $directories_phpmyadmin2 =
-        {
-          path             => '/usr/share/phpMyAdmin/setup/',
-          provider         => 'directory',
-          order            => 'Deny,Allow',
-          'deny'          => 'from All',
-          'allow'          => 'from None',
-        }
+      $directories_phpmyadmin2 = {
+        path     => '/usr/share/phpMyAdmin/setup/',
+        provider => 'directory',
+        order    => 'Deny,Allow',
+        'deny'   => 'from All',
+        'allow'  => 'from None',
+      }
 
-      $directories_phpmyadmin3 =
-        {
-          path             => '/usr/share/phpMyAdmin/libraries/',
-          provider         => 'directory',
-          order            => 'Deny,Allow',
-          'deny'           => 'from All',
-          'allow'          => 'from None',
-        }
+      $directories_phpmyadmin3 = {
+        path     => '/usr/share/phpMyAdmin/libraries/',
+        provider => 'directory',
+        order    => 'Deny,Allow',
+        'deny'   => 'from All',
+        'allow'  => 'from None',
+      }
 
-      $directories_phpmyadmin4 =
-        {
-          path             => '/usr/share/phpMyAdmin/setup/lib/',
-          provider         => 'directory',
-          order            => 'Deny,Allow',
-          'deny'           => 'from All',
-          'allow'          => 'from None',
-        }
+      $directories_phpmyadmin4 = {
+        path     => '/usr/share/phpMyAdmin/setup/lib/',
+        provider => 'directory',
+        order    => 'Deny,Allow',
+        'deny'   => 'from All',
+        'allow'  => 'from None',
+      }
 
-      $directories_phpmyadmin5 =
-        {
-          path             => '/usr/share/phpMyAdmin/.git',
-          provider         => 'directory',
-          order            => 'Deny,Allow',
-          'deny'           => 'from All',
-          'allow'          => 'from None',
-        }
+      $directories_phpmyadmin5 = {
+        path     => '/usr/share/phpMyAdmin/.git',
+        provider => 'directory',
+        order    => 'Deny,Allow',
+        'deny'   => 'from All',
+        'allow'  => 'from None',
+      }
 
-      $directories_phpmyadmin6 =
-        {
-          path             => '/usr/share/phpMyAdmin/setup/frames/',
-          provider         => 'directory',
-          order            => 'Deny,Allow',
-          'deny'           => 'from All',
-          'allow'          => 'from None',
-        }
+      $directories_phpmyadmin6 = {
+        path     => '/usr/share/phpMyAdmin/setup/frames/',
+        provider => 'directory',
+        order    => 'Deny,Allow',
+        'deny'   => 'from All',
+        'allow'  => 'from None',
+      }
 
       $directories_all = [ $directories_sugarcrm_ssl1, $directories_sugarcrm_ssl2,
                                     $directories_phpmyadmin1, $directories_phpmyadmin2,
                                     $directories_phpmyadmin3, $directories_phpmyadmin4,
                                     $directories_phpmyadmin5, $directories_phpmyadmin6,
-                         ]
+      ]
     }
     else{
       $aliases_phpmyadmin = []
