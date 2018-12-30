@@ -107,11 +107,6 @@ describe 'sugarcrmstack' do
           require => File['mysql-server log folder2'],
         }
 
-        package { 'python2-pip':
-          ensure  => "installed",
-          require => Package['epel-repo'],
-          before  => Package['duplicity'],
-        }
       }
 
       package { 'webtatic-release':
@@ -199,6 +194,12 @@ describe 'sugarcrmstack' do
             setting => 'exclude',
             value   => '',
             require => Ini_setting['ius-archive enable'],
+        }
+
+        package { 'python-pip':
+          ensure  => "installed",
+          require => Package['epel-repo'],
+          before  => Package['duplicity'],
         }
 
       }
