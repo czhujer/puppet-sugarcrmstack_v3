@@ -16,7 +16,7 @@ $mysqlbackup_enable_cron_job = true,
 ){
 
   file { 'automyqslbackup config dir':
-	  ensure => directory,
+    ensure => 'directory',
 	  path   => '/etc/automysqlbackup',
     mode   => '0755',
   }
@@ -24,7 +24,7 @@ $mysqlbackup_enable_cron_job = true,
   $automyqslbackup_backup_dir = ['/var/backup', '/var/backup/db']
 
   file { $automyqslbackup_backup_dir:
-	  ensure => directory,
+	  ensure => 'directory',
     mode   => '0755',
   }
 

@@ -87,7 +87,7 @@ $dupl_timeout = '120',
     else {
 
       $back2own_dupl_deps = ['librsync-devel', 'python-devel', 'gcc',
-                           'python-lockfile', 'python-paramiko', 'python-GnuPGInterface']
+        'python-lockfile', 'python-paramiko', 'python-GnuPGInterface']
 
       package { $back2own_dupl_deps:
         ensure => installed,

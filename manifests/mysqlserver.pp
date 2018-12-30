@@ -131,7 +131,7 @@ $mysql_root_password=$sugarcrmstack::mysql_root_password,
                      Ini_setting['remi repo exclude packages'],
                      Ini_setting['centos base repo exclude packages 2'],
                      Ini_setting['centos base repo exclude packages'],
-                     Package['mysql-repo']
+                     Package['mysql-repo'],
          ],
         }
       }
@@ -142,8 +142,8 @@ $mysql_root_password=$sugarcrmstack::mysql_root_password,
 
       if !defined(Class['sugarcrmstack_ng::install']){
         package { 'percona-release':
-          provider => rpm,
           ensure   => installed,
+          provider => rpm,
           source   => 'https://www.percona.com/redir/downloads/percona-release/redhat/0.1-4/percona-release-0.1-4.noarch.rpm',
         }
       }
@@ -195,7 +195,7 @@ $mysql_root_password=$sugarcrmstack::mysql_root_password,
                      Ini_setting['remi repo exclude packages'],
                      Ini_setting['centos base repo exclude packages 2'],
                      Ini_setting['centos base repo exclude packages'],
-                     Package['percona-release']
+                     Package['percona-release'],
          ],
         }
       }
@@ -264,8 +264,8 @@ $mysql_root_password=$sugarcrmstack::mysql_root_password,
       # add percona repo
       if !defined(Class['sugarcrmstack_ng::install']){
         package { 'percona-release':
-          provider => rpm,
           ensure   => installed,
+          provider => rpm,
           source   => 'https://www.percona.com/redir/downloads/percona-release/redhat/0.1-4/percona-release-0.1-4.noarch.rpm',
         }
       }

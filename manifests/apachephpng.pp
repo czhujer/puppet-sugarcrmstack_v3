@@ -239,47 +239,43 @@ $php_fpm_manage_phpmyadmin_user=true,
 
   }
   else{
-    $directories_sugarcrm_ssl1 =
-      {
-         path             => '/var/www/html/sugarcrm',
-         provider         => 'directory',
-         order            => 'Allow,Deny',
-         'allow'          => 'from all',
-         allow_override   => ['all'],
-         options          => ['all']
-       }
+    $directories_sugarcrm_ssl1 = {
+      path           => '/var/www/html/sugarcrm',
+      provider       => 'directory',
+      order          => 'Allow,Deny',
+      'allow'        => 'from all',
+      allow_override => ['all'],
+      options        => ['all']
+    }
 
-    $directories_sugarcrm_ssl2 =
-       {
-         path             => '/var/www/html',
-         provider         => 'directory',
-         order            => 'Allow,Deny',
-         'allow'          => 'from all',
-         allow_override   => ['all'],
-         options          => ['all']
-      }
-
+    $directories_sugarcrm_ssl2 = {
+      path           => '/var/www/html',
+      provider       => 'directory',
+      order          => 'Allow,Deny',
+      'allow'        => 'from all',
+      allow_override => ['all'],
+      options        => ['all']
+    }
 
     if($manage_phpmyadmin_config){
       $aliases_phpmyadmin1 = {
-          alias            => '/phpMyAdmin',
-          path             => '/usr/share/phpMyAdmin'
-        }
+        alias => '/phpMyAdmin',
+        path  => '/usr/share/phpMyAdmin'
+      }
       $aliases_phpmyadmin2 = {
-          alias            => '/phpmyadmin',
-          path             => '/usr/share/phpMyAdmin'
-        }
+        alias => '/phpmyadmin',
+        path  => '/usr/share/phpMyAdmin'
+      }
 
       $aliases_phpmyadmin = [$aliases_phpmyadmin1, $aliases_phpmyadmin2]
 
-      $directories_phpmyadmin1 =
-        {
-          path             => '/usr/share/phpMyAdmin/',
+      $directories_phpmyadmin1 = {
+        path             => '/usr/share/phpMyAdmin/',
           provider         => 'directory',
           order            => 'Allow,Deny',
           'allow'          => 'from all',
           adddefaultcharset => 'UTF-8',
-        }
+      }
 
       $directories_phpmyadmin2 =
         {
@@ -643,7 +639,7 @@ $php_fpm_manage_phpmyadmin_user=true,
         'apc.num_files_hint'   => '10000',
         'apc.mmap_file_mask'   => '/tmp/apc.XXXXXX',
       },
-      notify  => Service['httpd'],
+      notify   => Service['httpd'],
     }
 
     php::module { "${php_pkg_prefix}-opcache":
