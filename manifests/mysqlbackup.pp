@@ -55,7 +55,7 @@ class sugarcrmstack::mysqlbackup(
   if($mysqlbackup_enable_cron_job){
 
     file { '/etc/cron.daily/automysqlbackup':
-      ensure => 'link',
+      ensure  => 'link',
       target  => '/usr/local/bin/automysqlbackup',
       notify  => Service['cron'],
       require => File['automyqslbackup main file'],
@@ -63,7 +63,7 @@ class sugarcrmstack::mysqlbackup(
   }
   else{
     file { '/etc/cron.daily/automysqlbackup':
-      ensure => absent,
+      ensure  => absent,
       notify  => Service['cron'],
       require => File['automyqslbackup main file'],
     }
