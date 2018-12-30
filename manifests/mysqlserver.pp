@@ -361,15 +361,15 @@ class sugarcrmstack::mysqlserver (
     $mysql_override_options_final = deep_merge($mysql_override_options, $mysql_override_options_profile)
 
     $mysql_users_default = {
-       'sugarcrm@localhost' => {
-         ensure                   => 'present',
-         password_hash            => $mysql_sugarcrm_pass_hash,
-        },
-       'automysqlbackup@localhost' => {
-         ensure                   => 'present',
-         password_hash            => $mysql_automysqlbackup_pass_hash,
-       },
-      }
+      'sugarcrm@localhost' => {
+        ensure        => 'present',
+        password_hash => $mysql_sugarcrm_pass_hash,
+      },
+      'automysqlbackup@localhost' => {
+        ensure        => 'present',
+        password_hash => $mysql_automysqlbackup_pass_hash,
+      },
+    }
 
     $mysql_users = deep_merge($mysql_users_custom,$mysql_users_default)
 
@@ -389,7 +389,7 @@ class sugarcrmstack::mysqlserver (
           table      => '*.*',
           user       => 'automysqlbackup@localhost',
         },
-       }
+    }
 
     $mysql_grants = deep_merge($mysql_grants_custom,$mysql_grants_default)
 
