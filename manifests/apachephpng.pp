@@ -5,6 +5,7 @@ $apache_https_port=443,
 $apache_http_port=80,
 $apache_http_redirect=true,
 $apache_timeout=60,
+$apache_php_proxy_timeout=600,
 $apache_keepalive='On',
 $apache_default_mods=[ 'actions', 'authn_core', 'cache', 'ext_filter', 'mime', 'mime_magic', 'rewrite', 'speling', 'suexec', 'version', 'vhost_alias', 'auth_digest', 'authn_anon', 'authn_dbm', 'authz_dbm', 'authz_owner', 'expires', 'include', 'logio', 'substitute', 'usertrack', 'authn_alias', 'authn_default', 'alias', 'authn_file', 'autoindex', 'dav', 'dav_fs', 'deflate', 'dir', 'negotiation', 'setenvif', 'auth_basic', 'authz_user', 'authz_groupfile', 'env', 'authz_default', ],
 $apache_service_manage=true,
@@ -404,6 +405,7 @@ $php_fpm_manage_phpmyadmin_user=true,
   if ($::sugarcrmstack_ng::sugar_version == '8.0' or $sugarcrmstack::sugar_version == '8.0'){
 
     class { 'apache::mod::proxy':
+      proxy_timeout => $apache_php_proxy_timeout,
     }
     class { 'apache::mod::proxy_fcgi':
     }
