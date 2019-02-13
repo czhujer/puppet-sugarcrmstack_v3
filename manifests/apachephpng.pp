@@ -1,4 +1,5 @@
 class sugarcrmstack::apachephpng (
+$sugar_version=$sugarcrmstack::sugar_version,
 $apache_serveradmin='info@sugarfactory.cz',
 $apache_mpm='prefork', #or worker
 $apache_https_port=443,
@@ -80,8 +81,8 @@ $php_fpm_manage_phpmyadmin_user=true,
     }
   }
   else{
-    if ($sugarcrmstack::sugar_version != '7.5' and $sugarcrmstack::sugar_version != '7.9' and $sugarcrmstack::sugar_version != '8.0'){
-      fail("Class['sugarcrmstack::apachephpng']: This class is compatible only with sugar_version 7.5,7.9 or 8.0 (not ${sugarcrmstack::sugar_version})")
+    if ($sugar_version != '7.5' and $sugar_version != '7.9' and $sugar_version != '8.0'){
+      fail("Class['sugarcrmstack::apachephpng']: This class is compatible only with sugar_version 7.5,7.9 or 8.0 (not ${sugar_version})")
     }
   }
 
@@ -402,7 +403,7 @@ $php_fpm_manage_phpmyadmin_user=true,
     require             => Class['php::cli'],
   }
 
-  if ($::sugarcrmstack_ng::sugar_version == '8.0' or $sugarcrmstack::sugar_version == '8.0'){
+  if ($::sugarcrmstack_ng::sugar_version == '8.0' or $sugar_version == '8.0'){
 
     class { 'apache::mod::proxy':
       proxy_timeout => $apache_php_proxy_timeout,
@@ -461,7 +462,7 @@ $php_fpm_manage_phpmyadmin_user=true,
     ],
   }
 
-  if ($::sugarcrmstack_ng::sugar_version == '8.0' or $sugarcrmstack::sugar_version == '8.0'){
+  if ($::sugarcrmstack_ng::sugar_version == '8.0' or $sugar_version == '8.0'){
     php::fpm::conf { 'www':
       package_name   => "${php_pkg_prefix}-fpm",
       listen         => '127.0.0.1:9001',
@@ -818,7 +819,7 @@ $php_fpm_manage_phpmyadmin_user=true,
       require  => Package['phpMyAdmin'],
     }
 
-    if ($::sugarcrmstack_ng::sugar_version == '8.0' or $sugarcrmstack::sugar_version == '8.0'){
+    if ($::sugarcrmstack_ng::sugar_version == '8.0' or $sugar_version == '8.0'){
       file { '/usr/share/phpMyAdmin/tmp':
           ensure  => 'directory',
           mode    => '0750',
