@@ -84,7 +84,7 @@ $php_fpm_manage_phpmyadmin_user=true,
   }
   else{
     if ($sugarcrmstack::sugar_version != '7.5' and $sugarcrmstack::sugar_version != '7.9' and $sugarcrmstack::sugar_version != '8.0'){
-      fail("Class['sugarcrmstack::apachephpng']: This class is compatible only with sugar_version 7.5,7.9 or 8.0 (not ${sugar_version})")
+      fail("Class['sugarcrmstack::apachephpng']: This class is compatible only with sugar_version 7.5,7.9 or 8.0 (not ${sugarcrmstack::sugar_version})")
     }
   }
 
