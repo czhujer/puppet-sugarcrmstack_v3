@@ -222,7 +222,7 @@ describe 'sugarcrmstack' do
       if ($::operatingsystemmajrelease in ['7']){
         class {'sugarcrmstack::apachephpng':
           php_pkg_version     => '5.6.40',
-          php_pkg_build       => '1',
+          php_pkg_build       => '6',
           apache_default_mods => [ 'actions', 'authn_core', 'cache', 'ext_filter', 'mime', 'mime_magic', 'rewrite', 'speling',
                                         'version', 'vhost_alias', 'auth_digest', 'authn_anon', 'authn_dbm', 'authz_dbm', 'authz_owner',
                                         'expires', 'include', 'logio', 'substitute', 'usertrack', 'alias',

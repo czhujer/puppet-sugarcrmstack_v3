@@ -13,6 +13,7 @@ class sugarcrmstack::mysqlbackup(
   $mysqlbackup_rotation_weekly = 6,
   $mysqlbackup_rotation_monthly = 28,
   $mysqlbackup_enable_cron_job = true,
+  $mysqlbackup_dump_single_transaction = 'no',
 ){
 
   file { 'automyqslbackup config dir':
