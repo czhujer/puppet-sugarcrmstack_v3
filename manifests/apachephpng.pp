@@ -78,13 +78,13 @@ $php_fpm_manage_phpmyadmin_user=true,
   }
 
   if defined(Class['sugarcrmstack_ng']){
-    if ($::sugarcrmstack_ng::sugar_version != '7.5' and $::sugarcrmstack_ng::sugar_version != '7.9' and $::sugarcrmstack_ng::sugar_version != '8.0'){
-      fail("Class['sugarcrmstack_ng::apachephpng']: This class is compatible only with sugar_version 7.5,7.9 or 8.0 (not ${::sugarcrmstack_ng::sugar_version})")
+    if ($::sugarcrmstack_ng::sugar_version != '7.5' and $::sugarcrmstack_ng::sugar_version != '7.9' and $::sugarcrmstack_ng::sugar_version != '8.0' and $::sugarcrmstack_ng::sugar_version != '9.0'){
+      fail("Class['sugarcrmstack_ng::apachephpng']: This class is compatible only with sugar_version 7.5,7.9,8.0 or 9.0 (not ${::sugarcrmstack_ng::sugar_version})")
     }
   }
   else{
-    if ($sugarcrmstack::sugar_version != '7.5' and $sugarcrmstack::sugar_version != '7.9' and $sugarcrmstack::sugar_version != '8.0'){
-      fail("Class['sugarcrmstack::apachephpng']: This class is compatible only with sugar_version 7.5,7.9 or 8.0 (not ${sugarcrmstack::sugar_version})")
+    if ($sugarcrmstack::sugar_version != '7.5' and $sugarcrmstack::sugar_version != '7.9' and $sugarcrmstack::sugar_version != '8.0' and $sugarcrmstack::sugar_version != '9.0'){
+      fail("Class['sugarcrmstack::apachephpng']: This class is compatible only with sugar_version 7.5,7.9,8.0 or 9.0 (not ${sugarcrmstack::sugar_version})")
     }
   }
 
@@ -152,6 +152,15 @@ $php_fpm_manage_phpmyadmin_user=true,
     $php_pkg_mysql        = 'php56u-mysqlnd'
   }
   elsif($php_pkg_version =~ /^7\.1\.[0-9][0-9]/){
+    $php_common_package_name = 'php-common'
+    $php_cli_package_name = 'php-cli'
+    $php_apc_name         = 'apcu'
+    $php_opcache_name     = 'opcache'
+    $php_pkg_version_full = "${php_pkg_version}-${php_pkg_build}.el7.remi"
+    $php_pkg_prefix       = 'php'
+    $php_pkg_mysql        = 'php-mysqlnd'
+  }
+  elsif($php_pkg_version =~ /^7\.3\.[0-9]/){
     $php_common_package_name = 'php-common'
     $php_cli_package_name = 'php-cli'
     $php_apc_name         = 'apcu'
@@ -405,7 +414,7 @@ $php_fpm_manage_phpmyadmin_user=true,
     require             => Class['php::cli'],
   }
 
-  if ($::sugarcrmstack_ng::sugar_version == '8.0' or $sugarcrmstack::sugar_version == '8.0'){
+  if ($::sugarcrmstack_ng::sugar_version == '8.0' or $sugarcrmstack::sugar_version == '8.0' or $::sugarcrmstack_ng::sugar_version == '9.0' or $sugarcrmstack::sugar_version == '9.0'){
 
     class { 'apache::mod::proxy':
       proxy_timeout => $apache_php_proxy_timeout,
@@ -464,7 +473,7 @@ $php_fpm_manage_phpmyadmin_user=true,
     ],
   }
 
-  if ($::sugarcrmstack_ng::sugar_version == '8.0' or $sugarcrmstack::sugar_version == '8.0'){
+  if ($::sugarcrmstack_ng::sugar_version == '8.0' or $sugarcrmstack::sugar_version == '8.0' or $::sugarcrmstack_ng::sugar_version == '9.0' or $sugarcrmstack::sugar_version == '9.0'){
     php::fpm::conf { 'www':
       package_name   => "${php_pkg_prefix}-fpm",
       listen         => '127.0.0.1:9001',
@@ -821,7 +830,7 @@ $php_fpm_manage_phpmyadmin_user=true,
       require  => Package['phpMyAdmin'],
     }
 
-    if ($::sugarcrmstack_ng::sugar_version == '8.0' or $sugarcrmstack::sugar_version == '8.0'){
+    if ($::sugarcrmstack_ng::sugar_version == '8.0' or $sugarcrmstack::sugar_version == '8.0' or $::sugarcrmstack_ng::sugar_version == '9.0' or $sugarcrmstack::sugar_version == '9.0'){
       file { '/usr/share/phpMyAdmin/tmp':
           ensure  => 'directory',
           mode    => '0750',

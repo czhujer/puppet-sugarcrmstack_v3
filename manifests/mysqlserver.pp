@@ -339,14 +339,14 @@ class sugarcrmstack::mysqlserver (
       $mysql_server_package_ensure = 'installed'
       $mysql_server_require = []
     }
-    elsif ($sugarcrmstack_ng::sugar_version == '7.9' or $sugarcrmstack_ng::sugar_version == '8.0' or $sugar_version == '8.0') and ($mysql_server_use_pxc == false){
+    elsif ($sugarcrmstack_ng::sugar_version == '7.9' or $sugarcrmstack_ng::sugar_version == '8.0' or $sugar_version == '8.0' or $sugarcrmstack_ng::sugar_version == '9.0' or $sugar_version == '9.0') and ($mysql_server_use_pxc == false){
 
       $mysql_server_service_name = 'mysqld'
       $mysql_server_package_name = 'mysql-community-server'
       $mysql_server_package_ensure = 'installed'
       $mysql_server_require = []
     }
-    elsif ($sugarcrmstack_ng::sugar_version == '7.9' or $sugarcrmstack_ng::sugar_version == '8.0' or $sugar_version == '8.0') and ($mysql_server_use_pxc == true){
+    elsif ($sugarcrmstack_ng::sugar_version == '7.9' or $sugarcrmstack_ng::sugar_version == '8.0' or $sugar_version == '8.0' or $sugarcrmstack_ng::sugar_version == '9.0' or $sugar_version == '9.0') and ($mysql_server_use_pxc == true){
 
       $mysql_server_service_name = 'mysql'
       $mysql_server_package_name = 'Percona-XtraDB-Cluster-server-57'
