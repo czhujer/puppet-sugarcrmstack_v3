@@ -15,13 +15,13 @@ class sugarcrmstack (
   ){
 
   if defined(Class['sugarcrmstack_ng']){
-    if ($::sugarcrmstack_ng::sugar_version != '7.5' and $::sugarcrmstack_ng::sugar_version != '7.9' and $::sugarcrmstack_ng::sugar_version != '8.0'){
-      fail("Class['sugarcrmstack']: This class is compatible only with sugar_version 7.5,7.9 or 8.0 (not ${::sugarcrmstack_ng::sugar_version})")
+    if ($::sugarcrmstack_ng::sugar_version != '7.5' and $::sugarcrmstack_ng::sugar_version != '7.9' and $::sugarcrmstack_ng::sugar_version != '8.0' and $::sugarcrmstack_ng::sugar_version != '9.0'){
+      fail("Class['sugarcrmstack']: This class is compatible only with sugar_version 7.5,7.9,8.0 or 9.0 (not ${::sugarcrmstack_ng::sugar_version})")
     }
   }
   else{
-    if ($sugarcrmstack::sugar_version != '7.5' and $sugarcrmstack::sugar_version != '7.9' and $sugarcrmstack::sugar_version != '8.0'){
-      fail("Class['sugarcrmstack']: This class is compatible only with sugar_version 7.5,7.9 or 8.0 (not ${sugarcrmstack::sugar_version})")
+    if ($sugarcrmstack::sugar_version != '7.5' and $sugarcrmstack::sugar_version != '7.9' and $sugarcrmstack::sugar_version != '8.0' and $::sugarcrmstack_ng::sugar_version != '9.0'){
+      fail("Class['sugarcrmstack']: This class is compatible only with sugar_version 7.5,7.9,8.0 or 9.0 (not ${sugarcrmstack::sugar_version})")
     }
   }
 
